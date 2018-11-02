@@ -20,5 +20,17 @@
         AddTime,
         UpdateTime
     </sql>
+    
+    <select id="selectForeverPower" resultType="integer">
+        SELECT SUM(Power) 
+        from power_record
+        WHERE Source = 
+    </select>
+    
+    <select id="selectTemporaryPower" resultType="integer">
+        select SUM(Power)
+        from power_record
+        where 90 = datediff(NOW(),AddTime) AND Source =
+    </select>
 
 </mapper>

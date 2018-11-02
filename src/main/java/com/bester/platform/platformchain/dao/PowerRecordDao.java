@@ -6,4 +6,16 @@ package com.bester.platform.platformchain.dao;
  */
 public interface PowerRecordDao {
     // 在这里新增接口
+
+    /**
+     * 获得所有永生算力
+     * @return
+     */
+    int selectForeverPower();
+
+    /**
+     * 获得所有临时算力
+     * @return
+     */
+    int selectTemporaryPower();
 }

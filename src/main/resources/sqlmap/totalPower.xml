@@ -4,4 +4,14 @@
 
     <!--直接写SQL-->
 
+    <insert id="insertTotalPower" parameterType="integer">
+        INSERT INTO
+        total_power(day,TotalPower,AddTime,UpdateTime)
+        VALUES
+        (NOW(),
+        #{totalPower},
+        NOW(),
+        NOW())
+    </insert>
+
 </mapper>

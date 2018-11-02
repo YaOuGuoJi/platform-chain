@@ -1,5 +1,8 @@
 package com.bester.platform.platformchain.constant;
 
+/**
+ * @author zhangqiang
+ */
 public class OreRecordStatus {
 
     /**

@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.bester.platform.platformchain")
+@MapperScan("com.bester.platform.platformchain.dao")
 public class PlatformChainApplication {
 
 	public static void main(String[] args) {

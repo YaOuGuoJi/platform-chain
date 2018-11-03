@@ -8,37 +8,37 @@ public class PowerSource {
     /**
      * 注册
      */
-    public static final int REGISTER = 1;
+    public static final String REGISTER = "注册";
 
     /**
      * 购物
      */
-    public static final int SHOPPING = 2;
+    public static final String SHOPPING = "购物";
 
     /**
      * 游戏
      */
-    public static final int GAMING = 3;
+    public static final String GAMING = "游戏";
 
     /**
      * 小说
      */
-    public static final int FICTION = 4;
+    public static final String FICTION = "小说";
 
     /**
      * 新闻
      */
-    public static final int NEWS = 5;
+    public static final String NEWS = "新闻";
 
     /**
      * 邀请好友
      */
-    public static final int INVITE = 6;
+    public static final String INVITE = "邀请好友";
 
     /**
      * 关注公众号
      */
-    public static final int PUBLIC = 7;
+    public static final String PUBLIC = "关注公众号";
 
 
 }

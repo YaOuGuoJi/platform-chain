@@ -24,7 +24,7 @@ public class PowerEntity {
     /**
      * 来源
      */
-    private Integer source;
+    private String source;
 
     /**
      * 算力值

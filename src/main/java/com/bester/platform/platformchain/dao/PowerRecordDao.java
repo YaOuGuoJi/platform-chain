@@ -6,6 +6,10 @@ import org.apache.ibatis.annotations.Param;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
+import java.util.Date;
+
 /**
  * @author liuwen
  * @date 2018/11/2
@@ -29,4 +33,20 @@ public interface PowerRecordDao {
      * @return
      */
     List<PowerEntity> selectUserExpiredPower(@Param("userId") int userId, @Param("time") Date time);
+
+    /**
+     * 获取用户当前生效的临时算力
+     * @param userId 用户ID
+     * @param expirationDate 过期日期
+     * @return
+     */
+    Integer getUserValidTemporaryPower(@Param("userId") Integer userId, @Param("expirationDate")int expirationDate);
+
+    /**
+     * 获取用户当前的永久算力
+     * @param userId 用户ID
+     * @return
+     */
+    Integer getUserForeverPower(@Param("userId") Integer userId);
+
 }

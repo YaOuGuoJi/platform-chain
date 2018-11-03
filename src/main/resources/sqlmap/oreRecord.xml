@@ -21,4 +21,18 @@
         UpdateTime
     </sql>
 
+    <insert id="insertUserOreByHour">
+        INSERT INTO
+        ore_record (UserId, Source, Ore, AddTime, UpdateTime, status)
+        VALUES (#{userId}, #{source}, #{ore}, NOW(), NOW(), #{status})
+    </insert>
+
+    <select id="findGrowingOreByEveryday" resultType="java.lang.Integer">
+        SELECT
+        COUNT(ore.id)
+        FROM ore_record ore
+        WHERE ore.status = #{status}
+        AND ore.UserId = #{userId}
+    </select>
+
 </mapper>

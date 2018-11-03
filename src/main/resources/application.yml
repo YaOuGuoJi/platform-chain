@@ -12,4 +12,4 @@ spring:
 
 mybatis:
   mapper-locations: classpath:sqlmap/*.xml
-  type-aliases-package: com.yaouguoji.platform.entity
+  type-aliases-package: com.bester.platform.platformchain.entity

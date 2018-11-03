@@ -1,4 +1,4 @@
-package com.bester.platform.platformchain.timedtask;
+package com.bester.platform.platformchain.task;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

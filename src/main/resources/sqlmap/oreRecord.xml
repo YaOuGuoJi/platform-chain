@@ -20,5 +20,14 @@
         AddTime,
         UpdateTime
     </sql>
+    <select id="receiveOre" parameterType="java.lang.Integer" resultMap="powerEntity">
+        select
+        <include refid="allFields"/>
+        from ore_record
+        where UserId=#{oreRecordEntity.UserId} and status=2
+        <if test="#{oreRecordEntity.id}!=null">
+            and id=#{oreRecordEntity.id}
+        </if>
+    </select>
 
 </mapper>

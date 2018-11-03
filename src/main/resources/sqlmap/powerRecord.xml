@@ -28,4 +28,23 @@
         WHERE UserId = #{userId}
     </select>
 
+    <select id="getUserValidTemporaryPower" resultType="int">
+    <![CDATA[
+        SELECT
+        SUM(pr.Power)
+        FROM power_record pr
+        WHERE UserId = #{userId}
+        AND pr.isTemporary = 1
+        AND pr.AddTime <= #{expirationDate}
+    ]]>
+    </select>
+
+    <select id="getUserForeverPower" resultType="int">
+        SELECT
+        SUM(pr.Power)
+        FROM power_record pr
+        WHERE UserId = #{userId}
+        AND pr.isTemporary = 0
+    </select>
+
 </mapper>

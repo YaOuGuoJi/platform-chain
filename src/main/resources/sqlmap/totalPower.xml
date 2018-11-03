@@ -4,4 +4,8 @@
 
     <!--直接写SQL-->
 
+    <select id="getTotalPower" resultType="int">
+        SELECT TotalPower as totalPower FROM total_power WHERE day = #{day}
+    </select>
+
 </mapper>

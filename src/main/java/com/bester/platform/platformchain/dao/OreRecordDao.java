@@ -1,9 +1,8 @@
 package com.bester.platform.platformchain.dao;
 
-import com.bester.platform.platformchain.entity.OreRecordEntity;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author liuwen
@@ -13,14 +12,10 @@ public interface OreRecordDao {
     // 在这里新增接口
 
     /**
-     * 查询所有状态为待领取的矿石
-     * @return
-     */
-    List<OreRecordEntity> selectOverduePower();
-
-    /**
      * 修改过期的待领取矿石状态
+     *
+     * @param time
      * @return
      */
-    int updateOverduePower();
+    int updateOverduePower(@Param("time") Date time);
 }

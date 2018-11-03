@@ -1,6 +1,6 @@
 package com.bester.platform.platformchain.dao;
 
-import java.util.Date;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author liuwen
@@ -11,8 +11,10 @@ public interface TotalPowerDao {
 
     /**
      * 添加当天所有用户总算力
+     *
+     * @param day
      * @param totalPower
      * @return
      */
-    int insertTotalPower(String day,int totalPower);
+    int insertTotalPower(@Param("day") String day, @Param("totalPower") int totalPower);
 }

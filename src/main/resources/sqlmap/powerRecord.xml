@@ -28,11 +28,16 @@
     </select>
     
     <select id="selectTemporaryPower" parameterType="map" resultType="integer">
-
         select SUM(Power)
         from power_record
         where isTemporary = 1 AND #{time} &lt; AddTime
     </select>
 
+    <select id="selectPowerRecordByUserId" parameterType="map" resultMap="powerEntity">
+        SELECT
+        <include refid="allFields"/>
+        FROM power_record
+        WHERE UserId = #{userId}
+    </select>
 
 </mapper>

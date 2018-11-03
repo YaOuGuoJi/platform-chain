@@ -1,8 +1,14 @@
 package com.bester.platform.platformchain.dao;
 
+
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
+
+import com.bester.platform.platformchain.entity.PowerEntity;
+
+import java.util.List;
+
 
 /**
  * @author liuwen
@@ -13,6 +19,7 @@ public interface PowerRecordDao {
 
     /**
      * 获得所有永生算力
+     *
      * @return
      */
     int selectForeverPower();
@@ -24,4 +31,13 @@ public interface PowerRecordDao {
      * @return
      */
     int selectTemporaryPower(@Param("time") Date time);
+
+    /**
+     * 查询用户有效算力记录
+     *
+     * @param userId
+     * @return
+     */
+    List<PowerEntity> selectPowerRecordByUserId(@Param("userId") int userId);
+
 }

@@ -24,13 +24,14 @@
     <select id="selectForeverPower" resultType="integer">
         SELECT SUM(Power) 
         from power_record
-        WHERE Source = 
+        WHERE isTemporary = 0
     </select>
     
     <select id="selectTemporaryPower" resultType="integer">
         select SUM(Power)
         from power_record
-        where 90 = datediff(NOW(),AddTime) AND Source =
+        where isTemporary = 1 AND 90 >= datediff(NOW(),AddTime)
     </select>
+
 
 </mapper>

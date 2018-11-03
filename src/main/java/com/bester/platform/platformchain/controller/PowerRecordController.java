@@ -31,4 +31,16 @@ public class PowerRecordController {
         }
         return CommonResult.success(powerRecordDTOPageInfo);
     }
+
+    @GetMapping("/user/record/expiredPower")
+    public CommonResult findExpiredPower(int userId, int pageNum, int pageSize) {
+        if (userId <= 0 || pageNum <= 0 || pageSize <= 0) {
+            return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
+        }
+        PageInfo<PowerRecordDTO> powerRecordDTOPageInfo = powerRecordService.pageFindUserExpiredPower(userId, pageNum, pageSize);
+        if (powerRecordDTOPageInfo == null || powerRecordDTOPageInfo.getTotal() <= 0) {
+            return CommonResult.fail(HttpStatus.NOT_FOUND);
+        }
+        return CommonResult.success(powerRecordDTOPageInfo);
+    }
 }

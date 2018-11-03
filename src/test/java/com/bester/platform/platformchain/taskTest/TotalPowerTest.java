@@ -28,6 +28,6 @@ public class TotalPowerTest {
         powerEntity.setAddTime(new Date());
         powerEntity.setUpdateTime(new Date());
 
-
+        powerRecordDao.selectTemporaryPower(new Date());
     }
 }

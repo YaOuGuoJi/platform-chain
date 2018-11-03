@@ -41,10 +41,11 @@ public interface PowerRecordDao {
      * @param expirationDate 过期日期
      * @return
      */
-    Integer getUserValidTemporaryPower(@Param("userId") Integer userId, @Param("expirationDate")Date expirationDate);
+    Integer getUserValidTemporaryPower(@Param("userId") Integer userId, @Param("expirationDate") Date expirationDate);
 
     /**
      * 获取用户当前的永久算力
+     *
      * @param userId 用户ID
      * @return
      */

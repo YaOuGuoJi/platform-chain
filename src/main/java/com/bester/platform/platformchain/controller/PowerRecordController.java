@@ -1,7 +1,10 @@
 package com.bester.platform.platformchain.controller;
 
 import com.bester.platform.platformchain.common.CommonResult;
+import com.bester.platform.platformchain.dto.PowerRecordDTO;
+import com.bester.platform.platformchain.enums.HttpStatus;
 import com.bester.platform.platformchain.service.PowerRecordService;
+import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,8 +20,15 @@ public class PowerRecordController {
     @Resource
     private PowerRecordService powerRecordService;
 
-    @GetMapping("/user/record/power")
-    public CommonResult findPowerRecord(String token) {
-        return new CommonResult();
+    @GetMapping("/user/record/validPower")
+    public CommonResult findPowerRecord(int userId, int pageNum, int pageSize) {
+        if (userId <= 0 || pageNum <= 0 || pageSize <= 0) {
+            return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
+        }
+        PageInfo<PowerRecordDTO> powerRecordDTOPageInfo = powerRecordService.pageFindUserValidPower(userId, pageNum, pageSize);
+        if (powerRecordDTOPageInfo == null || powerRecordDTOPageInfo.getTotal() <= 0) {
+            return CommonResult.fail(HttpStatus.NOT_FOUND);
+        }
+        return CommonResult.success(powerRecordDTOPageInfo);
     }
 }

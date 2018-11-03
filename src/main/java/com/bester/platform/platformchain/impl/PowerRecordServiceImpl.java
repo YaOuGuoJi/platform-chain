@@ -26,19 +26,19 @@ public class PowerRecordServiceImpl implements PowerRecordService {
     private PowerRecordDao powerRecordDao;
 
     @Override
-    public PageInfo<PowerRecordDTO> pageFindUserValidPower(int userId, int pageSize, int pageNum) {
+    public PageInfo<PowerRecordDTO> pageFindUserValidPower(int userId, int pageNum, int pageSize) {
         Assert.isTrue(userId > 0 && pageSize > 0 && pageNum > 0, "参数错误");
         Date time = TemporaryPowerUtil.expiredPowerTime();
-        PageHelper.startPage(pageSize, pageNum, true);
+        PageHelper.startPage(pageNum, pageSize, true);
         List<PowerEntity> powerEntities = powerRecordDao.selectUserValidPower(userId, time);
         return BeansListUtils.copyListPageInfo(powerEntities, PowerRecordDTO.class);
     }
 
     @Override
-    public PageInfo<PowerRecordDTO> pageFindUserExpiredPower(int userId, int pageSize, int pageNum) {
+    public PageInfo<PowerRecordDTO> pageFindUserExpiredPower(int userId, int pageNum, int pageSize) {
         Assert.isTrue(userId > 0 && pageSize > 0 && pageNum > 0, "参数错误");
         Date time = TemporaryPowerUtil.expiredPowerTime();
-        PageHelper.startPage(pageSize, pageNum, true);
+        PageHelper.startPage(pageNum, pageSize, true);
         List<PowerEntity> powerEntities = powerRecordDao.selectUserExpiredPower(userId, time);
         return BeansListUtils.copyListPageInfo(powerEntities, PowerRecordDTO.class);
     }

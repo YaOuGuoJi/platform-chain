@@ -26,7 +26,7 @@
         <include refid="allFields"/>
         FROM power_record
         WHERE UserId = #{userId}
-        AND (isTemorary = 0 OR AddTime &gt; #{time})
+        AND (isTemporary = 0 OR AddTime &gt; #{time})
     </select>
 
     <select id="selectUserExpiredPower" parameterType="map" resultMap="powerEntity">

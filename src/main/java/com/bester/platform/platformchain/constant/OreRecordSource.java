@@ -8,6 +8,6 @@ public class OreRecordSource {
     /**
      * 日常领取
      */
-    public static final int DAILY_RECEIVE = 1;
+    public static final String  DAILY_RECEIVE = "日常领取";
 
 }

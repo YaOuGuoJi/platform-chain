@@ -29,13 +29,13 @@ public interface PowerRecordDao {
      * @param expirationDate 过期日期
      * @return
      */
-    int getUserValidTemporaryPower(@Param("userId") Integer userId, @Param("expirationDate")int expirationDate);
+    Integer getUserValidTemporaryPower(@Param("userId") Integer userId, @Param("expirationDate")int expirationDate);
 
     /**
      * 获取用户当前的永久算力
      * @param userId 用户ID
      * @return
      */
-    int getUserForeverPower(@Param("userId") Integer userId);
+    Integer getUserForeverPower(@Param("userId") Integer userId);
 
 }

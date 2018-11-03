@@ -20,5 +20,19 @@
         AddTime,
         UpdateTime
     </sql>
+    
+    <select id="selectOverduePower" resultMap="powerEntity">
+        select
+        <include refid="allFields"/>
+        FROM ore_record
+        WHERE status = 2
+    </select>
+
+    <update id="updateOverduePower">
+        UPDATE ore_record
+        SET
+        status = 0,
+        UpdateTime = NOW()
+    </update>
 
 </mapper>

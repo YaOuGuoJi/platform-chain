@@ -8,7 +8,8 @@
         INSERT INTO
         total_power(day,TotalPower,AddTime,UpdateTime)
         VALUES
-        (NOW(),
+        (
+        #{day},
         #{totalPower},
         NOW(),
         NOW())

@@ -27,10 +27,11 @@
         WHERE isTemporary = 0
     </select>
     
-    <select id="selectTemporaryPower" resultType="integer">
+    <select id="selectTemporaryPower" parameterType="map" resultType="integer">
+
         select SUM(Power)
         from power_record
-        where isTemporary = 1 AND 90 >= datediff(NOW(),AddTime)
+        where isTemporary = 1 AND #{time} &lt; AddTime
     </select>
 
 

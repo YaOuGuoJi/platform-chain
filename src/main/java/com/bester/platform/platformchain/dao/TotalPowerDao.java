@@ -1,5 +1,7 @@
 package com.bester.platform.platformchain.dao;
 
+import java.util.Date;
+
 /**
  * @author liuwen
  * @date 2018/11/2
@@ -12,5 +14,5 @@ public interface TotalPowerDao {
      * @param totalPower
      * @return
      */
-    int insertTotalPower(int totalPower);
+    int insertTotalPower(String day,int totalPower);
 }

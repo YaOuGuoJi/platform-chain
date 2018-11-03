@@ -1,5 +1,9 @@
 package com.bester.platform.platformchain.dao;
 
+import org.apache.ibatis.annotations.Param;
+
+import java.util.Date;
+
 /**
  * @author liuwen
  * @date 2018/11/2
@@ -15,7 +19,9 @@ public interface PowerRecordDao {
 
     /**
      * 获得所有临时算力
+     *
+     * @param time
      * @return
      */
-    int selectTemporaryPower();
+    int selectTemporaryPower(@Param("time") Date time);
 }

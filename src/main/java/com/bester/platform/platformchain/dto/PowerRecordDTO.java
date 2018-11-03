@@ -3,17 +3,16 @@ package com.bester.platform.platformchain.dto;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
  * @author liuwen
- * @date 2018/11/2
+ * @date 2018/11/3
  */
 @Data
-public class OreRecordDTO implements Serializable {
+public class PowerRecordDTO implements Serializable {
+    private static final long serialVersionUID = -6363543095446532552L;
 
-    private static final long serialVersionUID = 8961943766001020899L;
     /**
      * 记录id
      */
@@ -30,14 +29,14 @@ public class OreRecordDTO implements Serializable {
     private String source;
 
     /**
-     * 矿值
+     * 算力值
      */
-    private BigDecimal ore;
+    private Integer power;
 
     /**
-     * 状态
+     * 临时算力 1-是 0-不是
      */
-    private Integer status;
+    private Integer temporary;
 
     /**
      * 添加时间

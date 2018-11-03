@@ -25,7 +25,7 @@ public class OreRecordEntity {
     /**
      * 来源
      */
-    private Integer source;
+    private String source;
 
     /**
      * 矿值

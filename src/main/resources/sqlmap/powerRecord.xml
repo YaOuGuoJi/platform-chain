@@ -21,4 +21,11 @@
         UpdateTime
     </sql>
 
+    <select id="selectPowerRecordByUserId" parameterType="map" resultMap="powerEntity">
+        SELECT
+        <include refid="allFields"/>
+        FROM power_record
+        WHERE UserId = #{userId}
+    </select>
+
 </mapper>

@@ -17,5 +17,12 @@ public interface OreRecordDao {
      * @param oreRecordEntity
      * @return
      */
-    List<OreRecordEntity> receiveOre(@Param("oreRecordEntity") OreRecordEntity oreRecordEntity);
+    List<OreRecordEntity> showOre(@Param("oreRecordEntity") OreRecordEntity oreRecordEntity);
+
+    /**
+     * 根据用户id以及矿的id把状态为2的矿修改为1
+     * @param oreRecordEntity
+     * @return
+     */
+    Integer receiveOre(@Param("oreRecordEntity") OreRecordEntity oreRecordEntity);
 }

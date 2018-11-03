@@ -15,5 +15,13 @@ public interface OreRecordService {
      * @param oreRecordDTO
      * @return
      */
-    List<OreRecordDTO> receiveOre(OreRecordDTO oreRecordDTO);
+    List<OreRecordDTO> showOre(OreRecordDTO oreRecordDTO);
+
+    /**
+     * 根据用户id以及矿的id把状态为2的矿修改为1
+     *
+     * @param oreRecordDTO
+     * @return
+     */
+    Integer receiveOre(OreRecordDTO oreRecordDTO);
 }

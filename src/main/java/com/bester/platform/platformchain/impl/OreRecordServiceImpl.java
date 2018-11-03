@@ -4,8 +4,10 @@ import com.bester.platform.platformchain.dao.OreRecordDao;
 import com.bester.platform.platformchain.dto.OreRecordDTO;
 import com.bester.platform.platformchain.entity.OreRecordEntity;
 import com.bester.platform.platformchain.service.OreRecordService;
+import com.bester.platform.platformchain.util.BeansListUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -21,16 +23,21 @@ public class OreRecordServiceImpl implements OreRecordService {
     private OreRecordDao oreRecordDao;
 
     @Override
-    public List<OreRecordDTO> receiveOre(OreRecordDTO oreRecordDTO) {
-        OreRecordEntity oreRecordEntity=new OreRecordEntity();
-        BeanUtils.copyProperties(oreRecordDTO,oreRecordEntity);
-        List<OreRecordEntity> oreRecordEntities = oreRecordDao.receiveOre(oreRecordEntity);
-        List<OreRecordDTO> oreRecordDTOs=new ArrayList<>();
-        for(OreRecordEntity oreRecordEntity2:oreRecordEntities){
-            OreRecordDTO oreRecordDTO2=new OreRecordDTO();
-            BeanUtils.copyProperties(oreRecordEntity2,oreRecordDTO);
-            oreRecordDTOs.add(oreRecordDTO2);
+    public List<OreRecordDTO> showOre(OreRecordDTO oreRecordDTO) {
+        OreRecordEntity oreRecordEntity = new OreRecordEntity();
+        BeanUtils.copyProperties(oreRecordDTO, oreRecordEntity);
+        List<OreRecordEntity> oreRecordEntities = oreRecordDao.showOre(oreRecordEntity);
+        if (CollectionUtils.isEmpty(oreRecordEntities)) {
+            return new ArrayList<>();
         }
-        return oreRecordDTOs;
+        List<OreRecordDTO> oreRecordDTOS = BeansListUtils.copyListProperties(oreRecordEntities, OreRecordDTO.class);
+        return oreRecordDTOS;
+    }
+
+    @Override
+    public Integer receiveOre(OreRecordDTO oreRecordDTO) {
+        OreRecordEntity oreRecordEntity = new OreRecordEntity();
+        BeanUtils.copyProperties(oreRecordDTO, oreRecordEntity);
+        return oreRecordDao.receiveOre(oreRecordEntity);
     }
 }

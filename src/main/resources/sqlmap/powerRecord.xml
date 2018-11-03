@@ -21,11 +21,19 @@
         UpdateTime
     </sql>
 
-    <select id="selectPowerRecordByUserId" parameterType="map" resultMap="powerEntity">
+    <select id="selectUserValidPower" parameterType="map" resultMap="powerEntity">
         SELECT
         <include refid="allFields"/>
         FROM power_record
         WHERE UserId = #{userId}
+        AND (isTemorary = 0 OR AddTime &gt; #{time})
     </select>
 
+    <select id="selectUserExpiredPower" parameterType="map" resultMap="powerEntity">
+        SELECT
+        <include refid="allFields"/>
+        FROM power_record
+        WHERE UserId = #{userId}
+        AND isTemporary = 1 AND AddTime &lt;= #{time}
+    </select>
 </mapper>

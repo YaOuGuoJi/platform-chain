@@ -36,16 +36,14 @@
         SELECT
         <include refid="allFields"/>
         FROM power_record
-        WHERE UserId = #{userId}
-        AND (isTemporary = 0 OR AddTime &gt; #{time})
+        WHERE UserId = #{userId} AND isValid = 1
     </select>
 
     <select id="selectUserExpiredPower" parameterType="map" resultMap="powerEntity">
         SELECT
         <include refid="allFields"/>
         FROM power_record
-        WHERE UserId = #{userId}
-        AND isTemporary = 1 AND AddTime &lt;= #{time}
+        WHERE UserId = #{userId} AND isValid = 0
     </select>
 
     <select id="findValidPower" resultType="integer">

@@ -41,7 +41,7 @@ public class UserReceiveOreController {
         if(oreRecordDTO.getStatus().equals(0)){
             return CommonResult.fail(403,"此矿已过期");
         }
-        Integer sta = oreRecordService.receiveOre(userId,userId);
+        Integer sta = oreRecordService.receiveOre(oreId,userId);
         if(sta.equals(0)){
             return CommonResult.fail(403,"收矿失败");
         }

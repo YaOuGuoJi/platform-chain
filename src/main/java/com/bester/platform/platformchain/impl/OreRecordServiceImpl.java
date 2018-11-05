@@ -37,7 +37,6 @@ public class OreRecordServiceImpl implements OreRecordService {
         OreRecordEntity oreRecordEntity = oreRecordDao.showOreById(id);
         if(oreRecordEntity==null){
             return null;
-
         }
         OreRecordDTO oreRecordDTO=new OreRecordDTO();
         BeanUtils.copyProperties(oreRecordEntity,oreRecordDTO);

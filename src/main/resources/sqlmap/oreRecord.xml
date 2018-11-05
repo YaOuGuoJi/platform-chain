@@ -20,20 +20,20 @@
         AddTime,
         UpdateTime
     </sql>
-    <select id="showOreByUserId" parameterType="java.lang.Integer" resultMap="powerEntity">
+    <select id="showOreByUserId" parameterType="java.lang.Integer" resultMap="oreRecordEntity">
         select
         <include refid="allFields"/>
         from ore_record
         where UserId=#{userId} and status=2
     </select>
 
-    <select id="showOreById" parameterType="java.lang.Integer" resultMap="powerEntity">
+    <select id="showOreById" parameterType="java.lang.Integer" resultMap="oreRecordEntity">
         select <include refid="allFields"/>
         from ore_record
         where id=#{id}
     </select>
 
-    <update id="receiveOre" parameterType="java.lang.Integer">
+    <update id="receiveOre" parameterType="map">
           update ore_record
           set status=1,UpdateTime=now()
           where id=#{id} and UserId=#{userId} and status=2

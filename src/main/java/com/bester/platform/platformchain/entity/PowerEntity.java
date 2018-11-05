@@ -37,7 +37,7 @@ public class PowerEntity {
     private Integer temporary;
 
     /**
-     * 是否生效
+     * 是否生效 1-有效 0-过期
      */
     private Integer valid;
 

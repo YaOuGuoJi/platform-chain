@@ -28,7 +28,8 @@
     </select>
 
     <select id="showOreById" parameterType="java.lang.Integer" resultMap="oreRecordEntity">
-        select <include refid="allFields"/>
+        select
+        <include refid="allFields"/>
         from ore_record
         where id=#{id}
     </select>

@@ -7,6 +7,7 @@
         <result column="Source" property="source"/>
         <result column="Power" property="power"/>
         <result column="isTemporary" property="temporary"/>
+        <result column="isValid" property="valid"/>
         <result column="AddTime" property="addTime"/>
         <result column="UpdateTime" property="updateTime"/>
     </resultMap>
@@ -17,6 +18,7 @@
         Source,
         Power,
         isTemporary,
+        isValid,
         AddTime,
         UpdateTime
     </sql>

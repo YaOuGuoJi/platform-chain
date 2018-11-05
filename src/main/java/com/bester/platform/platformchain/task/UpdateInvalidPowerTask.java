@@ -17,13 +17,13 @@ import java.util.Date;
  * @author yanrui
  */
 @Component
-public class TotalPowerTask {
+public class UpdateInvalidPowerTask {
 
     @Resource
     private PowerRecordDao powerRecordDao;
 
     @Scheduled(cron = BlockChainParameters.TOTAL_ORE_INTERVAL)
-   public void tatalPower(){
+   public void updateInvalidPower(){
         powerRecordDao.updateTemporaryPower(new DateTime().minusDays(BlockChainParameters.EXPIRATION_DAYS).toDate());
    }
 

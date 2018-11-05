@@ -19,23 +19,23 @@ import java.util.stream.Collectors;
  * @author yanrui
  */
 @Component
-public class UpdateOverduePowerTask {
+public class UpdateOverdueOreTask {
 
     @Resource
     private OreRecordDao oreRecordDao;
 
     @Scheduled(cron = BlockChainParameters.OVERDUE_INTERVAL)
-    public void updateOverduePower(){
+    public void updateOverdueOre(){
         List<OreRecordEntity> oreRecordEntityList = oreRecordDao.selectMaxUpdateTime();
-            oreRecordEntityList.forEach(oreRecordEntity -> {
-                Date updateTime = oreRecordEntity.getUpdateTime();
-                Integer status = oreRecordEntity.getStatus();
-                Integer userId = oreRecordEntity.getUserId();
-                Date limitTime = new DateTime().minusDays(BlockChainParameters.DAILY_ORE_OVERDUE).toDate();
-                if (status.equals(1) || updateTime.before(limitTime)){
-                    oreRecordDao.updateOverduePower(userId);
-                }
-            });
+        oreRecordEntityList.forEach(oreRecordEntity -> {
+            Date updateTime = oreRecordEntity.getUpdateTime();
+            Integer status = oreRecordEntity.getStatus();
+            Integer userId = oreRecordEntity.getUserId();
+            Date limitTime = new DateTime().minusDays(BlockChainParameters.DAILY_ORE_OVERDUE).toDate();
+            if (status.equals(1) || updateTime.before(limitTime)){
+                oreRecordDao.updateOverduePower(userId);
+            }
+        });
 
     }
 }

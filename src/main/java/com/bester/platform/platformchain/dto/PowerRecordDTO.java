@@ -1,15 +1,17 @@
-package com.bester.platform.platformchain.entity;
+package com.bester.platform.platformchain.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author liuwen
- * @date 2018/11/2
+ * @date 2018/11/3
  */
 @Data
-public class PowerEntity {
+public class PowerRecordDTO implements Serializable {
+    private static final long serialVersionUID = -6363543095446532552L;
 
     /**
      * 记录id
@@ -37,12 +39,12 @@ public class PowerEntity {
     private Integer temporary;
 
     /**
-     * 是否生效 1-有效 0-过期
+     * 是否生效
      */
     private Integer valid;
 
     /**
-     * 新增时间
+     * 添加时间
      */
     private Date addTime;
 

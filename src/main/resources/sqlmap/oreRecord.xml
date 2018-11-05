@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bester.platform.platformchain.dao.OreRecordDao">
-    <resultMap id="powerEntity" type="com.bester.platform.platformchain.entity.OreRecordEntity">
+    <resultMap id="oreRecordEntity" type="com.bester.platform.platformchain.entity.OreRecordEntity">
         <result column="id" property="id"/>
         <result column="UserId" property="userId"/>
         <result column="Source" property="source"/>
@@ -38,5 +38,19 @@
           set status=1,UpdateTime=now()
           where id=#{id} and UserId=#{userId} and status=2
     </update>
+
+    <insert id="insertUserOreByHour">
+        INSERT INTO
+        ore_record (UserId, Source, Ore, AddTime, UpdateTime, status)
+        VALUES (#{userId}, #{source}, #{ore}, NOW(), NOW(), #{status})
+    </insert>
+
+    <select id="findGrowingOreByEveryday" resultType="java.lang.Integer">
+        SELECT
+        COUNT(ore.id)
+        FROM ore_record ore
+        WHERE ore.status = #{status}
+        AND ore.UserId = #{userId}
+    </select>
 
 </mapper>

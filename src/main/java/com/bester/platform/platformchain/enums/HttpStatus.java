@@ -6,16 +6,24 @@ package com.bester.platform.platformchain.enums;
  */
 public enum  HttpStatus {
 
-    // 成功
+    /**
+     * 成功
+     */
     OK(200,"成功"),
 
-    // 请求参数错误
+    /**
+     * 参数错误
+     */
     PARAMETER_ERROR(403,"参数错误"),
 
-    // 找不到资源
+    /**
+     * 找不到资源
+     */
     NOT_FOUND(404,"找不到资源"),
 
-    // 服务端错误
+    /**
+     * 服务端出错
+     */
     ERROR(500,"服务端错误");
 
     public int value;

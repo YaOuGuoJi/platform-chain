@@ -2,6 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bester.platform.platformchain.dao.TotalPowerDao">
 
-    <!--直接写SQL-->
+    <select id="getTotalPower" resultType="int">
+        SELECT TotalPower as totalPower FROM total_power tp WHERE tp.day = #{day}
+    </select>
 
 </mapper>

@@ -13,6 +13,7 @@ import java.util.Date;
 @Data
 public class OreRecordDTO implements Serializable {
 
+    private static final long serialVersionUID = 8961943766001020899L;
     /**
      * 记录id
      */
@@ -26,7 +27,7 @@ public class OreRecordDTO implements Serializable {
     /**
      * 来源
      */
-    private Integer source;
+    private String source;
 
     /**
      * 矿值

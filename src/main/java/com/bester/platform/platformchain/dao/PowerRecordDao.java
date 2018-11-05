@@ -3,7 +3,6 @@ package com.bester.platform.platformchain.dao;
 import com.bester.platform.platformchain.entity.PowerEntity;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -13,7 +12,7 @@ import java.util.List;
 public interface PowerRecordDao {
 
     /**
-     * 查询用户有效的算力记录
+     * 查询用户算力记录
      *
      * @param userId
      * @return

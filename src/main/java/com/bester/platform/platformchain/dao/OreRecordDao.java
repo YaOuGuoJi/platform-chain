@@ -13,6 +13,44 @@ import java.util.List;
 public interface OreRecordDao {
 
     /**
+     * 查找用户当天生成的矿值的个数
+     *
+     * @param status 矿石状态
+     * @param userId 用户ID
+     * @return
+     */
+    Integer findGrowingOreByEveryday(@Param("userId") Integer userId, @Param("status") Integer status);
+
+    /**
+     * 写入用户间隔内生成的矿石
+     *
+     * @param userId 用户ID
+     * @param source 矿石来源
+     * @param ore    矿值
+     * @param status 矿石状态
+     */
+    void insertUserOreByInterval(@Param("userId") Integer userId,
+                                 @Param("source") String source,
+                                 @Param("ore") BigDecimal ore,
+                                 @Param("status") Integer status);
+
+    /**
+     * 通过用户ID查询矿石来源记录
+     *
+     * @param userId
+     * @return
+     */
+    List<OreRecordEntity> queryAllOreRecordByUserId(@Param("userId") Integer userId);
+
+    /**
+     * 通过用户ID查询矿石总量
+     *
+     * @param userId
+     * @return
+     */
+    BigDecimal queryOreNumbByUserId(@Param("userId") Integer userId);
+
+    /**
      * 查询所有用户的最新领取记录
      *
      * @return
@@ -25,39 +63,5 @@ public interface OreRecordDao {
      * @param userId 用户Id
      * @return
      */
-    int updateOverduePower(@Param("userId")Integer userId);
-
-    /**
-     * 写入用户间隔内生成的矿石
-     * @param userId 用户ID
-     * @param source 矿石来源
-     * @param ore 矿值
-     * @param status 矿石状态
-     */
-    void insertUserOreByInterval(@Param("userId") Integer userId,
-                             @Param("source") String source,
-                             @Param("ore")BigDecimal ore,
-                             @Param("status") Integer status);
-
-    /**
-     * 查找用户当天生成的矿值的个数
-     * @param status 矿石状态
-     * @param userId 用户ID
-     * @return
-     */
-    Integer findGrowingOreByEveryday(@Param("userId") Integer userId, @Param("status") Integer status);
-
-    /**
-     * 通过用户ID查询矿石来源记录
-     * @param UserId
-     * @return
-     */
-    List<OreRecordEntity> queryAllOreRecordByUserId(@Param("UserId") Integer UserId);
-
-    /**
-     *通过用户ID查询矿石总量
-     * @param UserId
-     * @return
-     */
-    BigDecimal queryOreNumbByUserId( @Param("UserId") Integer UserId);
+    int updateOverduePower(@Param("userId") Integer userId);
 }

@@ -19,39 +19,47 @@ public class OreRecordController {
 
     /**
      * 矿石纪录查询
-     * @param UserId
+     *
+     * @param userId
      * @param pageNum
      * @param pageSize
      * @return
      */
     @GetMapping("/user/oreRecord")
-    public CommonResult queryAllOreReocrdByUserId(Integer UserId, int pageNum,int pageSize){
-        if(UserId == null){
+    public CommonResult queryAllOreReocrdByUserId(Integer userId, int pageNum, int pageSize) {
+        if (userId <= 0 || pageNum <= 0 || pageSize <= 0) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
-        PageInfo<OreRecordDTO> oreRecordDTOPageInfo = oreRecordService.queryOreRecordByUserId(UserId, pageNum, pageSize);
+        PageInfo<OreRecordDTO> oreRecordDTOPageInfo = oreRecordService.queryOreRecordByUserId(userId, pageNum, pageSize);
+        if (oreRecordDTOPageInfo == null) {
+            return CommonResult.fail(HttpStatus.NOT_FOUND);
+        }
         return new CommonResultBuilder()
                 .code(200)
                 .message("查询成功")
-                .data("矿石来源查询",oreRecordDTOPageInfo)
+                .data("矿石来源查询", oreRecordDTOPageInfo)
                 .build();
     }
 
     /**
      * 矿量查询
-     * @param UserId
+     *
+     * @param userId
      * @return
      */
     @GetMapping("/user/oreNumber")
-    public CommonResult queryOreNumbByUserId(Integer UserId){
-        if(UserId == null ){
+    public CommonResult queryOreNumbByUserId(Integer userId) {
+        if (userId <= 0) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
-        BigDecimal bigDecimal = oreRecordService.queryOreNumbByUserId(UserId);
-        return new CommonResultBuilder()
-                .code(200)
-                .message("查询成功")
-                .data("矿石数量查询",bigDecimal)
-                .build();
+        BigDecimal bigDecimal = oreRecordService.queryOreNumbByUserId(userId);
+        if (bigDecimal.compareTo(BigDecimal.ZERO) == 0){
+            return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
+        }
+            return new CommonResultBuilder()
+                    .code(200)
+                    .message("查询成功")
+                    .data("矿石数量查询", bigDecimal)
+                    .build();
     }
 }

@@ -11,18 +11,20 @@ import java.math.BigDecimal;
  */
 public interface OreRecordService {
     /**
+     * 矿量查询
+     *
+     * @param userId
+     * @return
+     */
+    BigDecimal queryOreNumbByUserId(Integer userId);
+
+    /**
      * 矿石纪录分页查询
-     * @param UserId
+     *
+     * @param userId
      * @param pageNum
      * @param pageSize
      * @return
      */
-    PageInfo<OreRecordDTO> queryOreRecordByUserId(Integer UserId, int pageNum, int pageSize);
-
-    /**
-     * 矿量查询
-     * @param UserId
-     * @return
-     */
-    BigDecimal queryOreNumbByUserId(Integer UserId);
+    PageInfo<OreRecordDTO> queryOreRecordByUserId(Integer userId, int pageNum, int pageSize);
 }

@@ -21,17 +21,18 @@ import java.util.List;
 public class OreRecordServiceImpl implements OreRecordService {
     @Resource
     private OreRecordDao oreRecordDao;
-    @Override
-    public PageInfo<OreRecordDTO> queryOreRecordByUserId(Integer UserId, int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<OreRecordEntity> oreRecordEntities = oreRecordDao.queryAllOreRecordByUserId(UserId);
 
-        return BeansListUtils.copyListPageInfo(oreRecordEntities, OreRecordDTO.class);
+    @Override
+    public BigDecimal queryOreNumbByUserId(Integer userId) {
+        BigDecimal oreNumb = oreRecordDao.queryOreNumbByUserId(userId);
+        return oreNumb;
     }
 
     @Override
-    public BigDecimal queryOreNumbByUserId(Integer UserId) {
-        BigDecimal oreNumb = oreRecordDao.queryOreNumbByUserId(UserId);
-        return oreNumb;
+    public PageInfo<OreRecordDTO> queryOreRecordByUserId(Integer userId, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<OreRecordEntity> oreRecordEntities = oreRecordDao.queryAllOreRecordByUserId(userId);
+
+        return BeansListUtils.copyListPageInfo(oreRecordEntities, OreRecordDTO.class);
     }
 }

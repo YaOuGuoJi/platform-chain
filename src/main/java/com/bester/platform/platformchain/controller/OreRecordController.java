@@ -31,13 +31,13 @@ public class OreRecordController {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
         PageInfo<OreRecordDTO> oreRecordDTOPageInfo = oreRecordService.queryOreRecordByUserId(userId, pageNum, pageSize);
-        if (oreRecordDTOPageInfo == null) {
+        if (oreRecordDTOPageInfo == null || oreRecordDTOPageInfo.getTotal() == 0) {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
         return new CommonResultBuilder()
                 .code(200)
                 .message("查询成功")
-                .data("矿石来源查询", oreRecordDTOPageInfo)
+                .data("oreRecordDTOPageInfo", oreRecordDTOPageInfo)
                 .build();
     }
 
@@ -54,12 +54,12 @@ public class OreRecordController {
         }
         BigDecimal bigDecimal = oreRecordService.queryOreNumbByUserId(userId);
         if (bigDecimal.compareTo(BigDecimal.ZERO) == 0){
-            return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
+            bigDecimal = new BigDecimal("0");
         }
-            return new CommonResultBuilder()
-                    .code(200)
-                    .message("查询成功")
-                    .data("矿石数量查询", bigDecimal)
-                    .build();
+        return new CommonResultBuilder()
+                .code(200)
+                .message("查询成功")
+                .data("oreNumber", bigDecimal)
+                .build();
     }
 }

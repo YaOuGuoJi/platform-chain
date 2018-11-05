@@ -1,7 +1,6 @@
 package com.bester.platform.platformchain.service;
 
 import com.bester.platform.platformchain.dto.OreRecordDTO;
-import com.bester.platform.platformchain.entity.OreRecordEntity;
 
 import java.util.List;
 
@@ -20,6 +19,7 @@ public interface OreRecordService {
 
     /**
      * 根据矿的id查矿
+     *
      * @param id
      * @return
      */
@@ -27,9 +27,10 @@ public interface OreRecordService {
 
     /**
      * 根据矿的id把状态为2的矿修改为1(收矿)
+     *
      * @param id
      * @param userId
      * @return
      */
-    Integer receiveOre(Integer id,Integer userId);
+    Integer receiveOre(Integer id, Integer userId);
 }

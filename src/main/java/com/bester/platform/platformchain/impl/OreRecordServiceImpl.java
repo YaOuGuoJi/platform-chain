@@ -35,16 +35,16 @@ public class OreRecordServiceImpl implements OreRecordService {
     @Override
     public OreRecordDTO showOreById(Integer id) {
         OreRecordEntity oreRecordEntity = oreRecordDao.showOreById(id);
-        if(oreRecordEntity==null){
+        if (oreRecordEntity == null) {
             return null;
         }
-        OreRecordDTO oreRecordDTO=new OreRecordDTO();
-        BeanUtils.copyProperties(oreRecordEntity,oreRecordDTO);
+        OreRecordDTO oreRecordDTO = new OreRecordDTO();
+        BeanUtils.copyProperties(oreRecordEntity, oreRecordDTO);
         return oreRecordDTO;
     }
 
     @Override
-    public Integer receiveOre(Integer id,Integer userId) {
-        return oreRecordDao.receiveOre(id,userId);
+    public Integer receiveOre(Integer id, Integer userId) {
+        return oreRecordDao.receiveOre(id, userId);
     }
 }

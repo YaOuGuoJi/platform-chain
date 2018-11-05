@@ -25,7 +25,7 @@ public interface OreRecordDao {
      * @param userId 用户Id
      * @return
      */
-    int updateOverduePower(@Param("userId")Integer userId);
+    int updateOverduePower(@Param("userId") Integer userId);
 
     /**
      * 写入用户间隔内生成的矿石
@@ -33,16 +33,17 @@ public interface OreRecordDao {
      *
      * @param userId 用户ID
      * @param source 矿石来源
-     * @param ore 矿值
+     * @param ore    矿值
      * @param status 矿石状态
      */
     void insertUserOreByInterval(@Param("userId") Integer userId,
-                             @Param("source") String source,
-                             @Param("ore")BigDecimal ore,
-                             @Param("status") Integer status);
+                                 @Param("source") String source,
+                                 @Param("ore") BigDecimal ore,
+                                 @Param("status") Integer status);
 
     /**
      * 查找用户当天生成的矿值的个数
+     *
      * @param status 矿石状态
      * @param userId 用户ID
      * @return

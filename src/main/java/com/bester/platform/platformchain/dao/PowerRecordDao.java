@@ -6,10 +6,6 @@ import org.apache.ibatis.annotations.Param;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
-import java.util.Date;
-
 /**
  * @author liuwen
  * @date 2018/11/2

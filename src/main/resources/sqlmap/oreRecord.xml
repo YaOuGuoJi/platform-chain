@@ -39,7 +39,8 @@
         WHERE status = 2 AND UserId = #{userId}
     </update>
 
-    <insert id="insertUserOreByHour">
+
+    <insert id="insertUserOreByInterval">
         INSERT INTO
         ore_record (UserId, Source, Ore, AddTime, UpdateTime, status)
         VALUES (#{userId}, #{source}, #{ore}, NOW(), NOW(), #{status})

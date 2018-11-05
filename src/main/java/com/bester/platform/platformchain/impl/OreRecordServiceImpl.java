@@ -23,10 +23,8 @@ public class OreRecordServiceImpl implements OreRecordService {
     private OreRecordDao oreRecordDao;
 
     @Override
-    public List<OreRecordDTO> showOre(OreRecordDTO oreRecordDTO) {
-        OreRecordEntity oreRecordEntity = new OreRecordEntity();
-        BeanUtils.copyProperties(oreRecordDTO, oreRecordEntity);
-        List<OreRecordEntity> oreRecordEntities = oreRecordDao.showOre(oreRecordEntity);
+    public List<OreRecordDTO> showOreByUserId(Integer userId) {
+        List<OreRecordEntity> oreRecordEntities = oreRecordDao.showOreByUserId(userId);
         if (CollectionUtils.isEmpty(oreRecordEntities)) {
             return new ArrayList<>();
         }
@@ -35,9 +33,19 @@ public class OreRecordServiceImpl implements OreRecordService {
     }
 
     @Override
-    public Integer receiveOre(OreRecordDTO oreRecordDTO) {
-        OreRecordEntity oreRecordEntity = new OreRecordEntity();
-        BeanUtils.copyProperties(oreRecordDTO, oreRecordEntity);
-        return oreRecordDao.receiveOre(oreRecordEntity);
+    public OreRecordDTO showOreById(Integer id) {
+        OreRecordEntity oreRecordEntity = oreRecordDao.showOreById(id);
+        if(oreRecordEntity==null){
+            return null;
+
+        }
+        OreRecordDTO oreRecordDTO=new OreRecordDTO();
+        BeanUtils.copyProperties(oreRecordEntity,oreRecordDTO);
+        return oreRecordDTO;
+    }
+
+    @Override
+    public Integer receiveOre(Integer id) {
+        return oreRecordDao.receiveOre(id);
     }
 }

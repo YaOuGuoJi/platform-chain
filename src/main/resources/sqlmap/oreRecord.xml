@@ -20,20 +20,23 @@
         AddTime,
         UpdateTime
     </sql>
-    <select id="showOre" parameterType="com.bester.platform.platformchain.entity.OreRecordEntity"
-            resultMap="powerEntity">
+    <select id="showOreByUserId" parameterType="java.lang.Integer" resultMap="powerEntity">
         select
         <include refid="allFields"/>
         from ore_record
-        where UserId=#{oreRecordEntity.UserId} and status=2
-        <if test="#{oreRecordEntity.id}!=null">
-            and id=#{oreRecordEntity.id}
-        </if>
+        where UserId=#{userId} and status=2
     </select>
 
-    <update id="receiveOre" parameterType="com.bester.platform.platformchain.entity.OreRecordEntity">
-          update ore_record set status=1
-          where UserId=#{oreRecordEntity.UserId} and id=#{oreRecordEntity.id} and status=2
+    <select id="showOreById" parameterType="java.lang.Integer" resultMap="powerEntity">
+        select <include refid="allFields"/>
+        from ore_record
+        where id=#{id}
+    </select>
+
+    <update id="receiveOre" parameterType="java.lang.Integer">
+          update ore_record
+          set status=1,UpdateTime=now()
+          where id=#{id}
     </update>
 
 </mapper>

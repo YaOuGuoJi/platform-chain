@@ -21,17 +21,10 @@ public class TotalPowerTask {
 
     @Resource
     private PowerRecordDao powerRecordDao;
-    @Resource
-    private TotalPowerDao totalPowerDao;
 
     @Scheduled(cron = BlockChainParameters.TOTAL_ORE_INTERVAL)
    public void tatalPower(){
-        int foreverPower = powerRecordDao.selectForeverPower();
-        int temporaryPower = powerRecordDao.selectTemporaryPower(new DateTime().minusDays(BlockChainParameters.EXPIRATION_DAYS).toDate());
-        int totalPower = foreverPower + temporaryPower;
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String day = df.format(new Date());
-        totalPowerDao.insertTotalPower(day,totalPower);
+        powerRecordDao.updateTemporaryPower(new DateTime().minusDays(BlockChainParameters.EXPIRATION_DAYS).toDate());
    }
 
 }

@@ -22,24 +22,14 @@
         AddTime,
         UpdateTime
     </sql>
-    
-    
-    <select id="selectForeverPower" resultType="java.lang.Integer">
-        SELECT SUM(Power) 
-        from power_record
-        WHERE isTemporary = 0
-    </select>
-    
-    <select id="selectTemporaryPower" parameterType="map" resultType="java.lang.Integer">
-        select SUM(Power)
-        from power_record
-        where isTemporary = 1 AND #{time} &lt; AddTime
-    </select>
+
 
     <update id="updateTemporaryPower" parameterType="map">
         UPDATE power_record
         SET
-
+        isValid = 0,
+        UpdateTime = NOW()
+        WHERE isTemporary = 1 AND #{time} &lt; AddTime;
     </update>
 
     <select id="selectUserValidPower" parameterType="map" resultMap="powerEntity">

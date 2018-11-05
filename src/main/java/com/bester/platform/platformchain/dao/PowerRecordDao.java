@@ -17,28 +17,12 @@ import java.util.List;
 public interface PowerRecordDao {
 
     /**
-     * 获得所有永生算力
-     *
-     * @return
-     */
-    int selectForeverPower();
-
-    /**
-     * 获得所有临时算力
-     *
-     * @param time
-     * @return
-     */
-    int selectTemporaryPower(@Param("time") Date time);
-
-
-    /**
      * 修改所有失效的临时算力状态
      *
      * @param time
      * @return
      */
-    int updateTemporaryPower(@Param("time") Date time);
+    void updateTemporaryPower(@Param("time") Date time);
 
     /**
      * 查询用户有效的算力记录

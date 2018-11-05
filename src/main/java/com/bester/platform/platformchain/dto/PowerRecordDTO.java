@@ -39,6 +39,11 @@ public class PowerRecordDTO implements Serializable {
     private Integer temporary;
 
     /**
+     * 是否生效
+     */
+    private Integer valid;
+
+    /**
      * 添加时间
      */
     private Date addTime;

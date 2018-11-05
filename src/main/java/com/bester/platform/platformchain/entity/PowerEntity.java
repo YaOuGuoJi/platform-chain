@@ -37,6 +37,11 @@ public class PowerEntity {
     private Integer temporary;
 
     /**
+     * 是否生效
+     */
+    private Integer valid;
+
+    /**
      * 新增时间
      */
     private Date addTime;

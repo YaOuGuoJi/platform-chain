@@ -15,20 +15,18 @@ public interface PowerRecordDao {
     /**
      * 查询用户有效的算力记录
      *
-     * @param userId 用户id
-     * @param time   有效临时算力的添加时间起始值
+     * @param userId
      * @return
      */
-    List<PowerEntity> selectUserValidPower(@Param("userId") int userId, @Param("time") Date time);
+    List<PowerEntity> selectUserValidPower(@Param("userId") int userId);
 
     /**
      * 查询用户已失效算力记录
      *
-     * @param userId 用户id
-     * @param time   失效临时算力的添加时间截止值
+     * @param userId
      * @return
      */
-    List<PowerEntity> selectUserExpiredPower(@Param("userId") int userId, @Param("time") Date time);
+    List<PowerEntity> selectUserExpiredPower(@Param("userId") int userId);
 
     /**
      * 获取用户当前生效的临时算力

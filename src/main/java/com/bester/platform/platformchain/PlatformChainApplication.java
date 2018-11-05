@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-@MapperScan("com.bester.platform.platformchain.dao")
 @EnableScheduling
+@MapperScan("com.bester.platform.platformchain.dao")
 public class PlatformChainApplication {
 
 	public static void main(String[] args) {

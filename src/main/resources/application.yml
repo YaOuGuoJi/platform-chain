@@ -8,8 +8,8 @@ spring:
     url: jdbc:mysql://39.106.38.77:3306/yaouguoji?useSSL=false
     username: yaouguoji
     password: liuwen
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
 mybatis:
   mapper-locations: classpath:sqlmap/*.xml
-  type-aliases-package: com.yaouguoji.platform.entity
+  type-aliases-package: com.bester.platform.platformchain.entity

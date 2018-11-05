@@ -39,7 +39,7 @@
         <include refid="allFields"/>
         FROM power_record
         WHERE UserId = #{userId}
-        AND (isTemorary = 0 OR AddTime &gt; #{time})
+        AND (isTemporary = 0 OR AddTime &gt; #{time})
     </select>
 
     <select id="selectUserExpiredPower" parameterType="map" resultMap="powerEntity">
@@ -67,6 +67,10 @@
         FROM power_record pr
         WHERE UserId = #{userId}
         AND pr.isTemporary = 0
+    </select>
+
+    <select id="userIdList" resultType="integer">
+        SELECT UserId FROM power_record
     </select>
 
 </mapper>

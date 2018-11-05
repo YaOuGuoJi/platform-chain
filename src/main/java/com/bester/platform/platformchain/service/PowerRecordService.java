@@ -17,7 +17,7 @@ public interface PowerRecordService {
      * @param pageNum
      * @return
      */
-    PageInfo<PowerRecordDTO> pageFindUserValidPower(int userId, int pageSize, int pageNum);
+    PageInfo<PowerRecordDTO> pageFindUserValidPower(int userId, int pageNum, int pageSize);
 
 
     /**
@@ -28,6 +28,6 @@ public interface PowerRecordService {
      * @param pageNum
      * @return
      */
-    PageInfo<PowerRecordDTO> pageFindUserExpiredPower(int userId, int pageSize, int pageNum);
+    PageInfo<PowerRecordDTO> pageFindUserExpiredPower(int userId, int pageNum, int pageSize);
 
 }

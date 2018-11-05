@@ -3,6 +3,8 @@ package com.bester.platform.platformchain.dao;
 import com.bester.platform.platformchain.entity.PowerEntity;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
+
 import java.util.List;
 
 /**
@@ -10,6 +12,14 @@ import java.util.List;
  * @date 2018/11/2
  */
 public interface PowerRecordDao {
+
+    /**
+     * 修改所有失效的临时算力状态
+     *
+     * @param time
+     * @return
+     */
+    void updateTemporaryPower(@Param("time") Date time);
 
     /**
      * 查询用户算力记录

@@ -11,7 +11,21 @@ import java.util.List;
  * @date 2018/11/2
  */
 public interface OreRecordDao {
-    // 在这里新增接口
+
+    /**
+     * 查询所有用户的最新领取记录
+     *
+     * @return
+     */
+    List<OreRecordEntity> selectMaxUpdateTime();
+
+    /**
+     * 修改所有过期矿石状态
+     *
+     * @param userId 用户Id
+     * @return
+     */
+    int updateOverduePower(@Param("userId")Integer userId);
 
     /**
      * 写入用户间隔内生成的矿石

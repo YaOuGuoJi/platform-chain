@@ -23,6 +23,15 @@
         UpdateTime
     </sql>
 
+
+    <update id="updateTemporaryPower" parameterType="map">
+        UPDATE power_record
+        SET
+        isValid = 0,
+        UpdateTime = NOW()
+        WHERE isTemporary = 1 AND #{time} &lt; AddTime;
+    </update>
+
     <select id="selectUserValidPower" parameterType="map" resultMap="powerEntity">
         SELECT
         <include refid="allFields"/>

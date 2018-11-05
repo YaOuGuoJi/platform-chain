@@ -21,6 +21,25 @@
         UpdateTime
     </sql>
 
+    <select id="selectMaxUpdateTime" resultMap="oreRecordEntity">
+        SELECT
+        <include refid="allFields"/>
+        FROM ore_record o,
+        (SELECT UserId, MAX(UpdateTime) maxTime
+        FROM ore_record
+        GROUP BY UserId) m
+        WHERE o.UserId = m.UserId AND o.UpdateTime = m.maxTime
+    </select>
+
+    <update id="updateOverduePower" parameterType="map">
+        UPDATE ore_record
+        SET
+        status = 0,
+        UpdateTime = NOW()
+        WHERE status = 2 AND UserId = #{userId}
+    </update>
+
+
     <insert id="insertUserOreByInterval">
         INSERT INTO
         ore_record (UserId, Source, Ore, AddTime, UpdateTime, status)

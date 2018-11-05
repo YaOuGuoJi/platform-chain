@@ -29,24 +29,25 @@ public interface PowerRecordDao {
     List<PowerEntity> selectUserExpiredPower(@Param("userId") int userId);
 
     /**
-     * 获取用户当前生效的临时算力
-     *
-     * @param userId         用户ID
-     * @param expirationDate 过期日期
-     * @return
-     */
-    Integer getUserValidTemporaryPower(@Param("userId") Integer userId, @Param("expirationDate") Date expirationDate);
-
-    /**
-     * 获取用户当前的永久算力
+     * 查找用户有效算力
      *
      * @param userId 用户ID
+     * @param valid  是否有效
      * @return
      */
-    Integer getUserForeverPower(@Param("userId") Integer userId);
+    Integer findValidPower(@Param("userId") Integer userId, @Param("valid") Integer valid);
+
+    /**
+     * 查找所有用户的有效算力
+     *
+     * @param valid 是否有效
+     * @return
+     */
+    Integer findAllUserValidPower(@Param("valid") Integer valid);
 
     /**
      * 查询所有的用户ID
+     *
      * @return
      */
     List<Integer> userIdList();

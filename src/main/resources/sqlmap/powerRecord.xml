@@ -37,23 +37,19 @@
         WHERE UserId = #{userId} AND isValid = 0
     </select>
 
-    <select id="getUserValidTemporaryPower" resultType="int">
-    <![CDATA[
+    <select id="findValidPower" resultType="integer">
         SELECT
         SUM(pr.Power)
         FROM power_record pr
-        WHERE UserId = #{userId}
-        AND pr.isTemporary = 1
-        AND pr.AddTime <= #{expirationDate}
-    ]]>
+        WHERE pr.UserId = #{userId}
+        AND pr.isValid = #{valid}
     </select>
 
-    <select id="getUserForeverPower" resultType="int">
+    <select id="findAllUserValidPower" resultType="integer">
         SELECT
         SUM(pr.Power)
         FROM power_record pr
-        WHERE UserId = #{userId}
-        AND pr.isTemporary = 0
+        WHERE pr.isValid = #{valid}
     </select>
 
     <select id="userIdList" resultType="integer">

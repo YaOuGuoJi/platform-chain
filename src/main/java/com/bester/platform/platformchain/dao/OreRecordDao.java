@@ -12,13 +12,13 @@ public interface OreRecordDao {
 
 
     /**
-     * 写入用户每小时生成的矿石
+     * 写入用户间隔内生成的矿石
      * @param userId 用户ID
      * @param source 矿石来源
      * @param ore 矿值
      * @param status 矿石状态
      */
-    void insertUserOreByHour(@Param("userId") Integer userId,
+    void insertUserOreByInterval(@Param("userId") Integer userId,
                              @Param("source") String source,
                              @Param("ore")BigDecimal ore,
                              @Param("status") Integer status);

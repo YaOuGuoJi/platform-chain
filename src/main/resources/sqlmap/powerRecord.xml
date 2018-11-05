@@ -56,4 +56,8 @@
         AND pr.isTemporary = 0
     </select>
 
+    <select id="userIdList" resultType="integer">
+        SELECT UserId FROM power_record
+    </select>
+
 </mapper>

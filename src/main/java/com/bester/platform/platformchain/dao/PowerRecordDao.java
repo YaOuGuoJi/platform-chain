@@ -51,4 +51,10 @@ public interface PowerRecordDao {
      */
     Integer getUserForeverPower(@Param("userId") Integer userId);
 
+    /**
+     * 查询所有的用户ID
+     * @return
+     */
+    List<Integer> userIdList();
+
 }

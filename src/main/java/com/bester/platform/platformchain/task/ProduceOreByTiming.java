@@ -30,9 +30,6 @@ public class ProduceOreByTiming {
     private PowerRecordDao powerRecordDao;
 
     @Resource
-    private UserInfoDao userInfoDao;
-
-    @Resource
     private OreRecordDao oreRecordDao;
 
     @Scheduled(cron = BlockChainParameters.GROWING_INTERVAL)
@@ -40,7 +37,7 @@ public class ProduceOreByTiming {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String today = simpleDateFormat.format(new Date());
         BigDecimal totalPower = new BigDecimal(totalPowerDao.getTotalPower(today));
-        List<Integer> userIdList = userInfoDao.userIdList();
+        List<Integer> userIdList = powerRecordDao.userIdList();
         userIdList.forEach(userId -> {
             Integer validTemporaryPower = powerRecordDao.getUserValidTemporaryPower(userId, TemporaryPowerUtil.expiredPowerTime());
             Integer userForeverPower = powerRecordDao.getUserForeverPower(userId);

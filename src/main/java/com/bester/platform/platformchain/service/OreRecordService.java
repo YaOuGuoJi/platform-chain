@@ -26,10 +26,10 @@ public interface OreRecordService {
     OreRecordDTO showOreById(Integer id);
 
     /**
-     * 根据矿的id把状态为2的矿修改为1（收矿）
-     *
+     * 根据矿的id把状态为2的矿修改为1(收矿)
      * @param id
+     * @param userId
      * @return
      */
-    Integer receiveOre(Integer id);
+    Integer receiveOre(Integer id,Integer userId);
 }

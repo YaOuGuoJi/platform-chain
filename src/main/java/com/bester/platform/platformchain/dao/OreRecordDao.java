@@ -30,11 +30,13 @@ public interface OreRecordDao {
 
     /**
      * 根据矿的id把状态为2的矿修改为1(收矿)
-     *
-     * @param oreRecordEntity
+     * @param id
+     * @param userId
      * @return
      */
-    Integer receiveOre(@Param("id") Integer id);
+
+    Integer receiveOre(@Param("id") Integer id,
+                       @Param("userId") Integer userId);
 
 
 }

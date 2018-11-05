@@ -45,7 +45,7 @@ public class OreRecordServiceImpl implements OreRecordService {
     }
 
     @Override
-    public Integer receiveOre(Integer id) {
-        return oreRecordDao.receiveOre(id);
+    public Integer receiveOre(Integer id,Integer userId) {
+        return oreRecordDao.receiveOre(id,userId);
     }
 }

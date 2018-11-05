@@ -24,7 +24,7 @@ public class ProduceOreByTiming {
     @Resource
     private OreRecordDao oreRecordDao;
 
-    @Scheduled(cron = BlockChainParameters.GROWING_INTERVAL)
+//    @Scheduled(cron = BlockChainParameters.GROWING_INTERVAL)
     public void produceOre(Integer userId) {
         Integer allValidPower = powerRecordDao.findAllUserValidPower(PowerStatus.VALID);
         BigDecimal totalPower = new BigDecimal(allValidPower == null ? 1 : allValidPower);

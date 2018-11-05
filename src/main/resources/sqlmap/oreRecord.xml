@@ -34,5 +34,17 @@
         WHERE ore.status = #{status}
         AND ore.UserId = #{userId}
     </select>
+    <select id="queryAllOreRecordByUserId" resultMap="oreRecordEntity">
+        SELECT
+        <include refid="allFields"/>
+        FROM ore_record
+        WHERE UserId = #{UserId}
+
+    </select>
+    <select id="queryOreNumbByUserId" resultType="decimal">
+      SELECT SUM(Ore)
+      FROM ore_record
+      WHERE UserId = #{UserId}
+    </select>
 
 </mapper>

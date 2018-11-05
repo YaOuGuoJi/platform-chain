@@ -1,15 +1,17 @@
 package com.bester.platform.platformchain.dao;
 
+import com.bester.platform.platformchain.entity.OreRecordEntity;
 import org.apache.ibatis.annotations.Param;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @author liuwen
  * @date 2018/11/2
  */
 public interface OreRecordDao {
-
+    // 在这里新增接口
 
     /**
      * 写入用户每小时生成的矿石
@@ -31,4 +33,17 @@ public interface OreRecordDao {
      */
     Integer findGrowingOreByEveryday(@Param("userId") Integer userId, @Param("status") Integer status);
 
+    /**
+     * 通过用户ID查询矿石来源记录
+     * @param UserId
+     * @return
+     */
+    List<OreRecordEntity> queryAllOreRecordByUserId(@Param("UserId") Integer UserId);
+
+    /**
+     *通过用户ID查询矿石总量
+     * @param UserId
+     * @return
+     */
+    BigDecimal queryOreNumbByUserId( @Param("UserId") Integer UserId);
 }

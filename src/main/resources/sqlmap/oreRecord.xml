@@ -21,7 +21,7 @@
         UpdateTime
     </sql>
 
-    <select id="selectAll" resultMap="oreRecordEntity">
+    <select id="selectMaxUpdateTime" resultMap="oreRecordEntity">
         SELECT
         <include refid="allFields"/>
         FROM ore_record o,
@@ -31,20 +31,12 @@
         WHERE o.UserId = m.UserId AND o.UpdateTime = m.maxTime
     </select>
 
-    <update id="updateOverdue" parameterType="map">
-        UPDATE ore_record
-        SET
-        status = 0,
-        UpdateTime = NOW()
-        WHERE status = 2 AND UserId = #{userId}
-    </update>
-
     <update id="updateOverduePower" parameterType="map">
         UPDATE ore_record
         SET
         status = 0,
         UpdateTime = NOW()
-        WHERE status = 2 AND AddTime &lt; #{time}
+        WHERE status = 2 AND UserId = #{userId}
     </update>
 
     <insert id="insertUserOreByHour">

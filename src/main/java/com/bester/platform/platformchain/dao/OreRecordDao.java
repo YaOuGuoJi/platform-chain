@@ -18,27 +18,19 @@ public interface OreRecordDao {
     // 在这里新增接口
 
     /**
-     * 查询所有矿石记录
+     * 查询所有用户的最新领取记录
      *
      * @return
      */
-    List<OreRecordEntity> selectAll();
+    List<OreRecordEntity> selectMaxUpdateTime();
 
     /**
      * 修改所有过期矿石状态
      *
+     * @param userId 用户Id
      * @return
      */
-    int updateOverdue(@Param("userId")Integer userId);
-
-    /**
-     * 修改过期的待领取矿石状态
-     *
-     * @param time
-     * @return
-     */
-    int updateOverduePower(@Param("time") Date time);
-
+    int updateOverduePower(@Param("userId")Integer userId);
 
     /**
      * 写入用户每小时生成的矿石

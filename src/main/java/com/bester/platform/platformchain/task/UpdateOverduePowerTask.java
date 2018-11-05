@@ -26,14 +26,14 @@ public class UpdateOverduePowerTask {
 
     @Scheduled(cron = BlockChainParameters.OVERDUE_INTERVAL)
     public void updateOverduePower(){
-        List<OreRecordEntity> oreRecordEntityList = oreRecordDao.selectAll();
+        List<OreRecordEntity> oreRecordEntityList = oreRecordDao.selectMaxUpdateTime();
             oreRecordEntityList.forEach(oreRecordEntity -> {
                 Date updateTime = oreRecordEntity.getUpdateTime();
                 Integer status = oreRecordEntity.getStatus();
                 Integer userId = oreRecordEntity.getUserId();
                 Date limitTime = new DateTime().minusDays(BlockChainParameters.DAILY_ORE_OVERDUE).toDate();
                 if (status.equals(1) || updateTime.before(limitTime)){
-                    oreRecordDao.updateOverdue(userId);
+                    oreRecordDao.updateOverduePower(userId);
                 }
             });
 

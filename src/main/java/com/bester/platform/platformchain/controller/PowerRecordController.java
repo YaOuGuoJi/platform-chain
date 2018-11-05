@@ -20,7 +20,7 @@ public class PowerRecordController {
     @Resource
     private PowerRecordService powerRecordService;
 
-    @GetMapping("/user/record/validPower")
+    @GetMapping("/user/power/valid")
     public CommonResult findPowerRecord(int userId, int pageNum, int pageSize) {
         if (userId <= 0 || pageNum <= 0 || pageSize <= 0) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
@@ -32,7 +32,7 @@ public class PowerRecordController {
         return CommonResult.success(powerRecordDTOPageInfo);
     }
 
-    @GetMapping("/user/record/expiredPower")
+    @GetMapping("/user/power/expired")
     public CommonResult findExpiredPower(int userId, int pageNum, int pageSize) {
         if (userId <= 0 || pageNum <= 0 || pageSize <= 0) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);

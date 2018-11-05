@@ -31,6 +31,15 @@ public interface PowerRecordDao {
      */
     int selectTemporaryPower(@Param("time") Date time);
 
+
+    /**
+     * 修改所有失效的临时算力状态
+     *
+     * @param time
+     * @return
+     */
+    int updateTemporaryPower(@Param("time") Date time);
+
     /**
      * 查询用户有效的算力记录
      *

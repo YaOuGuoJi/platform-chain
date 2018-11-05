@@ -34,6 +34,12 @@
         where isTemporary = 1 AND #{time} &lt; AddTime
     </select>
 
+    <update id="updateTemporaryPower" parameterType="map">
+        UPDATE power_record
+        SET
+
+    </update>
+
     <select id="selectUserValidPower" parameterType="map" resultMap="powerEntity">
         SELECT
         <include refid="allFields"/>

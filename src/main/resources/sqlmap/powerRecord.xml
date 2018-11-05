@@ -21,23 +21,52 @@
         UpdateTime
     </sql>
     
-    <select id="selectForeverPower" resultType="integer">
+    
+    <select id="selectForeverPower" resultType="java.lang.Integer">
         SELECT SUM(Power) 
         from power_record
         WHERE isTemporary = 0
     </select>
     
-    <select id="selectTemporaryPower" parameterType="map" resultType="integer">
+    <select id="selectTemporaryPower" parameterType="map" resultType="java.lang.Integer">
         select SUM(Power)
         from power_record
         where isTemporary = 1 AND #{time} &lt; AddTime
     </select>
 
-    <select id="selectPowerRecordByUserId" parameterType="map" resultMap="powerEntity">
+    <select id="selectUserValidPower" parameterType="map" resultMap="powerEntity">
         SELECT
         <include refid="allFields"/>
         FROM power_record
         WHERE UserId = #{userId}
+        AND (isTemorary = 0 OR AddTime &gt; #{time})
+    </select>
+
+    <select id="selectUserExpiredPower" parameterType="map" resultMap="powerEntity">
+        SELECT
+        <include refid="allFields"/>
+        FROM power_record
+        WHERE UserId = #{userId}
+        AND isTemporary = 1 AND AddTime &lt;= #{time}
+    </select>
+
+    <select id="getUserValidTemporaryPower" resultType="int">
+    <![CDATA[
+        SELECT
+        SUM(pr.Power)
+        FROM power_record pr
+        WHERE UserId = #{userId}
+        AND pr.isTemporary = 1
+        AND pr.AddTime <= #{expirationDate}
+    ]]>
+    </select>
+
+    <select id="getUserForeverPower" resultType="int">
+        SELECT
+        SUM(pr.Power)
+        FROM power_record pr
+        WHERE UserId = #{userId}
+        AND pr.isTemporary = 0
     </select>
 
 </mapper>

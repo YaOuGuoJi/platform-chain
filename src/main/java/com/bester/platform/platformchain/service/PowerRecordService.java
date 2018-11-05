@@ -10,12 +10,24 @@ import com.github.pagehelper.PageInfo;
 public interface PowerRecordService {
 
     /**
-     * 分页查询用户算力记录
+     * 分页查询用户有效算力记录
      *
      * @param userId
      * @param pageSize
      * @param pageNum
      * @return
      */
-    PageInfo<PowerRecordDTO> pageFindUserPowerRecord(int userId, int pageSize, int pageNum);
+    PageInfo<PowerRecordDTO> pageFindUserValidPower(int userId, int pageSize, int pageNum);
+
+
+    /**
+     * 分页查询用户失效算力记录
+     *
+     * @param userId
+     * @param pageSize
+     * @param pageNum
+     * @return
+     */
+    PageInfo<PowerRecordDTO> pageFindUserExpiredPower(int userId, int pageSize, int pageNum);
+
 }

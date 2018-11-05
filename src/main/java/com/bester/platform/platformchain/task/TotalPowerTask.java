@@ -24,7 +24,7 @@ public class TotalPowerTask {
     @Resource
     private TotalPowerDao totalPowerDao;
 
-    @Scheduled(cron = "0 30 23 * * ?")
+    @Scheduled(cron = BlockChainParameters.TOTAL_ORE_INTERVAL)
    public void tatalPower(){
         int foreverPower = powerRecordDao.selectForeverPower();
         int temporaryPower = powerRecordDao.selectTemporaryPower(new DateTime().minusDays(BlockChainParameters.EXPIRATION_DAYS).toDate());

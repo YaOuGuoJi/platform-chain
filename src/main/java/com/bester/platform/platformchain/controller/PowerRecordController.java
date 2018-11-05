@@ -12,18 +12,13 @@ import javax.annotation.Resource;
  * @date 2018/11/3
  */
 @RestController
-public class UserRecordController {
+public class PowerRecordController {
 
     @Resource
     private PowerRecordService powerRecordService;
 
     @GetMapping("/user/record/power")
     public CommonResult findPowerRecord(String token) {
-        return new CommonResult();
-    }
-
-    @GetMapping("/user/record/ore")
-    public CommonResult findOreRecord(String token) {
         return new CommonResult();
     }
 }

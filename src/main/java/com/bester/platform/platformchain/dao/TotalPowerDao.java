@@ -17,4 +17,13 @@ public interface TotalPowerDao {
      * @return
      */
     int insertTotalPower(@Param("day") String day, @Param("totalPower") int totalPower);
+
+    /**
+     * 获得指定日期的所有用户总算力
+     *
+     * @param day 日期(如2018-1-1)
+     * @return
+     */
+    Integer getTotalPower(@Param("day") String day);
+
 }

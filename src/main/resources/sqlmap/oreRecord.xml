@@ -20,12 +20,6 @@
         AddTime,
         UpdateTime
     </sql>
-    <select id="showOreByUserId" parameterType="java.lang.Integer" resultMap="oreRecordEntity">
-        select
-        <include refid="allFields"/>
-        from ore_record
-        where UserId=#{userId} and status=2
-    </select>
 
     <select id="showOreById" parameterType="java.lang.Integer" resultMap="oreRecordEntity">
         select
@@ -78,7 +72,7 @@
         SELECT
         <include refid="allFields"/>
         FROM ore_record
-        WHERE UserId = #{userId} AND status = #{sta}
+        WHERE UserId = #{userId} AND status = #{status}
 
     </select>
     <select id="queryOreNumbByUserId" resultType="decimal">

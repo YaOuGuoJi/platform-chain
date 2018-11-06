@@ -56,11 +56,10 @@ public class OreRecordServiceImpl implements OreRecordService {
 
     @Override
     public List<OreRecordDTO> showOreByUserId(Integer userId) {
-        List<OreRecordEntity> oreRecordEntities = oreRecordDao.showOreByUserId(userId);
+        List<OreRecordEntity> oreRecordEntities = oreRecordDao.queryAllOreRecordByUserId(userId, OreRecordStatus.PENDING);
         if (CollectionUtils.isEmpty(oreRecordEntities)) {
             return new ArrayList<>();
         }
-        List<OreRecordDTO> oreRecordDTOS = BeansListUtils.copyListProperties(oreRecordEntities, OreRecordDTO.class);
-        return oreRecordDTOS;
+        return BeansListUtils.copyListProperties(oreRecordEntities, OreRecordDTO.class);
     }
 }

@@ -56,14 +56,6 @@ public interface OreRecordDao {
     Integer findGrowingOreByInterval(@Param("userId") Integer userId, @Param("status") Integer status);
 
     /**
-     * 根据用户id查询用户可以领取而未领取的矿
-     *
-     * @param userId
-     * @return
-     */
-    List<OreRecordEntity> showOreByUserId(@Param("userId") Integer userId);
-
-    /**
      * 根据矿id查矿记录
      *
      * @param id
@@ -80,16 +72,15 @@ public interface OreRecordDao {
 
     Integer receiveOre(@Param("id") Integer id);
     /**
-     * 通过用户ID查询矿石来源记录
+     * 通过用户Id和状态查询矿石记录
      *
      * @param userId
      * @return
      */
-    List<OreRecordEntity> queryAllOreRecordByUserId(@Param("userId") Integer userId,
-                                                    @Param("sta") int sta);
+    List<OreRecordEntity> queryAllOreRecordByUserId(@Param("userId") Integer userId, @Param("status") int status);
 
     /**
-     * 通过用户ID查询矿石总量
+     * 通过用户ID查询已领取矿石总量
      *
      * @param userId
      * @return

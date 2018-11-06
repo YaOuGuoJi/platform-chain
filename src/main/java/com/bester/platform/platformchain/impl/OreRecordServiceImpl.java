@@ -28,15 +28,13 @@ public class OreRecordServiceImpl implements OreRecordService {
 
     @Override
     public BigDecimal queryOreNumbByUserId(Integer userId) {
-        BigDecimal oreNumb = oreRecordDao.queryOreNumbByUserId(userId);
-        return oreNumb;
+        return oreRecordDao.queryOreNumbByUserId(userId);
     }
 
     @Override
     public PageInfo<OreRecordDTO> queryOreRecordByUserId(Integer userId, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        int sta = OreRecordStatus.RECEIVED;
-        List<OreRecordEntity> oreRecordEntities = oreRecordDao.queryAllOreRecordByUserId(userId, sta);
+        List<OreRecordEntity> oreRecordEntities = oreRecordDao.queryAllOreRecordByUserId(userId, OreRecordStatus.RECEIVED);
         return BeansListUtils.copyListPageInfo(oreRecordEntities, OreRecordDTO.class);
     }
 

@@ -4,9 +4,6 @@ import com.bester.platform.platformchain.entity.OreRecordEntity;
 import org.apache.ibatis.annotations.Param;
 
 import java.math.BigDecimal;
-
-import org.apache.ibatis.annotations.Param;
-
 import java.util.Date;
 import java.util.List;
 

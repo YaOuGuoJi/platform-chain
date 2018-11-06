@@ -30,7 +30,7 @@ public class BlockChainParameters {
     /**
      * 设定产出矿石的时间间隔
      */
-    public static final String GROWING_INTERVAL = "0 0/1 * * * ?";
+    public static final String GROWING_INTERVAL = "0 0 0/3 * * ?";
 
     /**
      * 产出矿石的间隔毫秒数(当产出矿石的时间间隔更改时，也一并更改此数字)

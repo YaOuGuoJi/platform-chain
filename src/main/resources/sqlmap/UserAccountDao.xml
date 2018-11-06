@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bester.platform.platformchain.dao.UserAccountDao">
+
+    <resultMap id="userAccountEntity" type="com.bester.platform.platformchain.entity.UserAccountEntity">
+        <result column="UserId" property="userId"/>
+        <result column="Password" property="password"/>
+        <result column="Token" property="token"/>
+        <result column="AddTime" property="addTime"/>
+        <result column="UpdateTime" property="updateTime"/>
+    </resultMap>
+
+    <sql id="allFields">
+        UserId,
+        Password,
+        Token,
+        AddTime,
+        UpdateTime
+    </sql>
+
+    <select id="findUserAccountInfo" parameterType="map" resultMap="userAccountEntity">
+        SELECT
+        <include refid="allFields"/>
+        FROM user_account
+        WHERE UserId = #{userId}
+    </select>
+
+    <update id="rewriteUserToken" parameterType="map">
+        UPDATE user_account
+        SET Token = #{token}
+        WHERE UserId = #{userId}
+    </update>
+
+</mapper>

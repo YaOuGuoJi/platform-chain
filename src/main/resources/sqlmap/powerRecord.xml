@@ -62,7 +62,7 @@
     </select>
 
     <select id="userIdList" resultType="integer">
-        SELECT UserId FROM power_record
+        SELECT DISTINCT UserId FROM power_record
     </select>
 
 </mapper>

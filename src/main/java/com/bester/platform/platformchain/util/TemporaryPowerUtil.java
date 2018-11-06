@@ -22,6 +22,11 @@ public class TemporaryPowerUtil {
         return new DateTime(today).minusDays(BlockChainParameters.EXPIRATION_DAYS).toDate();
     }
 
+    /**
+     * 待领取矿石过期时间计算
+     *
+     * @return
+     */
     public static Date overdueOreTime() {
         return new DateTime().minusDays(BlockChainParameters.DAILY_ORE_OVERDUE).toDate();
     }

@@ -12,6 +12,7 @@ import java.util.List;
  * @date 2018/11/2
  */
 public interface OreRecordDao {
+    // 在这里新增接口
 
     /**
      * 查询所有用户的最新领取记录
@@ -34,13 +35,13 @@ public interface OreRecordDao {
      *
      * @param userId 用户ID
      * @param source 矿石来源
-     * @param ore    矿值
+     * @param ore 矿值
      * @param status 矿石状态
      */
     void insertUserOreByInterval(@Param("userId") Integer userId,
-                                 @Param("source") String source,
-                                 @Param("ore") BigDecimal ore,
-                                 @Param("status") Integer status);
+                             @Param("source") String source,
+                             @Param("ore")BigDecimal ore,
+                             @Param("status") Integer status);
 
     /**
      * 查找用户生成的矿值的个数
@@ -50,14 +51,6 @@ public interface OreRecordDao {
      * @return
      */
     Integer findGrowingOreByInterval(@Param("userId") Integer userId, @Param("status") Integer status);
-
-    /**
-     * 根据用户id查询用户可以领取而未领取的矿
-     *
-     * @param userId
-     * @return
-     */
-    List<OreRecordEntity> showOreByUserId(@Param("userId") Integer userId);
 
     /**
      * 根据矿id查矿记录
@@ -75,6 +68,21 @@ public interface OreRecordDao {
      */
 
     Integer receiveOre(@Param("id") Integer id);
+    /**
+     * 通过用户Id和状态查询矿石记录
+     *
+     * @param userId
+     * @return
+     */
+    List<OreRecordEntity> queryAllOreRecordByUserId(@Param("userId") Integer userId, @Param("status") int status);
+
+    /**
+     * 通过用户ID查询已领取矿石总量
+     *
+     * @param userId
+     * @return
+     */
+    BigDecimal queryOreNumbByUserId(@Param("userId") Integer userId);
 
 
 }

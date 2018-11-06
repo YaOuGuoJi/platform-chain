@@ -39,24 +39,23 @@ public class ProduceOreByTiming {
         }
         userIdList.forEach(userId -> {
             Integer countOreByInterval = oreRecordDao.findGrowingOreByInterval(userId, OreRecordStatus.PENDING);
-            if (countOreByInterval == null) {
+            if (countOreByInterval < 0) {
                 return;
             }
             if (countOreByInterval == 0) {
                 Date userLastLoginTime = userLoginDao.findUserLastLoginTime(userId);
-                if (userLastLoginTime.getTime() < BlockChainParameters.INTERVAL) {
-                    produceOre(userId);
-                } else {
+                if (userLastLoginTime == null) {
                     return;
                 }
-            }
-            if (countOreByInterval > 0 && countOreByInterval < BlockChainParameters.MAX_ORE_NUMBER) {
+                Date now = new Date();
+                Long timeDiff = now.getTime() - userLastLoginTime.getTime();
+                if (timeDiff > 0 && timeDiff < BlockChainParameters.INTERVAL) {
+                    produceOre(userId);
+                }
+            } else if (countOreByInterval < BlockChainParameters.MAX_ORE_NUMBER) {
                 produceOre(userId);
-            } else {
-                return;
             }
         });
-
     }
 
     private void produceOre(Integer userId) {

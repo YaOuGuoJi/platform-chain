@@ -12,9 +12,18 @@ public interface UserLoginDao {
 
     /**
      * 查找用户上次登录时间
+     *
      * @param userId 用户ID
      * @return
      */
     Date findUserLastLoginTime(@Param("userId") Integer userId);
+
+    /**
+     * 新增一条用户登录记录
+     *
+     * @param userId
+     * @return
+     */
+    int insertUserLoginRecord(@Param("userId") Integer userId);
 
 }

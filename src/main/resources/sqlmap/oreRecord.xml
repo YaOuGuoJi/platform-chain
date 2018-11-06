@@ -20,25 +20,46 @@
         AddTime,
         UpdateTime
     </sql>
-
-    <select id="selectMaxUpdateTime" resultMap="oreRecordEntity">
-        SELECT
+    <select id="showOreByUserId" parameterType="java.lang.Integer" resultMap="oreRecordEntity">
+        select
         <include refid="allFields"/>
-        FROM ore_record o,
-        (SELECT UserId, MAX(UpdateTime) maxTime
-        FROM ore_record
-        GROUP BY UserId) m
-        WHERE o.UserId = m.UserId AND o.UpdateTime = m.maxTime
+        from ore_record
+        where UserId=#{userId} and status=2
     </select>
 
-    <update id="updateOverduePower" parameterType="map">
+    <select id="showOreById" parameterType="java.lang.Integer" resultMap="oreRecordEntity">
+        select
+        <include refid="allFields"/>
+        from ore_record
+        where id=#{id}
+    </select>
+
+    <update id="receiveOre" parameterType="java.lang.Integer">
+          update ore_record
+          set status=1,UpdateTime=now()
+          where id=#{id}
+    </update>
+
+    <select id="selectMaxUpdateTime" parameterType="map" resultType="java.lang.Integer">
+        SELECT
+        m.UserId
+        FROM
+        (SELECT UserId, MAX(UpdateTime) maxTime
+        FROM ore_record WHERE status = 1
+        GROUP BY UserId) m
+        WHERE m.maxTime &lt; #{time}
+    </select>
+
+    <update id="updateOverduePower" parameterType="java.util.List">
         UPDATE ore_record
         SET
         status = 0,
         UpdateTime = NOW()
-        WHERE status = 2 AND UserId = #{userId}
+        WHERE status = 2 AND UserId IN
+        <foreach collection="userIdList" index="index" item="userId" open="(" close=")" separator=",">
+            #{userId}
+        </foreach>
     </update>
-
 
     <insert id="insertUserOreByInterval">
         INSERT INTO

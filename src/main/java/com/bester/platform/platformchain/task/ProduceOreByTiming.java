@@ -51,13 +51,9 @@ public class ProduceOreByTiming {
                 Long timeDiff = now.getTime() - userLastLoginTime.getTime();
                 if (timeDiff > 0 && timeDiff < BlockChainParameters.INTERVAL) {
                     produceOre(userId);
-                } else {
-                    return;
                 }
             } else if (countOreByInterval > 0 && countOreByInterval < BlockChainParameters.MAX_ORE_NUMBER) {
                 produceOre(userId);
-            } else {
-                return;
             }
         });
 

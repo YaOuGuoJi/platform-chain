@@ -1,5 +1,6 @@
 package com.bester.platform.platformchain.impl;
 
+import com.bester.platform.platformchain.constant.OreRecordStatus;
 import com.bester.platform.platformchain.dao.OreRecordDao;
 import com.bester.platform.platformchain.dto.OreRecordDTO;
 import com.bester.platform.platformchain.entity.OreRecordEntity;
@@ -31,8 +32,8 @@ public class OreRecordServiceImpl implements OreRecordService {
     @Override
     public PageInfo<OreRecordDTO> queryOreRecordByUserId(Integer userId, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        List<OreRecordEntity> oreRecordEntities = oreRecordDao.queryAllOreRecordByUserId(userId);
-
+        int sta = OreRecordStatus.RECEIVED;
+        List<OreRecordEntity> oreRecordEntities = oreRecordDao.queryAllOreRecordByUserId(userId, sta);
         return BeansListUtils.copyListPageInfo(oreRecordEntities, OreRecordDTO.class);
     }
 }

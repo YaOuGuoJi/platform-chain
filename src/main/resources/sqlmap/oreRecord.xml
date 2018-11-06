@@ -57,13 +57,13 @@
         SELECT
         <include refid="allFields"/>
         FROM ore_record
-        WHERE UserId = #{userId}
+        WHERE UserId = #{userId} AND status = #{sta}
 
     </select>
     <select id="queryOreNumbByUserId" resultType="decimal">
       SELECT SUM(Ore)
       FROM ore_record
-      WHERE UserId = #{userId}
+      WHERE UserId = #{userId} AND status = 1
     </select>
 
 </mapper>

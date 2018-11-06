@@ -40,7 +40,8 @@ public interface OreRecordDao {
      * @param userId
      * @return
      */
-    List<OreRecordEntity> queryAllOreRecordByUserId(@Param("userId") Integer userId);
+    List<OreRecordEntity> queryAllOreRecordByUserId(@Param("userId") Integer userId,
+                                                    @Param("sta") int sta);
 
     /**
      * 通过用户ID查询矿石总量

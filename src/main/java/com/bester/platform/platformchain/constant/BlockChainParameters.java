@@ -33,6 +33,11 @@ public class BlockChainParameters {
     public static final String GROWING_INTERVAL = "0 0 0/3 * * ?";
 
     /**
+     * 产出矿石的间隔毫秒数(当产出矿石的时间间隔更改时，也一并更改此数字)
+     */
+    public static final Integer INTERVAL = 1000*60*60*3;
+
+    /**
      * 待采矿石的过期间隔
      */
     public static final String OVERDUE_INTERVAL = "0 0 0 * * ?";

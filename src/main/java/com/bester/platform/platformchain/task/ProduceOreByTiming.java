@@ -6,11 +6,15 @@ import com.bester.platform.platformchain.constant.OreRecordStatus;
 import com.bester.platform.platformchain.constant.PowerStatus;
 import com.bester.platform.platformchain.dao.OreRecordDao;
 import com.bester.platform.platformchain.dao.PowerRecordDao;
+import com.bester.platform.platformchain.dao.UserLoginDao;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author zhangqiang
@@ -24,8 +28,38 @@ public class ProduceOreByTiming {
     @Resource
     private OreRecordDao oreRecordDao;
 
-//    @Scheduled(cron = BlockChainParameters.GROWING_INTERVAL)
-    public void produceOre(Integer userId) {
+    @Resource
+    private UserLoginDao userLoginDao;
+
+    @Scheduled(cron = BlockChainParameters.GROWING_INTERVAL)
+    public void judgingProductionConditions() {
+        List<Integer> userIdList = powerRecordDao.userIdList();
+        if (CollectionUtils.isEmpty(userIdList)) {
+            return;
+        }
+        userIdList.forEach(userId -> {
+            Integer countOreByInterval = oreRecordDao.findGrowingOreByInterval(userId, OreRecordStatus.PENDING);
+            if (countOreByInterval == null) {
+                return;
+            }
+            if (countOreByInterval == 0) {
+                Date userLastLoginTime = userLoginDao.findUserLastLoginTime(userId);
+                if (userLastLoginTime.getTime() < BlockChainParameters.INTERVAL) {
+                    produceOre(userId);
+                } else {
+                    return;
+                }
+            }
+            if (countOreByInterval > 0 && countOreByInterval < BlockChainParameters.MAX_ORE_NUMBER) {
+                produceOre(userId);
+            } else {
+                return;
+            }
+        });
+
+    }
+
+    private void produceOre(Integer userId) {
         Integer allValidPower = powerRecordDao.findAllUserValidPower(PowerStatus.VALID);
         BigDecimal totalPower = new BigDecimal(allValidPower == null ? 1 : allValidPower);
         Integer validPower = powerRecordDao.findValidPower(userId, PowerStatus.VALID);

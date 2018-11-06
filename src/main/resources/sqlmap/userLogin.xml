@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bester.platform.platformchain.dao.UserLoginDao">
+
+    <resultMap id="userLoginEntity" type="com.bester.platform.platformchain.entity.UserLoginEntity">
+        <result column="id" property="id"/>
+        <result column="UserId" property="userId"/>
+        <result column="LoginTime" property="loginTime"/>
+    </resultMap>
+
+
+    <select id="findUserLastLoginTime" resultMap="userLoginEntity">
+        SELECT
+        ul.LoginTime
+        FROM user_login ul
+        WHERE ul.UserId = #{userId}
+        ORDER BY ul.LoginTime DESC
+        LIMIT 1
+    </select>
+
+
+
+</mapper>

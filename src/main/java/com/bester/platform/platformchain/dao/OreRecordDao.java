@@ -47,13 +47,13 @@ public interface OreRecordDao {
                              @Param("status") Integer status);
 
     /**
-     * 查找用户当天生成的矿值的个数
+     * 查找用户生成的矿值的个数
      *
      * @param status 矿石状态
      * @param userId 用户ID
      * @return
      */
-    Integer findGrowingOreByEveryday(@Param("userId") Integer userId, @Param("status") Integer status);
+    Integer findGrowingOreByInterval(@Param("userId") Integer userId, @Param("status") Integer status);
 
     /**
      * 根据用户id查询用户可以领取而未领取的矿

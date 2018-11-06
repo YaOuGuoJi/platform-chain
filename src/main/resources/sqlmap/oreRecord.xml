@@ -34,10 +34,10 @@
         where id=#{id}
     </select>
 
-    <update id="receiveOre" parameterType="map">
+    <update id="receiveOre" parameterType="java.lang.Integer">
           update ore_record
           set status=1,UpdateTime=now()
-          where id=#{id} and UserId=#{userId} and status=2
+          where id=#{id}
     </update>
 
     <select id="selectMaxUpdateTime" resultMap="oreRecordEntity">

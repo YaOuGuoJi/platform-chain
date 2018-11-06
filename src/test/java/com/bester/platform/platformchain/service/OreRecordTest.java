@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -16,19 +15,22 @@ import java.util.List;
 public class OreRecordTest {
     @Resource
     private OreRecordService oreRecordService;
+
     @Test
     public void showOreByUserIdTest() {
         List<OreRecordDTO> oreRecords = oreRecordService.showOreByUserId(100001);
-        Assert.assertEquals(oreRecords.size(),0);
+        Assert.assertEquals(oreRecords.size(), 0);
     }
+
     @Test
-    public void showOreByIdTest(){
+    public void showOreByIdTest() {
         OreRecordDTO oreRecordDTO = oreRecordService.showOreById(1);
         Assert.assertNotNull(oreRecordDTO);
     }
+
     @Test
-    public void receiveOreTest(){
-        Integer integer = oreRecordService.receiveOre(1,100001);
-        Assert.assertEquals(integer,new Integer(0));
+    public void receiveOreTest() {
+        Integer integer = oreRecordService.receiveOre(1);
+        Assert.assertEquals(integer, new Integer(0));
     }
 }

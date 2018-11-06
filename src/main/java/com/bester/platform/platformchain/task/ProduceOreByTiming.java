@@ -44,13 +44,17 @@ public class ProduceOreByTiming {
             }
             if (countOreByInterval == 0) {
                 Date userLastLoginTime = userLoginDao.findUserLastLoginTime(userId);
-                if (userLastLoginTime.getTime() < BlockChainParameters.INTERVAL) {
+                if (userLastLoginTime == null) {
+                    return;
+                }
+                Date now = new Date();
+                Long timeDiff = now.getTime() - userLastLoginTime.getTime();
+                if (timeDiff > 0 && timeDiff < BlockChainParameters.INTERVAL) {
                     produceOre(userId);
                 } else {
                     return;
                 }
-            }
-            if (countOreByInterval > 0 && countOreByInterval < BlockChainParameters.MAX_ORE_NUMBER) {
+            } else if (countOreByInterval > 0 && countOreByInterval < BlockChainParameters.MAX_ORE_NUMBER) {
                 produceOre(userId);
             } else {
                 return;

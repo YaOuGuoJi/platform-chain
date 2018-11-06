@@ -9,7 +9,7 @@
     </resultMap>
 
 
-    <select id="findUserLastLoginTime" resultMap="userLoginEntity">
+    <select id="findUserLastLoginTime" resultType="date">
         SELECT
         ul.LoginTime
         FROM user_login ul

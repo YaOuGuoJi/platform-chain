@@ -4,10 +4,6 @@ import com.bester.platform.platformchain.entity.OreRecordEntity;
 import org.apache.ibatis.annotations.Param;
 
 import java.math.BigDecimal;
-
-import org.apache.ibatis.annotations.Param;
-
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,11 +41,11 @@ public interface OreRecordDao {
                              @Param("status") Integer status);
 
     /**
-     * 查找用户当天生成的矿值的个数
+     * 查找用户生成的矿值的个数
      * @param status 矿石状态
      * @param userId 用户ID
      * @return
      */
-    Integer findGrowingOreByEveryday(@Param("userId") Integer userId, @Param("status") Integer status);
+    Integer findGrowingOreByInterval(@Param("userId") Integer userId, @Param("status") Integer status);
 
 }

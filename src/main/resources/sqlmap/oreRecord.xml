@@ -46,7 +46,7 @@
         VALUES (#{userId}, #{source}, #{ore}, NOW(), NOW(), #{status})
     </insert>
 
-    <select id="findGrowingOreByEveryday" resultType="java.lang.Integer">
+    <select id="findGrowingOreByInterval" resultType="java.lang.Integer">
         SELECT
         COUNT(ore.id)
         FROM ore_record ore

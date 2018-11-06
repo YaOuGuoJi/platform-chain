@@ -21,4 +21,8 @@ public class TemporaryPowerUtil {
         String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         return new DateTime(today).minusDays(BlockChainParameters.EXPIRATION_DAYS).toDate();
     }
+
+    public static Date overdueOreTime() {
+        return new DateTime().minusDays(BlockChainParameters.DAILY_ORE_OVERDUE).toDate();
+    }
 }

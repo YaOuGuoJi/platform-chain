@@ -21,22 +21,25 @@
         UpdateTime
     </sql>
 
-    <select id="selectMaxUpdateTime" resultMap="oreRecordEntity">
+    <select id="selectMaxUpdateTime" parameterType="map" resultType="java.lang.Integer">
         SELECT
-        <include refid="allFields"/>
-        FROM ore_record o,
+        m.UserId
+        FROM
         (SELECT UserId, MAX(UpdateTime) maxTime
-        FROM ore_record
+        FROM ore_record WHERE status = 1
         GROUP BY UserId) m
-        WHERE o.UserId = m.UserId AND o.UpdateTime = m.maxTime
+        WHERE m.maxTime &lt; #{time}
     </select>
 
-    <update id="updateOverduePower" parameterType="map">
+    <update id="updateOverduePower" parameterType="java.util.List">
         UPDATE ore_record
         SET
         status = 0,
         UpdateTime = NOW()
-        WHERE status = 2 AND UserId = #{userId}
+        WHERE status = 2 AND UserId IN
+        <foreach collection="userIdList" index="index" item="userId" open="(" close=")" separator=",">
+            #{userId}
+        </foreach>
     </update>
 
 

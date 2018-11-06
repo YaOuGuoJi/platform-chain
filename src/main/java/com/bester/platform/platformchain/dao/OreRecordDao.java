@@ -1,12 +1,8 @@
 package com.bester.platform.platformchain.dao;
 
-import com.bester.platform.platformchain.entity.OreRecordEntity;
 import org.apache.ibatis.annotations.Param;
 
 import java.math.BigDecimal;
-
-import org.apache.ibatis.annotations.Param;
-
 import java.util.Date;
 import java.util.List;
 
@@ -20,17 +16,18 @@ public interface OreRecordDao {
     /**
      * 查询所有用户的最新领取记录
      *
+     * @param time
      * @return
      */
-    List<OreRecordEntity> selectMaxUpdateTime();
+    List<Integer> selectMaxUpdateTime(@Param("time") Date time);
 
     /**
      * 修改所有过期矿石状态
      *
-     * @param userId 用户Id
+     * @param userIdList 用户IdList
      * @return
      */
-    int updateOverduePower(@Param("userId")Integer userId);
+    int updateOverduePower(@Param("userIdList")List<Integer> userIdList);
 
     /**
      * 写入用户间隔内生成的矿石

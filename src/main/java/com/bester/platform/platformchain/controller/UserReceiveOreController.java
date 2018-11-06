@@ -42,7 +42,7 @@ public class UserReceiveOreController {
         }
         Integer sta = oreRecordService.receiveOre(oreId);
         if (sta == 0) {
-            return CommonResult.fail(403, "操作失败");
+            return CommonResult.fail(500, "操作失败");
         }
         return CommonResult.success();
     }

@@ -39,7 +39,7 @@ public class ProduceOreByTiming {
         }
         userIdList.forEach(userId -> {
             Integer countOreByInterval = oreRecordDao.findGrowingOreByInterval(userId, OreRecordStatus.PENDING);
-            if (countOreByInterval == null) {
+            if (countOreByInterval < 0) {
                 return;
             }
             if (countOreByInterval == 0) {
@@ -52,11 +52,10 @@ public class ProduceOreByTiming {
                 if (timeDiff > 0 && timeDiff < BlockChainParameters.INTERVAL) {
                     produceOre(userId);
                 }
-            } else if (countOreByInterval > 0 && countOreByInterval < BlockChainParameters.MAX_ORE_NUMBER) {
+            } else if (countOreByInterval < BlockChainParameters.MAX_ORE_NUMBER) {
                 produceOre(userId);
             }
         });
-
     }
 
     private void produceOre(Integer userId) {

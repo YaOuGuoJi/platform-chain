@@ -40,7 +40,8 @@ public class BlockChainParameters {
     /**
      * 待采矿石的过期间隔
      */
-    public static final String OVERDUE_INTERVAL = "0 0 0 * * ?";
+//    public static final String OVERDUE_INTERVAL = "0 0 0 * * ?";
+    public static final String OVERDUE_INTERVAL = "0 * * * * ?";
 
     /**
      * 计算总原力的时间间隔

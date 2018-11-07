@@ -3,7 +3,6 @@ package com.bester.platform.platformchain.task;
 import com.bester.platform.platformchain.constant.BlockChainParameters;
 import com.bester.platform.platformchain.dao.OreRecordDao;
 import com.bester.platform.platformchain.util.TemporaryPowerUtil;
-import com.google.common.collect.Lists;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;

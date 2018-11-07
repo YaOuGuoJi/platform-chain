@@ -12,6 +12,11 @@ public enum  HttpStatus {
     OK(200,"成功"),
 
     /**
+     * 用户未登录
+     */
+    UNAUTHORIZED(401, "用户未登录"),
+
+    /**
      * 参数错误
      */
     PARAMETER_ERROR(403,"参数错误"),

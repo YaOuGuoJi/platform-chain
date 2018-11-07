@@ -16,13 +16,4 @@ public interface UserAccountDao {
      * @return
      */
     UserAccountEntity findUserAccountInfo(@Param("userId") int userId);
-
-    /**
-     * 重写用户token
-     *
-     * @param userId
-     * @param token
-     * @return
-     */
-    int rewriteUserToken(@Param("userId") int userId, @Param("token") String token);
 }

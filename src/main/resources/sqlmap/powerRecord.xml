@@ -29,7 +29,7 @@
         SET
         isValid = 0,
         UpdateTime = NOW()
-        WHERE isValid = 1 AND isTemporary = 1 AND #{time} &lt; AddTime;
+        WHERE isValid = 1 AND isTemporary = 1 AND AddTime &lt; #{time};
     </update>
 
     <select id="selectUserValidPower" parameterType="map" resultMap="powerEntity">

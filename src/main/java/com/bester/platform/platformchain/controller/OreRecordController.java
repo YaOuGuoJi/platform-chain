@@ -5,6 +5,7 @@ import com.bester.platform.platformchain.common.CommonResultBuilder;
 import com.bester.platform.platformchain.dto.OreRecordDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
 import com.bester.platform.platformchain.service.OreRecordService;
+import com.bester.platform.platformchain.util.UserInfoUtil;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,18 +21,18 @@ public class OreRecordController {
     /**
      * 矿石纪录查询
      *
-     * @param userId
      * @param pageNum
      * @param pageSize
      * @return
      */
     @GetMapping("/user/oreRecord")
-    public CommonResult queryAllOreReocrdByUserId(Integer userId, int pageNum, int pageSize) {
+    public CommonResult queryAllOreRecordByUserId(int pageNum, int pageSize) {
+        int userId = UserInfoUtil.getUserId();
         if (userId <= 0 || pageNum <= 0 || pageSize <= 0) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
         PageInfo<OreRecordDTO> oreRecordDTOPageInfo = oreRecordService.queryOreRecordByUserId(userId, pageNum, pageSize);
-        if (oreRecordDTOPageInfo == null || oreRecordDTOPageInfo.getTotal() == 0) {
+        if (oreRecordDTOPageInfo == null) {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
         return new CommonResultBuilder()
@@ -44,16 +45,16 @@ public class OreRecordController {
     /**
      * 矿量查询
      *
-     * @param userId
      * @return
      */
     @GetMapping("/user/oreNumber")
-    public CommonResult queryOreNumbByUserId(Integer userId) {
+    public CommonResult queryOreNumbByUserId() {
+        int userId = UserInfoUtil.getUserId();
         if (userId <= 0) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
         BigDecimal bigDecimal = oreRecordService.queryOreNumbByUserId(userId);
-        if (bigDecimal.compareTo(BigDecimal.ZERO) == 0){
+        if (bigDecimal == null || bigDecimal.compareTo(BigDecimal.ZERO) == 0){
             bigDecimal = new BigDecimal("0");
         }
         return new CommonResultBuilder()

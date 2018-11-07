@@ -22,11 +22,6 @@ public class UserAccountEntity {
     private String password;
 
     /**
-     * token
-     */
-    private String token;
-
-    /**
      * 添加时间
      */
     private Date addTime;

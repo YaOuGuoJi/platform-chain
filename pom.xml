@@ -104,7 +104,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
-        <finalName>platform-chain</finalName>
+        <finalName>BlockChain</finalName>
     </build>
 
 

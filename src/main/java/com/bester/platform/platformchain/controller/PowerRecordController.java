@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author liuwen
@@ -45,5 +47,16 @@ public class PowerRecordController {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
         return CommonResult.success(powerRecordDTOPageInfo);
+    }
+
+    @GetMapping("/user/power/isValid")
+    public CommonResult findValidPower() {
+        int userId = UserInfoUtil.getUserId();
+        Integer validPowerSum = powerRecordService.findValidPower(userId, 1);
+        Integer notValidPowerSum = powerRecordService.findValidPower(userId, 0);
+        Map<String, Integer> powerSum = new HashMap<>();
+        powerSum.put("validPowerSum", validPowerSum);
+        powerSum.put("notValidPowerSum", notValidPowerSum);
+        return CommonResult.success(powerSum);
     }
 }

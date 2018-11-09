@@ -30,4 +30,13 @@ public interface PowerRecordService {
      */
     PageInfo<PowerRecordDTO> pageFindUserExpiredPower(int userId, int pageNum, int pageSize);
 
+    /**
+     * 查询用户生效与未生效原力值
+     *
+     * @param userId
+     * @param valid
+     * @return
+     */
+    Integer findValidPower(int userId, int valid);
+
 }

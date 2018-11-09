@@ -38,4 +38,12 @@ public class PowerRecordServiceImpl implements PowerRecordService {
         List<PowerEntity> powerEntities = powerRecordDao.selectUserExpiredPower(userId);
         return BeansListUtils.copyListPageInfo(powerEntities, PowerRecordDTO.class);
     }
+
+    @Override
+    public Integer findValidPower(int userId, int valid) {
+        Assert.isTrue(userId > 0, "参数错误");
+        return powerRecordDao.findValidPower(userId,valid);
+    }
+
+
 }

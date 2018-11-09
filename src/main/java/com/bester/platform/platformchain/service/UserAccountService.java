@@ -1,5 +1,7 @@
 package com.bester.platform.platformchain.service;
 
+import com.bester.platform.platformchain.dto.UserAccountDTO;
+
 /**
  * @author liuwen
  * @date 2018/11/6
@@ -30,5 +32,22 @@ public interface UserAccountService {
      * @return
      */
     int addLoginRecord(int userId);
+
+    /**
+     * 查找用户名是否存在
+     *
+     * @param userName
+     * @return
+     */
+    UserAccountDTO findUserAccountInfoByUserName(String userName);
+
+    /**
+     * 添加用户
+     *
+     * @param userName
+     * @param password
+     * @return
+     */
+    int addUserAccountInfo(String userName, String password);
 
 }

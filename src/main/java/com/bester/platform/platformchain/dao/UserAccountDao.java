@@ -16,4 +16,21 @@ public interface UserAccountDao {
      * @return
      */
     UserAccountEntity findUserAccountInfo(@Param("userId") int userId);
+
+    /**
+     * 根据用户名查询用户信息
+     *
+     * @param userName
+     * @return
+     */
+    UserAccountEntity findUserAccountInfoByUserName(@Param("userName") String userName);
+
+    /**
+     * 添加用户
+     * @param userName
+     * @param password
+     * @return
+     */
+    int insertUserAccountInfo(@Param("userName") String  userName, @Param("password") String password);
+
 }

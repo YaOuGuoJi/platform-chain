@@ -2,6 +2,7 @@ package com.bester.platform.platformchain.controller;
 
 import com.bester.platform.platformchain.common.CommonResult;
 import com.bester.platform.platformchain.common.CommonResultBuilder;
+import com.bester.platform.platformchain.dto.UserAccountDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
 import com.bester.platform.platformchain.service.UserAccountService;
 import com.bester.platform.platformchain.util.TokenUtil;
@@ -72,6 +73,19 @@ public class LoginController {
         cookie.setPath("/");
         response.addCookie(cookie);
         return new CommonResultBuilder().code(200).message("退出成功").build();
+    }
+
+    @PostMapping("/user/register")
+    public CommonResult registered(String userName, String password) {
+        if (StringUtils.isBlank(userName) || StringUtils.isBlank(password)) {
+            return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
+        }
+        UserAccountDTO userAccountInfoByUserName = userAccountService.findUserAccountInfoByUserName(userName);
+        if (userAccountInfoByUserName != null) {
+            return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "用户名已存在");
+        }
+        userAccountService.addUserAccountInfo(userName, password);
+        return CommonResult.success("注册成功");
     }
 
 }

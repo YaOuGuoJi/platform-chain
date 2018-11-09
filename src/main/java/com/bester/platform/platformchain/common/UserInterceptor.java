@@ -5,7 +5,6 @@ import com.bester.platform.platformchain.enums.HttpStatus;
 import com.bester.platform.platformchain.service.UserAccountService;
 import com.bester.platform.platformchain.util.TokenUtil;
 import com.google.common.collect.Maps;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
@@ -16,7 +15,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

@@ -5,16 +5,20 @@ import com.bester.platform.platformchain.common.CommonResultBuilder;
 import com.bester.platform.platformchain.enums.HttpStatus;
 import com.bester.platform.platformchain.service.UserAccountService;
 import com.bester.platform.platformchain.util.TokenUtil;
+import com.bester.platform.platformchain.util.UserInfoUtil;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 /**
@@ -28,6 +32,17 @@ public class LoginController {
 
     @Resource
     private UserAccountService userAccountService;
+
+    @GetMapping("/user/isLogin")
+    public CommonResult isLogin(HttpServletRequest request) {
+        String token = TokenUtil.getToken(request);
+        try {
+            TokenUtil.verifyToken(token);
+        } catch (Exception e) {
+            return CommonResult.success(false);
+        }
+        return CommonResult.success(true);
+    }
 
     @PostMapping("/user/login")
     public CommonResult login(int userId, String password, HttpServletResponse response) {

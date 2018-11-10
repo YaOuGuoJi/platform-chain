@@ -44,27 +44,28 @@ public class LoginController {
     }
 
     @PostMapping("/user/login")
-    public CommonResult login(int userId, String password, HttpServletResponse response) {
-        if (userId <= 0 || StringUtils.isEmpty(password)) {
+    public CommonResult login(String userName, String password, HttpServletResponse response) {
+        if (StringUtils.isEmpty(userName) || StringUtils.isEmpty(password)) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
-        if (!userAccountService.checkUserIdExist(userId)) {
+        UserAccountDTO userAccountDTO = userAccountService.findUserAccountInfoByUserName(userName);
+        if (userAccountDTO == null) {
             return CommonResult.fail(403, "不存在该用户！");
         }
-        boolean match = userAccountService.checkUserPassword(userId, password);
+        boolean match = userAccountService.checkUserPassword(userName, password);
         if (!match) {
             return CommonResult.fail(403, "验证失败");
         }
         try {
             Map<String, String> data = Maps.newHashMap();
-            data.put("userId", String.valueOf(userId));
+            data.put("userName", userName);
             TokenUtil.updateToken2Cookie(response, data);
         } catch (Exception e) {
             LOGGER.error("token加密失败！", e);
             return CommonResult.fail(HttpStatus.ERROR);
         }
-        userAccountService.addLoginRecord(userId);
-        return new CommonResultBuilder().code(200).message("登录成功").data("userId", userId).build();
+        userAccountService.addLoginRecord(userAccountDTO.getUserId());
+        return new CommonResultBuilder().code(200).message("登录成功").data("userName", userName).build();
     }
 
     @PostMapping("/user/logout")

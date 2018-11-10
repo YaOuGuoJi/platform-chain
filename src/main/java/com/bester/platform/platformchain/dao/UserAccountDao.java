@@ -15,7 +15,7 @@ public interface UserAccountDao {
      * @param userId
      * @return
      */
-    UserAccountEntity findUserAccountInfo(@Param("userId") int userId);
+    UserAccountEntity findUserAccountInfoByUserId(@Param("userId") int userId);
 
     /**
      * 根据用户名查询用户信息

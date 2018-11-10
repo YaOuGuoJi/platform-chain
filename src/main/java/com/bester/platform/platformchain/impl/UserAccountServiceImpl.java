@@ -24,13 +24,16 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     @Override
     public boolean checkUserIdExist(int userId) {
-        UserAccountEntity userAccountInfo = userAccountDao.findUserAccountInfo(userId);
+        UserAccountEntity userAccountInfo = userAccountDao.findUserAccountInfoByUserId(userId);
         return userAccountInfo != null;
     }
 
     @Override
-    public boolean checkUserPassword(int userId, String password) {
-        UserAccountEntity userAccountInfo = userAccountDao.findUserAccountInfo(userId);
+    public boolean checkUserPassword(String userName, String password) {
+        UserAccountEntity userAccountInfo = userAccountDao.findUserAccountInfoByUserName(userName);
+        if (userAccountInfo == null) {
+            return false;
+        }
         return password.equals(userAccountInfo.getPassword());
     }
 

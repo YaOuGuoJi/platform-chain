@@ -18,7 +18,7 @@
         UpdateTime
     </sql>
 
-    <select id="findUserAccountInfo" parameterType="map" resultMap="userAccountEntity">
+    <select id="findUserAccountInfoByUserId" parameterType="map" resultMap="userAccountEntity">
         SELECT
         <include refid="allFields"/>
         FROM user_account

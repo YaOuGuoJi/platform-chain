@@ -59,6 +59,7 @@ public class LoginController {
         try {
             Map<String, String> data = Maps.newHashMap();
             data.put("userName", userName);
+            data.put("userId", String.valueOf(userAccountDTO.getUserId()));
             TokenUtil.updateToken2Cookie(response, data);
         } catch (Exception e) {
             LOGGER.error("token加密失败！", e);

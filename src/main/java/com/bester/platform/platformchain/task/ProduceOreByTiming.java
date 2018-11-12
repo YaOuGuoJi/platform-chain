@@ -77,7 +77,7 @@ public class ProduceOreByTiming {
      * @param userId
      */
     private void produceOre(Integer userId) {
-        Integer validPower = powerRecordDao.findValidPower(userId, PowerStatus.VALID);
+        int validPower = powerRecordDao.findValidPower(userId, PowerStatus.VALID);
         if (validPower <= 0) {
             return;
         }

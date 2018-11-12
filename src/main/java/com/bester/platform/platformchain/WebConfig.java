@@ -1,8 +1,8 @@
 package com.bester.platform.platformchain;
 
 import com.bester.platform.platformchain.common.UserInterceptor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -18,17 +18,22 @@ public class WebConfig implements WebMvcConfigurer {
     @Resource
     private UserInterceptor userInterceptor;
 
-    @Bean
-    public WebMvcConfigurer webMvcConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addInterceptors(InterceptorRegistry registry) {
-                registry.addInterceptor(userInterceptor)
-                        .excludePathPatterns("/user/isLogin")
-                        .excludePathPatterns("/user/login")
-                        .excludePathPatterns("/index")
-                        .excludePathPatterns("/user/register");
-            }
-        };
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(userInterceptor)
+                .excludePathPatterns("/user/isLogin")
+                .excludePathPatterns("/user/login")
+                .excludePathPatterns("/index")
+                .excludePathPatterns("/user/register");
     }
+
+    @Override
+    public void addCorsMappings(CorsRegistry corsRegistry) {
+        corsRegistry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedMethods("POST", "GET", "PUT", "DELETE", "OPTIONS")
+                .maxAge(3600)
+                .allowCredentials(true);
+    }
+
 }

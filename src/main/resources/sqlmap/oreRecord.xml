@@ -79,6 +79,7 @@
       SELECT SUM(Ore)
       FROM ore_record
       WHERE UserId = #{userId} AND status = 1
+      order by AddTime desc
     </select>
 
 </mapper>

@@ -64,5 +64,20 @@
     <select id="userIdList" resultType="integer">
         SELECT DISTINCT UserId FROM power_record
     </select>
+    
+    <insert id="insertPower" parameterType="map">
+        INSERT into
+        power_record
+        (UserId,Source,Power,AddTime,UpdateTime,isTemporary,isValid)
+        VALUES (
+        #{UserId},
+        #{Source},
+        #{Power},
+        NOW(),
+        NOW(),
+        #{isTemporary},
+        #{isValid}
+        )
+    </insert>
 
 </mapper>

@@ -61,4 +61,25 @@ public interface PowerRecordDao {
      */
     List<Integer> userIdList();
 
+    /**
+     * 添加算力
+     * 
+     * @param UserId
+     * @param Source
+     * @param Power
+     * @param AddTime
+     * @param UpdateTime
+     * @param isTemporary
+     * @param isValid
+     * @return
+     */
+    int insertPower(@Param("UserId") Integer UserId,
+                    @Param("Source") String Source,
+                    @Param("Power") Integer Power,
+                    @Param("AddTime") Date AddTime,
+                    @Param("UpdateTime") Date UpdateTime,
+                    @Param("isTemporary") Integer isTemporary,
+                    @Param("isValid") Integer isValid);
+        
+
 }

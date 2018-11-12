@@ -46,22 +46,22 @@
         WHERE UserId = #{userId} AND isValid = 0
     </select>
 
-    <select id="findValidPower" resultType="integer">
+    <select id="findValidPower" resultType="java.lang.Integer">
         SELECT
-        SUM(pr.Power)
+        IFNULL(SUM(pr.Power), 0)
         FROM power_record pr
         WHERE pr.UserId = #{userId}
         AND pr.isValid = #{valid}
     </select>
 
-    <select id="findAllUserValidPower" resultType="integer">
+    <select id="findAllUserValidPower" resultType="java.lang.Integer">
         SELECT
-        SUM(pr.Power)
+        IFNULL(SUM(pr.Power), 0)
         FROM power_record pr
         WHERE pr.isValid = #{valid}
     </select>
 
-    <select id="userIdList" resultType="integer">
+    <select id="userIdList" resultType="java.lang.Integer">
         SELECT DISTINCT UserId FROM power_record
     </select>
     

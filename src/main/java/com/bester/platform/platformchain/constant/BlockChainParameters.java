@@ -35,7 +35,7 @@ public class BlockChainParameters {
     /**
      * 产出矿石的间隔毫秒数(当产出矿石的时间间隔更改时，也一并更改此数字)
      */
-    public static final Integer INTERVAL = 1000*60*60*3;
+    public static final Integer INTERVAL = 1000 * 60 * 60 * 3;
 
     /**
      * 待采矿石的过期间隔
@@ -50,6 +50,11 @@ public class BlockChainParameters {
     /**
      * 最大间隔内生成的矿石个数（根据产出矿石的间隔时间计算)
      */
-    public static final Integer MAX_ORE_NUMBER = STOP_GROWING_HOUR/3;
+    public static final Integer MAX_ORE_NUMBER = STOP_GROWING_HOUR / 3;
+
+    /**
+     * 每天生产矿石的次数
+     */
+    public static final BigDecimal TIMES_BY_DAY = new BigDecimal(24 / 3);
 
 }

@@ -1,15 +1,18 @@
-package com.bester.platform.platformchain.entity;
+package com.bester.platform.platformchain.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @author liuwen
- * @date 2018/11/6
+ * @author zhangqiang
+ * @Date 2018/11/9
  */
 @Data
-public class UserAccountEntity {
+public class UserAccountDTO implements Serializable {
+
+    private static final long serialVersionUID = 8278062878449423764L;
 
     /**
      * 用户id
@@ -35,4 +38,5 @@ public class UserAccountEntity {
      * 更新时间
      */
     private Date updateTime;
+
 }

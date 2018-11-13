@@ -1,9 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bester.platform.platformchain.dao.UserInfoDao">
+    <resultMap id="userInfoEntity" type="com.bester.platform.platformchain.entity.UserInfoEntity">
+        <result column="UserId" property="userId"/>
+        <result column="UserName" property="userName"/>
+        <result column="Sex" property="sex" />
+        <result column="Birthday" property="birthday"/>
+        <result column="Phone" property="phone" />
+        <result column="Email" property="email" />
+        <result column="Address" property="address" />
+        <result column="Job" property="job" />
+        <result column="CarId" property="carId"/>
+        <result column="Vip" property="vip"/>
+        <result column="IdentityId" property="identityId" />
+        <result column="AddTime" property="addTime"/>
+        <result column="UpdateTime" property="updateTime"/>
+    </resultMap>
 
-    <select id="userIdList" resultType="java.lang.Integer">
-        SELECT UserId FROM user_info
+    <sql id="allFields">
+        UserId,
+        UserName,
+        Sex,
+        Birthday,
+        Phone,
+        Email,
+        Address,
+        Job,
+        CarId,
+        Vip,
+        IdentityId,
+        AddTime,
+        UpdateTime
+    </sql>
+
+    <select id="selectById" resultMap="userInfoEntity">
+        SELECT
+        <include refid="allFields" />
+        FROM user_info
+        WHERE UserId=#{userId}
     </select>
-    
+
 </mapper>

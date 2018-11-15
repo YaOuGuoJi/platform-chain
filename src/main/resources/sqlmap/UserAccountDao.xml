@@ -32,11 +32,11 @@
         WHERE UserName = #{userName}
     </select>
 
-    <insert id="insertUserAccountInfo" parameterType="string">
+    <insert id="insertUserAccountInfo" parameterType="string" useGeneratedKeys="true" keyProperty="userAccountEntity.userId">
         INSERT INTO user_account
         (UserName, Password, AddTime, UpdateTime)
         VALUES
-        (#{userName}, #{password}, NOW(), NOW())
+        (#{userAccountEntity.userName}, #{userAccountEntity.password}, NOW(), NOW())
     </insert>
 
 </mapper>

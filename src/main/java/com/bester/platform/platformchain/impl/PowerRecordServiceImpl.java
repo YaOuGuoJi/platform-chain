@@ -49,7 +49,6 @@ public class PowerRecordServiceImpl implements PowerRecordService {
 
     @Override
     public int addUserPower(int userId, String source, int power, int isTemporary) {
-        Assert.isTrue(userId > 0 && power > 0 && isTemporary > 0 && !StringUtils.isEmpty(source), "参数错误");
         PowerEntity powerEntity = new PowerEntity();
         powerEntity.setUserId(userId);
         powerEntity.setSource(source);

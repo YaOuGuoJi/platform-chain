@@ -43,6 +43,7 @@ public interface PowerRecordService {
      * 给用户添加算力
      *
      * @param userId 用户ID
+     * @param source 算力来源
      * @param power 算力值
      * @param isTemporary 是否为临时算力
      * @return

@@ -21,6 +21,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -84,7 +86,7 @@ public class LoginController {
     }
 
     @PostMapping("/user/register")
-    public CommonResult registered(String userName, String password) {
+    public CommonResult registered(String userName, String password, HttpServletResponse response) {
         if (StringUtils.isBlank(userName) || StringUtils.isBlank(password)) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
@@ -97,6 +99,14 @@ public class LoginController {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "注册失败");
         }
         powerRecordService.addUserPower(userId, PowerSource.REGISTER, PowerSource.REGISTER_POWER, PowerStatus.NO_TEMPORARY);
+        Map<String, String> data = Maps.newHashMap();
+        data.put("userId", userId + "");
+        try {
+            TokenUtil.updateToken2Cookie(response, data);
+        } catch (UnsupportedEncodingException e) {
+            LOGGER.error("token加密失败!");
+            return CommonResult.fail(HttpStatus.ERROR);
+        }
         return CommonResult.success("注册成功");
     }
 

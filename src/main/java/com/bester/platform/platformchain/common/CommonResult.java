@@ -41,7 +41,7 @@ public class CommonResult<Content> {
         CommonResult<Content> result = new CommonResult<>();
         result.setCode(HttpStatus.OK.value);
         result.setSuccess(true);
-        result.setMessage("");
+        result.setMessage("操作成功");
         return result;
     }
 

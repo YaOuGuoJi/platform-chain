@@ -50,5 +50,10 @@ public class PowerSource {
      */
     public static final String LIGNIN = "签到";
 
+    /**
+     * 签到获得算力值
+     */
+    public static final Integer LIGNIN_POWER = 20;
+
 
 }

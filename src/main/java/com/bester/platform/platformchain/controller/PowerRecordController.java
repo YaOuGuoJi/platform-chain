@@ -57,8 +57,8 @@ public class PowerRecordController {
     @GetMapping("/user/power/isValid")
     public CommonResult findValidPower() {
         int userId = UserInfoUtil.getUserId();
-        Integer validPowerSum = powerRecordService.findValidPower(userId, 1);
-        Integer notValidPowerSum = powerRecordService.findValidPower(userId, 0);
+        Integer validPowerSum = powerRecordService.findValidPower(userId, PowerStatus.VALID);
+        Integer notValidPowerSum = powerRecordService.findValidPower(userId, PowerStatus.INVALID);
         Map<String, Integer> powerSum = new HashMap<>();
         powerSum.put("validPowerSum", validPowerSum);
         powerSum.put("notValidPowerSum", notValidPowerSum);
@@ -69,11 +69,13 @@ public class PowerRecordController {
     public CommonResult judgeSignIn(){
         int userId = UserInfoUtil.getUserId();
         Date signInTime = powerRecordService.selectPowerBySource(userId);
+        System.out.print("signInTime"+signInTime);
         Map<String,Integer> signMap = new HashMap<>();
         if (signInTime == null){
             signMap.put("isSignIn",0);
+        }else {
+            signMap.put("isSignIn",1);
         }
-        signMap.put("isSignIn",1);
         return CommonResult.success(signMap);
     }
 
@@ -82,7 +84,7 @@ public class PowerRecordController {
         int userId = UserInfoUtil.getUserId();
         Date signInTime = powerRecordService.selectPowerBySource(userId);
         if (signInTime == null){
-            powerRecordService.addUserPower(userId, PowerSource.LIGNIN,20,1);
+            powerRecordService.addUserPower(userId, PowerSource.LIGNIN,PowerSource.LIGNIN_POWER,PowerStatus.TEMPORARY);
         }
         return CommonResult.success();
     }

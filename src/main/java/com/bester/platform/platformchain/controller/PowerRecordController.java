@@ -1,6 +1,7 @@
 package com.bester.platform.platformchain.controller;
 
 import com.bester.platform.platformchain.common.CommonResult;
+import com.bester.platform.platformchain.constant.PowerStatus;
 import com.bester.platform.platformchain.dto.PowerRecordDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
 import com.bester.platform.platformchain.service.PowerRecordService;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author liuwen
@@ -46,4 +49,29 @@ public class PowerRecordController {
         }
         return CommonResult.success(powerRecordDTOPageInfo);
     }
+
+    @GetMapping("/user/power/isValid")
+    public CommonResult findValidPower() {
+        int userId = UserInfoUtil.getUserId();
+        Integer validPowerSum = powerRecordService.findValidPower(userId, 1);
+        Integer notValidPowerSum = powerRecordService.findValidPower(userId, 0);
+        Map<String, Integer> powerSum = new HashMap<>();
+        powerSum.put("validPowerSum", validPowerSum);
+        powerSum.put("notValidPowerSum", notValidPowerSum);
+        return CommonResult.success(powerSum);
+    }
+
+    @GetMapping("/user/power/all")
+    public CommonResult findUserValidPower() {
+        int userId = UserInfoUtil.getUserId();
+        if (userId < 0) {
+            return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
+        }
+        Integer userValidPower = powerRecordService.findValidPower(userId, PowerStatus.VALID);
+        if (userValidPower < 0) {
+            return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
+        }
+        return CommonResult.success(userValidPower);
+    }
+
 }

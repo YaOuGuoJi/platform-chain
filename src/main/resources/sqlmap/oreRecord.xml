@@ -73,7 +73,7 @@
         <include refid="allFields"/>
         FROM ore_record
         WHERE UserId = #{userId} AND status = #{status}
-
+        ORDER BY AddTime DESC
     </select>
     <select id="queryOreNumbByUserId" resultType="decimal">
       SELECT SUM(Ore)

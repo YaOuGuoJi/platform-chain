@@ -30,4 +30,23 @@ public interface PowerRecordService {
      */
     PageInfo<PowerRecordDTO> pageFindUserExpiredPower(int userId, int pageNum, int pageSize);
 
+    /**
+     * 查询用户生效与未生效原力值
+     *
+     * @param userId
+     * @param valid
+     * @return
+     */
+    Integer findValidPower(int userId, int valid);
+
+    /**
+     * 给用户添加算力
+     *
+     * @param userId 用户ID
+     * @param power 算力值
+     * @param isTemporary 是否为临时算力
+     * @return
+     */
+    int addUserPower(int userId, String source, int power, int isTemporary);
+
 }

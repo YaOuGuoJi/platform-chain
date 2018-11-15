@@ -4,6 +4,7 @@
 
     <resultMap id="userAccountEntity" type="com.bester.platform.platformchain.entity.UserAccountEntity">
         <result column="UserId" property="userId"/>
+        <result column="UserName" property="userName"/>
         <result column="Password" property="password"/>
         <result column="AddTime" property="addTime"/>
         <result column="UpdateTime" property="updateTime"/>
@@ -11,16 +12,31 @@
 
     <sql id="allFields">
         UserId,
+        UserName,
         Password,
         AddTime,
         UpdateTime
     </sql>
 
-    <select id="findUserAccountInfo" parameterType="map" resultMap="userAccountEntity">
+    <select id="findUserAccountInfoByUserId" parameterType="map" resultMap="userAccountEntity">
         SELECT
         <include refid="allFields"/>
         FROM user_account
         WHERE UserId = #{userId}
     </select>
+
+    <select id="findUserAccountInfoByUserName" parameterType="string" resultType="com.bester.platform.platformchain.entity.UserAccountEntity">
+        SELECT
+        <include refid="allFields"/>
+        FROM user_account
+        WHERE UserName = #{userName}
+    </select>
+
+    <insert id="insertUserAccountInfo" parameterType="string">
+        INSERT INTO user_account
+        (UserName, Password, AddTime, UpdateTime)
+        VALUES
+        (#{userName}, #{password}, NOW(), NOW())
+    </insert>
 
 </mapper>

@@ -65,4 +65,10 @@
         SELECT DISTINCT UserId FROM power_record
     </select>
 
+    <insert id="addUserPower" parameterType="com.bester.platform.platformchain.entity.PowerEntity">
+        INSERT INTO
+        power_record (UserId, Source, Power, AddTime, isTemporary, isValid)
+        VALUES (#{powerEntity.userId}, #{powerEntity.source}, #{powerEntity.power}, NOW(), #{powerEntity.temporary}, #{powerEntity.valid})
+    </insert>
+
 </mapper>

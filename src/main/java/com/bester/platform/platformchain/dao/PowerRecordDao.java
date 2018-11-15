@@ -61,4 +61,12 @@ public interface PowerRecordDao {
      */
     List<Integer> userIdList();
 
+    /**
+     * 给用户添加算力
+     *
+     * @param powerEntity 算力实体
+     * @return
+     */
+    int addUserPower(@Param("powerEntity") PowerEntity powerEntity);
+
 }

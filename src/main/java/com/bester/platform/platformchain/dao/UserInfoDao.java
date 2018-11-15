@@ -16,4 +16,12 @@ public interface UserInfoDao {
      */
     UserInfoEntity selectById(@Param("userId") int userId);
 
+    /**
+     * 添加用户信息
+     *
+     * @param userInfoEntity
+     * @return
+     */
+    int insertUserInfo(@Param("userInfo") UserInfoEntity userInfoEntity);
+
 }

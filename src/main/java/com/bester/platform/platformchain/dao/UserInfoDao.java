@@ -1,6 +1,7 @@
 package com.bester.platform.platformchain.dao;
 
-import java.util.List;
+import com.bester.platform.platformchain.entity.UserInfoEntity;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author zhangqiang
@@ -8,9 +9,11 @@ import java.util.List;
 public interface UserInfoDao {
 
     /**
-     * 查询所有的用户ID
+     * 根据userId查询
+     *
+     * @param userId
      * @return
      */
-    List<Integer> userIdList();
+    UserInfoEntity selectById(@Param("userId") int userId);
 
 }

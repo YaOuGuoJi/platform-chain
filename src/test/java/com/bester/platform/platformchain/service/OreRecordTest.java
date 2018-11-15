@@ -41,22 +41,22 @@ public class OreRecordTest {
         Assert.assertEquals(integer, new Integer(0));
     }
 
-    @Test
-    public void insertPower(){
-        PowerEntity powerEntity = new PowerEntity();
-        String[] source = {"购物","游戏","小说","新闻","邀请好友"};
-        for (int i = 5; i <= 30; i++){
-            Random rd = new Random();
-            powerEntity.setUserId(100001);
-            powerEntity.setSource(source[(int)(Math.random()*source.length)]);
-            powerEntity.setPower(20);
-            powerEntity.setAddTime(new Date());
-            powerEntity.setUpdateTime(new Date());
-            powerEntity.setTemporary(0);
-            powerEntity.setValid(rd.nextInt(2)+1);
-            powerRecordDao.insertPower(powerEntity.getUserId(),powerEntity.getSource(),powerEntity.getPower(),powerEntity.getAddTime(),
-                    powerEntity.getUpdateTime(),powerEntity.getTemporary(),powerEntity.getValid());
-        }
-
-    }
+//    @Test
+//    public void insertPower(){
+//        PowerEntity powerEntity = new PowerEntity();
+//        String[] source = {"购物","游戏","小说","新闻","邀请好友"};
+//        for (int i = 5; i <= 30; i++){
+//            Random rd = new Random();
+//            powerEntity.setUserId(100001);
+//            powerEntity.setSource(source[(int)(Math.random()*source.length)]);
+//            powerEntity.setPower(20);
+//            powerEntity.setAddTime(new Date());
+//            powerEntity.setUpdateTime(new Date());
+//            powerEntity.setTemporary(0);
+//            powerEntity.setValid(rd.nextInt(2)+1);
+//            powerRecordDao.insertPower(powerEntity.getUserId(),powerEntity.getSource(),powerEntity.getPower(),powerEntity.getAddTime(),
+//                    powerEntity.getUpdateTime(),powerEntity.getTemporary(),powerEntity.getValid());
+//        }
+//
+//    }
 }

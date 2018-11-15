@@ -1,6 +1,8 @@
 package com.bester.platform.platformchain.controller;
 
 import com.bester.platform.platformchain.common.CommonResult;
+import com.bester.platform.platformchain.constant.PowerSource;
+import com.bester.platform.platformchain.constant.PowerStatus;
 import com.bester.platform.platformchain.dto.PowerRecordDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
 import com.bester.platform.platformchain.service.PowerRecordService;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.xml.crypto.Data;
+import java.awt.*;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -61,13 +65,39 @@ public class PowerRecordController {
         return CommonResult.success(powerSum);
     }
 
+    @GetMapping("/user/power/judgeSignIn")
+    public CommonResult judgeSignIn(){
+        int userId = UserInfoUtil.getUserId();
+        Date signInTime = powerRecordService.selectPowerBySource(userId);
+        Map<String,Integer> signMap = new HashMap<>();
+        if (signInTime == null){
+            signMap.put("isSignIn",0);
+        }
+        signMap.put("isSignIn",1);
+        return CommonResult.success(signMap);
+    }
+
     @GetMapping("/user/power/getPowerBySignIn")
     public CommonResult signIn(){
-        Date signInTime = powerRecordService.selectPowerBySource();
-        if (signInTime.after(new Date())){
-
-        }
         int userId = UserInfoUtil.getUserId();
+        Date signInTime = powerRecordService.selectPowerBySource(userId);
+        if (signInTime == null){
+            powerRecordService.addUserPower(userId, PowerSource.LIGNIN,20,1);
+        }
         return CommonResult.success();
     }
+
+    @GetMapping("/user/power/all")
+    public CommonResult findUserValidPower() {
+        int userId = UserInfoUtil.getUserId();
+        if (userId < 0) {
+            return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
+        }
+        Integer userValidPower = powerRecordService.findValidPower(userId, PowerStatus.VALID);
+        if (userValidPower < 0) {
+            return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
+        }
+        return CommonResult.success(userValidPower);
+    }
+
 }

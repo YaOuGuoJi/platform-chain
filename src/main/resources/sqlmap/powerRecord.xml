@@ -64,27 +64,19 @@
     <select id="userIdList" resultType="java.lang.Integer">
         SELECT DISTINCT UserId FROM power_record
     </select>
-    
-    <insert id="insertPower" parameterType="map">
-        INSERT into
-        power_record
-        (UserId,Source,Power,AddTime,UpdateTime,isTemporary,isValid)
-        VALUES (
-        #{UserId},
-        #{Source},
-        #{Power},
-        NOW(),
-        NOW(),
-        #{isTemporary},
-        #{isValid}
-        )
-    </insert>
 
-    <select id="selectPowerBySource" resultType="java.util.Date">
+    <select id="selectPowerBySource" parameterType="map" resultType="java.util.Date">
        SELECT
        AddTime
        FROM power_record
-       WHERE Source = '签到'
+       WHERE Source = '签到' AND UserId = #{userId}
+       and date_format(AddTime,'%Y-%m-%d') =  date_format(now(),'%Y-%m-%d');
     </select>
+
+    <insert id="addUserPower" parameterType="com.bester.platform.platformchain.entity.PowerEntity">
+        INSERT INTO
+        power_record (UserId, Source, Power, AddTime, isTemporary, isValid)
+        VALUES (#{powerEntity.userId}, #{powerEntity.source}, #{powerEntity.power}, NOW(), #{powerEntity.temporary}, #{powerEntity.valid})
+    </insert>
 
 </mapper>

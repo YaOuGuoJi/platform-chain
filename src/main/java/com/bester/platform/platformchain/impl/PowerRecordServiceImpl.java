@@ -1,5 +1,6 @@
 package com.bester.platform.platformchain.impl;
 
+import com.bester.platform.platformchain.constant.PowerStatus;
 import com.bester.platform.platformchain.dao.PowerRecordDao;
 import com.bester.platform.platformchain.dto.PowerRecordDTO;
 import com.bester.platform.platformchain.entity.PowerEntity;
@@ -7,6 +8,7 @@ import com.bester.platform.platformchain.service.PowerRecordService;
 import com.bester.platform.platformchain.util.BeansListUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -43,12 +45,24 @@ public class PowerRecordServiceImpl implements PowerRecordService {
     @Override
     public Integer findValidPower(int userId, int valid) {
         Assert.isTrue(userId > 0, "参数错误");
-        return powerRecordDao.findValidPower(userId,valid);
+        return powerRecordDao.findValidPower(userId, valid);
     }
 
     @Override
-    public Date selectPowerBySource() {
-        return powerRecordDao.selectPowerBySource();
+    public int addUserPower(int userId, String source, int power, int isTemporary) {
+        Assert.isTrue(userId > 0 && power > 0 && isTemporary > 0 && !StringUtils.isEmpty(source), "参数错误");
+        PowerEntity powerEntity = new PowerEntity();
+        powerEntity.setUserId(userId);
+        powerEntity.setSource(source);
+        powerEntity.setPower(power);
+        powerEntity.setTemporary(isTemporary);
+        powerEntity.setValid(PowerStatus.VALID);
+        return powerRecordDao.addUserPower(powerEntity);
+    }
+
+    @Override
+    public Date selectPowerBySource(int userId) {
+        return powerRecordDao.selectPowerBySource(userId);
     }
 
 

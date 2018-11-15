@@ -15,4 +15,14 @@ public class PowerStatus {
      */
     public static final Integer INVALID = 0;
 
+    /**
+     * 临时
+     */
+    public static final Integer TEMPORARY = 1;
+
+    /**
+     * 非临时
+     */
+    public static final Integer NO_TEMPORARY = 0;
+
 }

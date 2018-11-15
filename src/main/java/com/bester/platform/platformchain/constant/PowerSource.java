@@ -40,5 +40,10 @@ public class PowerSource {
      */
     public static final String PUBLIC = "关注公众号";
 
+    /**
+     * 签到
+     */
+    public static final String LIGNIN = "签到";
+
 
 }

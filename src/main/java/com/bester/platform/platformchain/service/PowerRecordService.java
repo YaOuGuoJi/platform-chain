@@ -46,6 +46,16 @@ public interface PowerRecordService {
      *
      * @return
      */
-    Date selectPowerBySource();
+    Date selectPowerBySource(int userId);
+
+    /**
+     * 给用户添加算力
+     *
+     * @param userId 用户ID
+     * @param power 算力值
+     * @param isTemporary 是否为临时算力
+     * @return
+     */
+    int addUserPower(int userId, String source, int power, int isTemporary);
 
 }

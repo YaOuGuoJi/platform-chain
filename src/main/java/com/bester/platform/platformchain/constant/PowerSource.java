@@ -11,6 +11,11 @@ public class PowerSource {
     public static final String REGISTER = "注册";
 
     /**
+     * 注册添加算力值
+     */
+    public static final Integer REGISTER_POWER = 10;
+
+    /**
      * 购物
      */
     public static final String SHOPPING = "购物";

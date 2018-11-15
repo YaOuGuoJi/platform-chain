@@ -27,10 +27,9 @@ public interface UserAccountDao {
 
     /**
      * 添加用户
-     * @param userName
-     * @param password
+     * @param userAccountEntity 用户实体
      * @return
      */
-    int insertUserAccountInfo(@Param("userName") String  userName, @Param("password") String password);
+    int insertUserAccountInfo(@Param("userAccountEntity") UserAccountEntity userAccountEntity);
 
 }

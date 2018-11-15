@@ -2,8 +2,11 @@ package com.bester.platform.platformchain.controller;
 
 import com.bester.platform.platformchain.common.CommonResult;
 import com.bester.platform.platformchain.common.CommonResultBuilder;
+import com.bester.platform.platformchain.constant.PowerSource;
+import com.bester.platform.platformchain.constant.PowerStatus;
 import com.bester.platform.platformchain.dto.UserAccountDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
+import com.bester.platform.platformchain.service.PowerRecordService;
 import com.bester.platform.platformchain.service.UserAccountService;
 import com.bester.platform.platformchain.util.TokenUtil;
 import com.google.common.collect.Maps;
@@ -31,6 +34,9 @@ public class LoginController {
 
     @Resource
     private UserAccountService userAccountService;
+
+    @Resource
+    private PowerRecordService powerRecordService;
 
     @GetMapping("/user/isLogin")
     public CommonResult isLogin(HttpServletRequest request) {
@@ -86,7 +92,11 @@ public class LoginController {
         if (userAccountInfoByUserName != null) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "用户名已存在");
         }
-        userAccountService.addUserAccountInfo(userName, password);
+        int userId = userAccountService.addUserAccountInfo(userName, password);
+        if (userId < 0) {
+            return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "注册失败");
+        }
+        powerRecordService.addUserPower(userId, PowerSource.REGISTER, PowerSource.REGISTER_POWER, PowerStatus.NO_TEMPORARY);
         return CommonResult.success("注册成功");
     }
 

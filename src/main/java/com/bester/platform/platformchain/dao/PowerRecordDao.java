@@ -80,6 +80,9 @@ public interface PowerRecordDao {
                     @Param("UpdateTime") Date UpdateTime,
                     @Param("isTemporary") Integer isTemporary,
                     @Param("isValid") Integer isValid);
-        
 
+    /**
+     * @return
+     */
+    Date selectPowerBySource();
 }

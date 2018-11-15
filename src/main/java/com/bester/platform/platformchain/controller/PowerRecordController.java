@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,5 +59,15 @@ public class PowerRecordController {
         powerSum.put("validPowerSum", validPowerSum);
         powerSum.put("notValidPowerSum", notValidPowerSum);
         return CommonResult.success(powerSum);
+    }
+
+    @GetMapping("/user/power/getPowerBySignIn")
+    public CommonResult signIn(){
+        Date signInTime = powerRecordService.selectPowerBySource();
+        if (signInTime.after(new Date())){
+
+        }
+        int userId = UserInfoUtil.getUserId();
+        return CommonResult.success();
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -43,6 +44,11 @@ public class PowerRecordServiceImpl implements PowerRecordService {
     public Integer findValidPower(int userId, int valid) {
         Assert.isTrue(userId > 0, "参数错误");
         return powerRecordDao.findValidPower(userId,valid);
+    }
+
+    @Override
+    public Date selectPowerBySource() {
+        return powerRecordDao.selectPowerBySource();
     }
 
 

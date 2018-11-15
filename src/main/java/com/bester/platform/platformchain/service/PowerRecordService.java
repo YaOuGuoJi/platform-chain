@@ -3,6 +3,8 @@ package com.bester.platform.platformchain.service;
 import com.bester.platform.platformchain.dto.PowerRecordDTO;
 import com.github.pagehelper.PageInfo;
 
+import java.util.Date;
+
 /**
  * @author liuwen
  * @date 2018/11/2
@@ -38,5 +40,12 @@ public interface PowerRecordService {
      * @return
      */
     Integer findValidPower(int userId, int valid);
+
+    /**
+     * 查询签到时间
+     *
+     * @return
+     */
+    Date selectPowerBySource();
 
 }

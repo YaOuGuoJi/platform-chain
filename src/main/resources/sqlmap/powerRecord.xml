@@ -80,4 +80,11 @@
         )
     </insert>
 
+    <select id="selectPowerBySource" resultType="java.util.Date">
+       SELECT
+       AddTime
+       FROM power_record
+       WHERE Source = '签到'
+    </select>
+
 </mapper>

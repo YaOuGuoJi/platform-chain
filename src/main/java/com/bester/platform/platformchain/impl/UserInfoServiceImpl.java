@@ -8,7 +8,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
 
 /**
  * @author liuwen
@@ -32,12 +31,15 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-<<<<<<< HEAD
     public int insertUserInfo(UserInfoEntity userInfoEntity) {
         return userInfoDao.insertUserInfo(userInfoEntity);
-=======
-    public int updateUserInfo(int userId, Date birth, String userName, int sex, String phone, String email, String address, String job) {
-       return  userInfoDao.updateUserInfo(userId,birth,userName,sex,phone,email,address,job);
->>>>>>> 20181106ljw
+    }
+
+    @Override
+    public int updateUserInfo(UserInfoDTO userInfoDTO) {
+        UserInfoEntity userInfoEntity = new UserInfoEntity();
+        BeanUtils.copyProperties(userInfoDTO, userInfoEntity);
+
+        return userInfoDao.updateUserInfo(userInfoEntity);
     }
 }

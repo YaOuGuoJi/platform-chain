@@ -69,7 +69,6 @@ public class PowerRecordController {
     public CommonResult judgeSignIn(){
         int userId = UserInfoUtil.getUserId();
         Date signInTime = powerRecordService.selectPowerBySource(userId);
-        System.out.print("signInTime"+signInTime);
         Map<String,Integer> signMap = new HashMap<>();
         if (signInTime == null){
             signMap.put("isSignIn",0);

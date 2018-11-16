@@ -8,9 +8,9 @@ import java.math.BigDecimal;
 public class BlockChainParameters {
 
     /**
-     * 每日发放矿石总数
+     * 起始发放矿石数量
      */
-    public static final BigDecimal DAILY_ORE_LIMITED = new BigDecimal("10.00");
+    public static final BigDecimal DAILY_ORE_LIMITED = new BigDecimal("50.00");
 
     /**
      * 临时算力过期天数

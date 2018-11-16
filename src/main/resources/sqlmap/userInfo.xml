@@ -42,12 +42,12 @@
     <update id="updateUserInfo">
       update user_info
       set UserName=#{userInfoEntity.userName},
-      Sex = #{userInfoEntity.sex},
-      Birthday=#{userInfoEntity.birthday},
+        Sex = #{userInfoEntity.sex},
+        Birthday=#{userInfoEntity.birthday},
         Phone=#{userInfoEntity.phone},
         Email=#{userInfoEntity.email},
         Address=#{userInfoEntity.address},
-        job=#{userInfoEntity.job}
+        Job=#{userInfoEntity.job}
       where UserId = #{userInfoEntity.userId}
     </update>
 

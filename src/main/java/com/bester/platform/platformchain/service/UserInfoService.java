@@ -20,10 +20,10 @@ public interface UserInfoService {
     /**
      * 动态添加用户信息
      *
-     * @param userInfoEntity
+     * @param userInfoDTO
      * @return
      */
-    int insertUserInfo(UserInfoEntity userInfoEntity);
+    int insertUserInfo(UserInfoDTO userInfoDTO);
 
     /**
      * 修改用户信息

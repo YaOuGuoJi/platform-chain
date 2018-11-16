@@ -31,15 +31,17 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public int insertUserInfo(UserInfoEntity userInfoEntity) {
-        return userInfoDao.insertUserInfo(userInfoEntity);
+    public int insertUserInfo(UserInfoDTO userInfoDTO) {
+        UserInfoEntity userInfoEntity = new UserInfoEntity();
+        BeanUtils.copyProperties(userInfoDTO, userInfoEntity);
+        userInfoDao.insertUserInfo(userInfoEntity);
+        return userInfoEntity.getUserId();
     }
 
     @Override
     public int updateUserInfo(UserInfoDTO userInfoDTO) {
         UserInfoEntity userInfoEntity = new UserInfoEntity();
         BeanUtils.copyProperties(userInfoDTO, userInfoEntity);
-
         return userInfoDao.updateUserInfo(userInfoEntity);
     }
 }

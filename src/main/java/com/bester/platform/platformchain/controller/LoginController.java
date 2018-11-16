@@ -5,6 +5,7 @@ import com.bester.platform.platformchain.common.CommonResultBuilder;
 import com.bester.platform.platformchain.constant.PowerSource;
 import com.bester.platform.platformchain.constant.PowerStatus;
 import com.bester.platform.platformchain.dto.UserAccountDTO;
+import com.bester.platform.platformchain.dto.UserInfoDTO;
 import com.bester.platform.platformchain.entity.UserInfoEntity;
 import com.bester.platform.platformchain.enums.HttpStatus;
 import com.bester.platform.platformchain.service.PowerRecordService;
@@ -98,19 +99,19 @@ public class LoginController {
         if (userAccountInfoByUserName != null) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "用户名已存在");
         }
-        UserInfoEntity userInfoEntity = new UserInfoEntity();
-        userInfoEntity.setUserName(userName);
-        int userId = userInfoService.insertUserInfo(userInfoEntity);
+        UserInfoDTO userInfoDTO = new UserInfoDTO();
+        userInfoDTO.setUserName(userName);
+        int userId = userInfoService.insertUserInfo(userInfoDTO);
         if (userId < 0) {
             return CommonResult.fail(HttpStatus.ERROR);
         }
-        int insert = userAccountService.addUserAccountInfo(userInfoEntity.getUserId(), userName, password);
+        int insert = userAccountService.addUserAccountInfo(userId, userName, password);
         if (insert < 0) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "注册失败");
         }
-        powerRecordService.addUserPower(userInfoEntity.getUserId(), PowerSource.REGISTER, PowerSource.REGISTER_POWER, PowerStatus.NO_TEMPORARY);
+        powerRecordService.addUserPower(userId, PowerSource.REGISTER, PowerSource.REGISTER_POWER, PowerStatus.NO_TEMPORARY);
         Map<String, String> data = Maps.newHashMap();
-        data.put("userId", userInfoEntity.getUserId() + "");
+        data.put("userId", userId + "");
         try {
             TokenUtil.updateToken2Cookie(response, data);
         } catch (UnsupportedEncodingException e) {

@@ -1,7 +1,6 @@
 package com.bester.platform.platformchain.controller;
 
 import com.bester.platform.platformchain.common.CommonResult;
-import com.bester.platform.platformchain.common.CommonResultBuilder;
 import com.bester.platform.platformchain.dto.UserInfoDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
 import com.bester.platform.platformchain.service.UserInfoService;
@@ -30,39 +29,26 @@ public class UserInfoController {
 
     @PostMapping("/user/updateInfo")
     public CommonResult updateUserInfo(UserInfoVO userInfoVO) {
-        String userName = userInfoVO.getUserName();
-        if (userInfoVO.getUserId() == null || StringUtils.isEmpty(userName)) {
-            return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
+        CommonResult validResult = validParams(userInfoVO);
+        if (!validResult.isSuccess()) {
+            return validResult;
         }
-        if (userInfoVO.getAddress().length() > 30) {
-            return CommonResult.fail(403, "地址超出最大长度");
+        int userId = UserInfoUtil.getUserId();
+        if (userId < 0) {
+            return CommonResult.fail(HttpStatus.UNAUTHORIZED);
         }
-        if (userInfoVO.getEmail().length() > 20) {
-            return CommonResult.fail(403, "地址超出最大长度");
-        }
-        if (userInfoVO.getPhone().length() > 20) {
-            return CommonResult.fail(403, "地址超出最大长度");
-        }
-        if (userInfoVO.getJob().length() > 30) {
-            return CommonResult.fail(403, "地址超出最大长度");
-        }
-        String birthday = userInfoVO.getBirthday();
         UserInfoDTO userInfoDTO = new UserInfoDTO();
+        userInfoDTO.setUserId(userId);
         BeanUtils.copyProperties(userInfoVO, userInfoDTO);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            Date birth = sdf.parse(birthday);
+            Date birth = sdf.parse(userInfoVO.getBirthday());
             userInfoDTO.setBirthday(birth);
-            int result = userInfoService.updateUserInfo(userInfoDTO);
-            if (result > 0) {
-                return new CommonResultBuilder()
-                        .code(200)
-                        .message("修改成功").build();
-            }
         } catch (ParseException e) {
-            e.printStackTrace();
+            return CommonResult.fail(403, "生日输入不合法！");
         }
-        return CommonResult.fail(403, "失败");
+        int result = userInfoService.updateUserInfo(userInfoDTO);
+        return result > 0 ? CommonResult.success() : CommonResult.fail(HttpStatus.ERROR);
     }
 
     @GetMapping("/user/detail")
@@ -75,59 +61,60 @@ public class UserInfoController {
         return CommonResult.success(userInfoDTO);
     }
 
+    private CommonResult validParams(UserInfoVO userInfoVO) {
+        if (userInfoVO == null || StringUtils.isEmpty(userInfoVO.getUserName())) {
+            return CommonResult.fail(403, "用户名不得为空！");
+        }
+        if (userInfoVO.sex == null || userInfoVO.sex <= 0) {
+            return CommonResult.fail(403, "性别不合法");
+        }
+        if (StringUtils.isEmpty(userInfoVO.phone) || userInfoVO.phone.length() > 20) {
+            return CommonResult.fail(403, "手机号不合法！");
+        }
+        if (StringUtils.isEmpty(userInfoVO.email) || userInfoVO.email.length() > 30) {
+            return CommonResult.fail(403, "email不合法！");
+        }
+        if (StringUtils.isEmpty(userInfoVO.address) || userInfoVO.address.length() > 50) {
+            return CommonResult.fail(403, "地址为空或超长！");
+        }
+        return CommonResult.success();
+    }
+
     @Data
-    class UserInfoVO {
-        /**
-         * 添加时间
-         */
-        private Date addTime;
-        /**
-         * 地址
-         */
-        private String address;
-        /**
-         * 生日
-         */
-        private String birthday;
-        /**
-         * 汽车id
-         */
-        private Integer carId;
-        /**
-         * 邮箱
-         */
-        private String email;
-        /**
-         * 身份证号码
-         */
-        private String identityId;
-        /**
-         * 职业/工作
-         */
-        private String job;
-        /**
-         * 手机号
-         */
-        private String phone;
-        /**
-         * 性别 1-男 2-女 其他-未知
-         */
-        private Integer sex;
-        /**
-         * 更新时间
-         */
-        private Date updateTime;
-        /**
-         * 用户id
-         */
-        private Integer userId;
+    public class UserInfoVO {
         /**
          * 用户姓名
          */
         private String userName;
+
         /**
-         * 是否VIP用户 1-是 0-不是
+         * 性别 1-男 2-女 其他-未知
          */
-        private Integer vip;
+        private Integer sex;
+
+        /**
+         * 生日 yyyy-MM-dd
+         */
+        private String birthday;
+
+        /**
+         * 手机号
+         */
+        private String phone;
+
+        /**
+         * 邮箱
+         */
+        private String email;
+
+        /**
+         * 地址
+         */
+        private String address;
+
+        /**
+         * 职业/工作
+         */
+        private String job;
     }
 }

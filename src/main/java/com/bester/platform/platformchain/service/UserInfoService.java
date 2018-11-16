@@ -1,6 +1,7 @@
 package com.bester.platform.platformchain.service;
 
 import com.bester.platform.platformchain.dto.UserInfoDTO;
+import com.bester.platform.platformchain.entity.UserInfoEntity;
 
 /**
  * @author liuwen
@@ -15,4 +16,13 @@ public interface UserInfoService {
      * @return
      */
     UserInfoDTO findUserInfoByUserId(int userId);
+
+    /**
+     * 动态添加用户信息
+     *
+     * @param userInfoEntity
+     * @return
+     */
+    int insertUserInfo(UserInfoEntity userInfoEntity);
+
 }

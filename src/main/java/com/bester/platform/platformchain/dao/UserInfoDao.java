@@ -17,7 +17,7 @@ public interface UserInfoDao {
     UserInfoEntity selectById(@Param("userId") int userId);
 
     /**
-     * 添加用户信息
+     * 动态添加用户信息
      *
      * @param userInfoEntity
      * @return

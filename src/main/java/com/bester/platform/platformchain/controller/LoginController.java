@@ -5,9 +5,11 @@ import com.bester.platform.platformchain.common.CommonResultBuilder;
 import com.bester.platform.platformchain.constant.PowerSource;
 import com.bester.platform.platformchain.constant.PowerStatus;
 import com.bester.platform.platformchain.dto.UserAccountDTO;
+import com.bester.platform.platformchain.entity.UserInfoEntity;
 import com.bester.platform.platformchain.enums.HttpStatus;
 import com.bester.platform.platformchain.service.PowerRecordService;
 import com.bester.platform.platformchain.service.UserAccountService;
+import com.bester.platform.platformchain.service.UserInfoService;
 import com.bester.platform.platformchain.util.TokenUtil;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
@@ -38,6 +40,9 @@ public class LoginController {
 
     @Resource
     private PowerRecordService powerRecordService;
+
+    @Resource
+    private UserInfoService userInfoService;
 
     @GetMapping("/user/isLogin")
     public CommonResult isLogin(HttpServletRequest request) {
@@ -93,13 +98,19 @@ public class LoginController {
         if (userAccountInfoByUserName != null) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "用户名已存在");
         }
-        int userId = userAccountService.addUserAccountInfo(userName, password);
+        UserInfoEntity userInfoEntity = new UserInfoEntity();
+        userInfoEntity.setUserName(userName);
+        int userId = userInfoService.insertUserInfo(userInfoEntity);
         if (userId < 0) {
+            return CommonResult.fail(HttpStatus.ERROR);
+        }
+        int insert = userAccountService.addUserAccountInfo(userInfoEntity.getUserId(), userName, password);
+        if (insert < 0) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "注册失败");
         }
-        powerRecordService.addUserPower(userId, PowerSource.REGISTER, PowerSource.REGISTER_POWER, PowerStatus.NO_TEMPORARY);
+        powerRecordService.addUserPower(userInfoEntity.getUserId(), PowerSource.REGISTER, PowerSource.REGISTER_POWER, PowerStatus.NO_TEMPORARY);
         Map<String, String> data = Maps.newHashMap();
-        data.put("userId", userId + "");
+        data.put("userId", userInfoEntity.getUserId() + "");
         try {
             TokenUtil.updateToken2Cookie(response, data);
         } catch (UnsupportedEncodingException e) {

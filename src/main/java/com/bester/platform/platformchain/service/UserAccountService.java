@@ -44,10 +44,11 @@ public interface UserAccountService {
     /**
      * 添加用户
      *
+     * @param userId
      * @param userName
      * @param password
      * @return
      */
-    int addUserAccountInfo(String userName, String password);
+    int addUserAccountInfo(int userId, String userName, String password);
 
 }

@@ -40,7 +40,7 @@
         WHERE UserId=#{userId}
     </select>
 
-    <insert id="insertUserInfo" parameterType="com.bester.platform.platformchain.entity.UserInfoEntity">
+    <insert id="insertUserInfo" parameterType="com.bester.platform.platformchain.entity.UserInfoEntity" useGeneratedKeys="true" keyProperty="userInfo.userId">
         INSERT INTO user_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userInfo.userName != null and userInfo.userName != ''">
@@ -108,8 +108,9 @@
             <if test="userInfo.identityId != null and userInfo.identityId != ''">
                 #{userInfo.identityId},
             </if>
-            NOW()
-            )
+            <if test="userInfo.addTime == null ">
+                NOW()
+            </if>
         </trim>
     </insert>
 

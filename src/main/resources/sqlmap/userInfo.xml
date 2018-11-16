@@ -4,15 +4,15 @@
     <resultMap id="userInfoEntity" type="com.bester.platform.platformchain.entity.UserInfoEntity">
         <result column="UserId" property="userId"/>
         <result column="UserName" property="userName"/>
-        <result column="Sex" property="sex" />
+        <result column="Sex" property="sex"/>
         <result column="Birthday" property="birthday"/>
-        <result column="Phone" property="phone" />
-        <result column="Email" property="email" />
-        <result column="Address" property="address" />
-        <result column="Job" property="job" />
+        <result column="Phone" property="phone"/>
+        <result column="Email" property="email"/>
+        <result column="Address" property="address"/>
+        <result column="Job" property="job"/>
         <result column="CarId" property="carId"/>
         <result column="Vip" property="vip"/>
-        <result column="IdentityId" property="identityId" />
+        <result column="IdentityId" property="identityId"/>
         <result column="AddTime" property="addTime"/>
         <result column="UpdateTime" property="updateTime"/>
     </resultMap>
@@ -35,9 +35,83 @@
 
     <select id="selectById" resultMap="userInfoEntity">
         SELECT
-        <include refid="allFields" />
+        <include refid="allFields"/>
         FROM user_info
         WHERE UserId=#{userId}
     </select>
+
+    <insert id="insertUserInfo" parameterType="com.bester.platform.platformchain.entity.UserInfoEntity" useGeneratedKeys="true" keyProperty="userInfo.userId">
+        INSERT INTO user_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userInfo.userName != null and userInfo.userName != ''">
+                UserName,
+            </if>
+            <if test="userInfo.sex &gt; 0">
+                Sex,
+            </if>
+            <if test="userInfo.birthday != null">
+                Birthday,
+            </if>
+            <if test="userInfo.phone != null and userInfo.phone != ''">
+                Phone,
+            </if>
+            <if test="userInfo.email != null and userInfo.email != ''">
+                Email,
+            </if>
+            <if test="userInfo.address != null and userInfo.address != ''">
+                Address,
+            </if>
+            <if test="userInfo.job != null and userInfo.job != ''">
+                Job,
+            </if>
+            <if test="userInfo.carId &gt; 0">
+                CarId,
+            </if>
+            <if test="userInfo.vip &gt; 0">
+                Vip,
+            </if>
+            <if test="userInfo.identityId != null and userInfo.identityId != ''">
+                IdentityId,
+            </if>
+            <if test="userInfo.addTime == null">
+                AddTime
+            </if>
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="userInfo.userName != null and userInfo.userName != ''">
+                #{userInfo.userName},
+            </if>
+            <if test="userInfo.sex &gt; 0">
+                #{userInfo.sex},
+            </if>
+            <if test="userInfo.birthday != null">
+                #{userInfo.birthday},
+            </if>
+            <if test="userInfo.phone != null and userInfo.phone != ''">
+                #{userInfo.phone},
+            </if>
+            <if test="userInfo.email != null and userInfo.email != ''">
+                #{userInfo.email},
+            </if>
+            <if test="userInfo.address != null and userInfo.address != ''">
+                #{userInfo.address},
+            </if>
+            <if test="userInfo.job != null and userInfo.job != ''">
+                #{userInfo.job},
+            </if>
+            <if test="userInfo.carId &gt; 0">
+                #{userInfo.carId},
+            </if>
+            <if test="userInfo.vip &gt; 0">
+                #{userInfo.vip},
+            </if>
+            <if test="userInfo.identityId != null and userInfo.identityId != ''">
+                #{userInfo.identityId},
+            </if>
+            <if test="userInfo.addTime == null ">
+                NOW()
+            </if>
+        </trim>
+    </insert>
 
 </mapper>

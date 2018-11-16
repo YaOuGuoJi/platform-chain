@@ -54,11 +54,11 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public int addUserAccountInfo(String userName, String password) {
+    public int addUserAccountInfo(int userId, String userName, String password) {
         UserAccountEntity userAccountEntity = new UserAccountEntity();
+        userAccountEntity.setUserId(userId);
         userAccountEntity.setUserName(userName);
         userAccountEntity.setPassword(password);
-        userAccountDao.insertUserAccountInfo(userAccountEntity);
-        return userAccountEntity.getUserId();
+        return userAccountDao.insertUserAccountInfo(userAccountEntity);
     }
 }

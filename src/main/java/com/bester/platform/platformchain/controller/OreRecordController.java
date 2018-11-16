@@ -33,7 +33,7 @@ public class OreRecordController {
         }
         PageInfo<OreRecordDTO> oreRecordDTOPageInfo = oreRecordService.queryOreRecordByUserId(userId, pageNum, pageSize);
         if (oreRecordDTOPageInfo == null) {
-            return CommonResult.fail(HttpStatus.NOT_FOUND);
+            return CommonResult.fail(404,"没记录了");
         }
         return new CommonResultBuilder()
                 .code(200)

@@ -4,15 +4,15 @@
     <resultMap id="userInfoEntity" type="com.bester.platform.platformchain.entity.UserInfoEntity">
         <result column="UserId" property="userId"/>
         <result column="UserName" property="userName"/>
-        <result column="Sex" property="sex" />
+        <result column="Sex" property="sex"/>
         <result column="Birthday" property="birthday"/>
-        <result column="Phone" property="phone" />
-        <result column="Email" property="email" />
-        <result column="Address" property="address" />
-        <result column="Job" property="job" />
+        <result column="Phone" property="phone"/>
+        <result column="Email" property="email"/>
+        <result column="Address" property="address"/>
+        <result column="Job" property="job"/>
         <result column="CarId" property="carId"/>
         <result column="Vip" property="vip"/>
-        <result column="IdentityId" property="identityId" />
+        <result column="IdentityId" property="identityId"/>
         <result column="AddTime" property="addTime"/>
         <result column="UpdateTime" property="updateTime"/>
     </resultMap>
@@ -35,9 +35,16 @@
 
     <select id="selectById" resultMap="userInfoEntity">
         SELECT
-        <include refid="allFields" />
+        <include refid="allFields"/>
         FROM user_info
         WHERE UserId=#{userId}
     </select>
+    <update id="updateUserInfo">
+update user_info
+set UserName=#{userName},Sex = #{sex},Birthday=#{birth},
+Phone=#{phone},Email=#{email},
+Address=#{address},job=#{job}
+where UserId = #{userId}
+    </update>
 
 </mapper>

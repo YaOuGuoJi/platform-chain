@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * @author liuwen
@@ -28,5 +29,10 @@ public class UserInfoServiceImpl implements UserInfoService {
         UserInfoDTO userInfoDTO = new UserInfoDTO();
         BeanUtils.copyProperties(userInfoEntity, userInfoDTO);
         return userInfoDTO;
+    }
+
+    @Override
+    public int updateUserInfo(int userId, Date birth, String userName, int sex, String phone, String email, String address, String job) {
+       return  userInfoDao.updateUserInfo(userId,birth,userName,sex,phone,email,address,job);
     }
 }

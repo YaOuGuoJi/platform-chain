@@ -53,7 +53,7 @@ public class PowerSource {
     /**
      * 签到获得算力值
      */
-    public static final Integer LIGNIN_POWER = 20;
+    public static final Integer LIGNIN_POWER = 5;
 
 
 }

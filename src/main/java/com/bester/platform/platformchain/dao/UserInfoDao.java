@@ -9,6 +9,14 @@ import org.apache.ibatis.annotations.Param;
 public interface UserInfoDao {
 
     /**
+     * 动态添加用户信息
+     *
+     * @param userInfoEntity
+     * @return
+     */
+    int insertUserInfo(@Param("userInfo") UserInfoEntity userInfoEntity);
+
+    /**
      * 根据userId查询
      *
      * @param userId
@@ -17,11 +25,11 @@ public interface UserInfoDao {
     UserInfoEntity selectById(@Param("userId") int userId);
 
     /**
-     * 动态添加用户信息
+     * 用户信息修改
      *
      * @param userInfoEntity
      * @return
      */
-    int insertUserInfo(@Param("userInfo") UserInfoEntity userInfoEntity);
+    int updateUserInfo(@Param("userInfoEntity") UserInfoEntity userInfoEntity);
 
 }

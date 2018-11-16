@@ -37,6 +37,7 @@
         <include refid="allFields"/>
         FROM power_record
         WHERE UserId = #{userId} AND isValid = 1
+        ORDER BY AddTime DESC
     </select>
 
     <select id="selectUserExpiredPower" parameterType="map" resultMap="powerEntity">
@@ -44,6 +45,7 @@
         <include refid="allFields"/>
         FROM power_record
         WHERE UserId = #{userId} AND isValid = 0
+        ORDER BY UpdateTime DESC
     </select>
 
     <select id="findValidPower" resultType="java.lang.Integer">

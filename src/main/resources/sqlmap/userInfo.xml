@@ -39,8 +39,20 @@
         FROM user_info
         WHERE UserId=#{userId}
     </select>
+    <update id="updateUserInfo">
+      update user_info
+      set UserName=#{userInfoEntity.userName},
+      Sex = #{userInfoEntity.sex},
+      Birthday=#{userInfoEntity.birthday},
+        Phone=#{userInfoEntity.phone},
+        Email=#{userInfoEntity.email},
+        Address=#{userInfoEntity.address},
+        job=#{userInfoEntity.job}
+      where UserId = #{userInfoEntity.userId}
+    </update>
 
-    <insert id="insertUserInfo" parameterType="com.bester.platform.platformchain.entity.UserInfoEntity" useGeneratedKeys="true" keyProperty="userInfo.userId">
+    <insert id="insertUserInfo" parameterType="com.bester.platform.platformchain.entity.UserInfoEntity"
+            useGeneratedKeys="true" keyProperty="userInfo.userId">
         INSERT INTO user_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userInfo.userName != null and userInfo.userName != ''">

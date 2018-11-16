@@ -25,4 +25,11 @@ public interface UserInfoService {
      */
     int insertUserInfo(UserInfoEntity userInfoEntity);
 
+    /**
+     * 修改用户信息
+     * @param userInfoDTO
+     * @return
+     */
+
+    int updateUserInfo(UserInfoDTO userInfoDTO);
 }

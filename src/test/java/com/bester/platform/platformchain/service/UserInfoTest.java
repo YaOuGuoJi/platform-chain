@@ -20,6 +20,8 @@ public class UserInfoTest {
 
     @Resource
     private UserInfoDao userInfoDao;
+    @Resource
+    private UserInfoService userInfoService;
 
     @Test
     public void testInsert() {
@@ -28,5 +30,4 @@ public class UserInfoTest {
         int insert = userInfoDao.insertUserInfo(userInfoEntity);
         System.out.println(insert);
     }
-
 }

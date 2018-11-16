@@ -11,9 +11,9 @@ public class PowerSource {
     public static final String REGISTER = "注册";
 
     /**
-     * 注册添加算力值
+     * 注册赠送算力值
      */
-    public static final Integer REGISTER_POWER = 10;
+    public static final Integer REGISTER_POWER = 100;
 
     /**
      * 购物
@@ -53,7 +53,7 @@ public class PowerSource {
     /**
      * 签到获得算力值
      */
-    public static final Integer LIGNIN_POWER = 20;
+    public static final Integer LIGNIN_POWER = 5;
 
 
 }

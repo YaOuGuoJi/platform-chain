@@ -1,8 +1,10 @@
 package com.bester.platform.platformchain.controller;
 
 import com.bester.platform.platformchain.common.CommonResult;
+import com.bester.platform.platformchain.dto.UserAccountDTO;
 import com.bester.platform.platformchain.dto.UserInfoDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
+import com.bester.platform.platformchain.service.UserAccountService;
 import com.bester.platform.platformchain.service.UserInfoService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
 import lombok.Data;
@@ -26,6 +28,8 @@ public class UserInfoController {
 
     @Resource
     private UserInfoService userInfoService;
+    @Resource
+    private UserAccountService userAccountService;
 
     @PostMapping("/user/updateInfo")
     public CommonResult updateUserInfo(UserInfoVO userInfoVO) {
@@ -64,6 +68,11 @@ public class UserInfoController {
     private CommonResult validParams(UserInfoVO userInfoVO) {
         if (userInfoVO == null || StringUtils.isEmpty(userInfoVO.getUserName())) {
             return CommonResult.fail(403, "用户名不得为空！");
+        }
+        int userId = UserInfoUtil.getUserId();
+        UserAccountDTO userAccountDTO = userAccountService.findUserAccountInfoByUserName(userInfoVO.userName);
+        if (userAccountDTO != null && userId != userAccountDTO.getUserId()) {
+            return CommonResult.fail(403, "用户名已被占用！");
         }
         if (userInfoVO.sex == null || userInfoVO.sex <= 0) {
             return CommonResult.fail(403, "性别不合法");

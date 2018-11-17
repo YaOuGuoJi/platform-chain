@@ -10,7 +10,7 @@ public class BlockChainParameters {
     /**
      * 起始发放矿石数量
      */
-    public static final BigDecimal DAILY_ORE_LIMITED = new BigDecimal("50.00");
+    public static final BigDecimal DAILY_ORE_LIMITED = new BigDecimal("800.00");
 
     /**
      * 临时算力过期天数

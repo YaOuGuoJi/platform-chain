@@ -1,7 +1,6 @@
 package com.bester.platform.platformchain.service;
 
 import com.bester.platform.platformchain.dto.UserInfoDTO;
-import com.bester.platform.platformchain.entity.UserInfoEntity;
 
 /**
  * @author liuwen

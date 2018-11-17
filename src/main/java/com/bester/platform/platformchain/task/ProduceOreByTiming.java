@@ -40,7 +40,7 @@ public class ProduceOreByTiming {
     @Resource
     private OreProduceService oreProduceService;
 
-    @Scheduled(cron = "1 * * * * ?")
+    @Scheduled(cron = BlockChainParameters.GROWING_INTERVAL)
     public void judgingProductionConditions() {
         List<Integer> userIdList = powerRecordDao.userIdList();
         if (CollectionUtils.isEmpty(userIdList)) {

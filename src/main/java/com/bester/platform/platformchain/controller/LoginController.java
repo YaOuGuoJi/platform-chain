@@ -118,6 +118,7 @@ public class LoginController {
             LOGGER.error("token加密失败!");
             return CommonResult.fail(HttpStatus.ERROR);
         }
+        userAccountService.addLoginRecord(userId);
         return CommonResult.success("注册成功");
     }
 

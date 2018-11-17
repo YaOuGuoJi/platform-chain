@@ -6,7 +6,6 @@ import com.bester.platform.platformchain.constant.PowerSource;
 import com.bester.platform.platformchain.constant.PowerStatus;
 import com.bester.platform.platformchain.dto.UserAccountDTO;
 import com.bester.platform.platformchain.dto.UserInfoDTO;
-import com.bester.platform.platformchain.entity.UserInfoEntity;
 import com.bester.platform.platformchain.enums.HttpStatus;
 import com.bester.platform.platformchain.service.PowerRecordService;
 import com.bester.platform.platformchain.service.UserAccountService;

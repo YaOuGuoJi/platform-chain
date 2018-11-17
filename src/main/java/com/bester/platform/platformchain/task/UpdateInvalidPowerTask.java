@@ -1,6 +1,5 @@
 package com.bester.platform.platformchain.task;
 
-
 import com.bester.platform.platformchain.constant.BlockChainParameters;
 import com.bester.platform.platformchain.dao.PowerRecordDao;
 import com.bester.platform.platformchain.util.TemporaryPowerUtil;

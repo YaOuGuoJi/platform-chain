@@ -3,8 +3,6 @@ package com.bester.platform.platformchain.service;
 import com.bester.platform.platformchain.dto.UserInfoDTO;
 import com.bester.platform.platformchain.entity.UserInfoEntity;
 
-import java.util.Date;
-
 /**
  * @author liuwen
  * @date 2018/11/12
@@ -20,26 +18,18 @@ public interface UserInfoService {
     UserInfoDTO findUserInfoByUserId(int userId);
 
     /**
-<<<<<<< HEAD
      * 动态添加用户信息
      *
-     * @param userInfoEntity
+     * @param userInfoDTO
      * @return
      */
-    int insertUserInfo(UserInfoEntity userInfoEntity);
+    int insertUserInfo(UserInfoDTO userInfoDTO);
 
-=======
+    /**
      * 修改用户信息
-     * @param userId
-     * @param birth
-     * @param userName
-     * @param sex
-     * @param phone
-     * @param email
-     * @param address
-     * @param job
+     * @param userInfoDTO
      * @return
      */
-    int updateUserInfo(int userId, Date birth, String userName, int sex, String phone, String email, String address, String job);
->>>>>>> 20181106ljw
+
+    int updateUserInfo(UserInfoDTO userInfoDTO);
 }

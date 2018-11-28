@@ -27,6 +27,16 @@ public class UserAccountEntity {
     private String password;
 
     /**
+     * 邀请码
+     */
+    private String inviteCode;
+
+    /**
+     * 邀请次数
+     */
+    private Integer inviteTimes;
+
+    /**
      * 添加时间
      */
     private Date addTime;

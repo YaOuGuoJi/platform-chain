@@ -6,6 +6,8 @@
         <result column="UserId" property="userId"/>
         <result column="UserName" property="userName"/>
         <result column="Password" property="password"/>
+        <result column="InviteCode" property="inviteCode"/>
+        <result column="InviteTimes" property="inviteTimes"/>
         <result column="AddTime" property="addTime"/>
         <result column="UpdateTime" property="updateTime"/>
     </resultMap>
@@ -14,6 +16,8 @@
         UserId,
         UserName,
         Password,
+        InviteCode,
+        InviteTimes,
         AddTime,
         UpdateTime
     </sql>
@@ -34,9 +38,45 @@
 
     <insert id="insertUserAccountInfo" parameterType="com.bester.platform.platformchain.entity.UserAccountEntity">
         INSERT INTO user_account
-        (UserId, UserName, Password, AddTime, UpdateTime)
+        (
+            UserId,
+            UserName,
+            Password,
+            InviteCode,
+            InviteTimes,
+            AddTime,
+            UpdateTime
+        )
         VALUES
-        (#{userAccountEntity.userId}, #{userAccountEntity.userName}, #{userAccountEntity.password}, NOW(), NOW())
+        (
+            #{userAccountEntity.userId},
+            #{userAccountEntity.userName},
+            #{userAccountEntity.password},
+            #{userAccountEntity.inviteCode},
+            0,
+            NOW(),
+            NOW()
+        )
     </insert>
+
+    <select id="selectByInviteCode" parameterType="map" resultMap="userAccountEntity">
+        SELECT
+        <include refid="allFields"/>
+        FROM user_account
+        WHERE InviteCode = #{inviteCode}
+    </select>
+
+    <update id="addUserInviteTimes" parameterType="map">
+        UPDATE user_account
+        SET InviteTimes = InviteTimes + 1
+        WHERE UserId = #{userId}
+    </update>
+
+    <select id="selectByUserId" parameterType="map" resultMap="userAccountEntity">
+        SELECT
+        <include refid="allFields"/>
+        FROM user_account
+        WHERE UserId = #{userId}
+    </select>
 
 </mapper>

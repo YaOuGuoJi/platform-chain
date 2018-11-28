@@ -32,4 +32,28 @@ public interface UserAccountDao {
      */
     int insertUserAccountInfo(@Param("userAccountEntity") UserAccountEntity userAccountEntity);
 
+    /**
+     * 根据邀请码查询
+     *
+     * @param inviteCode
+     * @return
+     */
+    UserAccountEntity selectByInviteCode(@Param("inviteCode") String inviteCode);
+
+    /**
+     * 用户邀请次数+1
+     *
+     * @param userId
+     * @return
+     */
+    int addUserInviteTimes(@Param("userId") int userId);
+
+    /**
+     * 根据用户id查询
+     *
+     * @param userId
+     * @return
+     */
+    UserAccountEntity selectByUserId(@Param("userId") int userId);
+
 }

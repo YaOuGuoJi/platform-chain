@@ -61,4 +61,31 @@ public class UserAccountServiceImpl implements UserAccountService {
         userAccountEntity.setPassword(password);
         return userAccountDao.insertUserAccountInfo(userAccountEntity);
     }
+
+    @Override
+    public UserAccountDTO findUserAccountInfoByInviteCode(String inviteCode) {
+        UserAccountEntity userAccountEntity = userAccountDao.selectByInviteCode(inviteCode);
+        if (userAccountEntity == null) {
+            return null;
+        }
+        UserAccountDTO userAccountDTO =  new UserAccountDTO();
+        BeanUtils.copyProperties(userAccountEntity, userAccountDTO);
+        return userAccountDTO;
+    }
+
+    @Override
+    public int addUserInviteTimes(int userId) {
+        return userAccountDao.addUserInviteTimes(userId);
+    }
+
+    @Override
+    public UserAccountDTO findUserAccountInfoByUserId(int userId) {
+        UserAccountEntity userAccountEntity = userAccountDao.selectByUserId(userId);
+        if (userAccountEntity == null) {
+            return null;
+        }
+        UserAccountDTO userAccountDTO =  new UserAccountDTO();
+        BeanUtils.copyProperties(userAccountEntity, userAccountDTO);
+        return userAccountDTO;
+    }
 }

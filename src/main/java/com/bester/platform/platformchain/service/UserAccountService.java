@@ -44,12 +44,10 @@ public interface UserAccountService {
     /**
      * 添加用户
      *
-     * @param userId
-     * @param userName
-     * @param password
+     * @param userAccountDTO
      * @return
      */
-    int addUserAccountInfo(int userId, String userName, String password);
+    int addUserAccountInfo(UserAccountDTO userAccountDTO);
 
     /**
      * 根据用户邀请码查询用户信息

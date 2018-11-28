@@ -54,11 +54,12 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public int addUserAccountInfo(int userId, String userName, String password) {
+    public int addUserAccountInfo(UserAccountDTO userAccountDTO) {
+        if (userAccountDTO == null) {
+            return 0;
+        }
         UserAccountEntity userAccountEntity = new UserAccountEntity();
-        userAccountEntity.setUserId(userId);
-        userAccountEntity.setUserName(userName);
-        userAccountEntity.setPassword(password);
+        BeanUtils.copyProperties(userAccountDTO, userAccountEntity);
         return userAccountDao.insertUserAccountInfo(userAccountEntity);
     }
 

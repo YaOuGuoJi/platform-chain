@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2018/11/30
  */
 @Service
-public class RedisClientServiceImpl implements RedisClientService {
+public class RedisClientServiceImpl<K, V> implements RedisClientService {
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
@@ -70,9 +70,9 @@ public class RedisClientServiceImpl implements RedisClientService {
     }
 
     @Override
-    public void rightPush(String key, Collection<Object> values) {
+    public void rightPush(String key, Object... values) {
         Assert.isTrue(StringUtils.isNotEmpty(key), "key不得为空！");
-        Assert.isTrue(!CollectionUtils.isEmpty(values), "value列表不得为空！");
+        Assert.isTrue(values != null, "value不得为空！");
         ListOperations<String, Object> listOperations = redisTemplate.opsForList();
         listOperations.rightPushAll(key, values);
     }

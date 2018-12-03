@@ -1,6 +1,5 @@
 package com.bester.platform.platformchain.service;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -59,7 +58,7 @@ public interface RedisClientService {
      * @param key
      * @param values
      */
-    void rightPush(String key, Collection<Object> values);
+    void rightPush(String key, Object... values);
 
     /**
      * 列表获取

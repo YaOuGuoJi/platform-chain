@@ -7,11 +7,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -21,7 +19,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2018/11/30
  */
 @Service
-public class RedisClientServiceImpl<K, V> implements RedisClientService {
+public class RedisClientServiceImpl implements RedisClientService {
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;

@@ -7,6 +7,8 @@ import com.bester.platform.platformchain.constant.PowerStatus;
 import com.bester.platform.platformchain.dao.OreRecordDao;
 import com.bester.platform.platformchain.dao.PowerRecordDao;
 import com.bester.platform.platformchain.dao.UserLoginDao;
+import com.bester.platform.platformchain.service.OreProduceService;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -26,15 +28,17 @@ public class ProduceOreByTiming {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProduceOreByTiming.class);
     private static BigDecimal allValidPower;
+    private static BigDecimal dayTotalOre;
 
     @Resource
     private PowerRecordDao powerRecordDao;
-
     @Resource
     private OreRecordDao oreRecordDao;
-
     @Resource
     private UserLoginDao userLoginDao;
+
+    @Resource
+    private OreProduceService oreProduceService;
 
     @Scheduled(cron = BlockChainParameters.GROWING_INTERVAL)
     public void judgingProductionConditions() {
@@ -48,6 +52,7 @@ public class ProduceOreByTiming {
             throw new RuntimeException("错误！当前总有效算力为" + all);
         }
         allValidPower = new BigDecimal(all);
+        dayTotalOre = oreProduceService.oreNumberByDay(new DateTime().getYear());
         userIdList.forEach(userId -> {
             Integer countOreByInterval = oreRecordDao.findGrowingOreByInterval(userId, OreRecordStatus.PENDING);
             if (countOreByInterval < 0) {
@@ -82,7 +87,7 @@ public class ProduceOreByTiming {
             return;
         }
         BigDecimal userValidPower = new BigDecimal(validPower);
-        BigDecimal userOreByInterval = BlockChainParameters.DAILY_ORE_LIMITED.multiply(userValidPower)
+        BigDecimal userOreByInterval = dayTotalOre.multiply(userValidPower)
                 .divide(BlockChainParameters.TIMES_BY_DAY.multiply(allValidPower), 5, BigDecimal.ROUND_HALF_UP);
         oreRecordDao.insertUserOreByInterval(userId, OreRecordSource.DAILY_RECEIVE, userOreByInterval, OreRecordStatus.PENDING);
     }

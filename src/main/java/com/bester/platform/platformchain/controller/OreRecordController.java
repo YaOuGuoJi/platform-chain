@@ -4,19 +4,25 @@ import com.bester.platform.platformchain.common.CommonResult;
 import com.bester.platform.platformchain.common.CommonResultBuilder;
 import com.bester.platform.platformchain.dto.OreRecordDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
+import com.bester.platform.platformchain.service.OreProduceService;
 import com.bester.platform.platformchain.service.OreRecordService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
 import com.github.pagehelper.PageInfo;
+import org.joda.time.DateTime;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @RestController
 public class OreRecordController {
+
     @Resource
     private OreRecordService oreRecordService;
+    @Resource
+    private OreProduceService oreProduceService;
 
     /**
      * 矿石纪录查询
@@ -62,5 +68,19 @@ public class OreRecordController {
                 .message("查询成功")
                 .data("oreNumber", bigDecimal)
                 .build();
+    }
+
+    /**
+     * 查询累计矿石总量和昨日矿石总产量
+     *
+     * @return
+     */
+    @GetMapping("/ore/total")
+    public CommonResult queryTotalOre() {
+        Date date = new Date();
+        BigDecimal total = oreProduceService.totalOreNumber(date);
+        BigDecimal day = oreProduceService.oreNumberByDay(new DateTime().getYear());
+        return new CommonResultBuilder()
+                .code(200).message("查询成功").data("total", total).data("day", day).build();
     }
 }

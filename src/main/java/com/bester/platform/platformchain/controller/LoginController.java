@@ -6,7 +6,6 @@ import com.bester.platform.platformchain.constant.PowerSource;
 import com.bester.platform.platformchain.constant.PowerStatus;
 import com.bester.platform.platformchain.dto.UserAccountDTO;
 import com.bester.platform.platformchain.dto.UserInfoDTO;
-import com.bester.platform.platformchain.entity.UserInfoEntity;
 import com.bester.platform.platformchain.enums.HttpStatus;
 import com.bester.platform.platformchain.service.PowerRecordService;
 import com.bester.platform.platformchain.service.UserAccountService;
@@ -118,8 +117,8 @@ public class LoginController {
             LOGGER.error("token加密失败!");
             return CommonResult.fail(HttpStatus.ERROR);
         }
+        userAccountService.addLoginRecord(userId);
         return CommonResult.success("注册成功");
     }
 
 }
-

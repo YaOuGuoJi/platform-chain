@@ -14,4 +14,10 @@ public class RedisKeys {
      * 每日矿石产量
      */
     public static final String DAY_ORE_NUMBER_KEY = "dayOreNumber_";
+
+    /**
+     * 发现页->购物页的商品列表
+     */
+    public static final String FIND_PAGE_SHOPPING_KEY = "commodityList";
+
 }

@@ -1,7 +1,6 @@
 package com.bester.platform.platformchain.service;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * @author liuwen
@@ -10,15 +9,14 @@ import java.util.Date;
 public interface OreProduceService {
 
     /**
-     * 截止指定日期的总矿石产值
+     * 截止当前时间的总矿石产值
      *
-     * @date 时间格式: yyyy-MM-dd
      * @return
      */
-    BigDecimal totalOreNumber(Date date);
+    BigDecimal totalOreNumber();
 
     /**
-     * 指定年份的单日矿石产量
+     * 指定某年内每天的矿石产量
      *
      * @param year
      * @return

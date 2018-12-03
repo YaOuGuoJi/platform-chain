@@ -4,12 +4,14 @@ import com.bester.platform.platformchain.common.CommonResult;
 import com.bester.platform.platformchain.common.CommonResultBuilder;
 import com.bester.platform.platformchain.constant.PowerSource;
 import com.bester.platform.platformchain.constant.PowerStatus;
+import com.bester.platform.platformchain.constant.UserInviteConstant;
 import com.bester.platform.platformchain.dto.UserAccountDTO;
 import com.bester.platform.platformchain.dto.UserInfoDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
 import com.bester.platform.platformchain.service.PowerRecordService;
 import com.bester.platform.platformchain.service.UserAccountService;
 import com.bester.platform.platformchain.service.UserInfoService;
+import com.bester.platform.platformchain.util.InviteCodeUtil;
 import com.bester.platform.platformchain.util.TokenUtil;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
@@ -17,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -90,7 +93,8 @@ public class LoginController {
     }
 
     @PostMapping("/user/register")
-    public CommonResult registered(String userName, String password, HttpServletResponse response) {
+    public CommonResult registered(String userName, String password, HttpServletResponse response,
+                                   @RequestParam(required = false) String inviteCode) {
         if (StringUtils.isBlank(userName) || StringUtils.isBlank(password)) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
@@ -98,17 +102,23 @@ public class LoginController {
         if (userAccountInfoByUserName != null) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "用户名已存在");
         }
+
         UserInfoDTO userInfoDTO = new UserInfoDTO();
         userInfoDTO.setUserName(userName);
         int userId = userInfoService.insertUserInfo(userInfoDTO);
         if (userId < 0) {
             return CommonResult.fail(HttpStatus.ERROR);
         }
-        int insert = userAccountService.addUserAccountInfo(userId, userName, password);
+        UserAccountDTO userAccountDTO = new UserAccountDTO();
+        userAccountDTO.setUserId(userId);
+        userAccountDTO.setUserName(userName);
+        userAccountDTO.setPassword(password);
+        userAccountDTO.setInviteCode(InviteCodeUtil.userInviteCode(userId));
+        int insert = userAccountService.addUserAccountInfo(userAccountDTO);
         if (insert < 0) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "注册失败");
         }
-        powerRecordService.addUserPower(userId, PowerSource.REGISTER, PowerSource.REGISTER_POWER, PowerStatus.NO_TEMPORARY);
+        addPower(userId, inviteCode);
         Map<String, String> data = Maps.newHashMap();
         data.put("userId", userId + "");
         try {
@@ -119,6 +129,18 @@ public class LoginController {
         }
         userAccountService.addLoginRecord(userId);
         return CommonResult.success("注册成功");
+    }
+
+    private void addPower(int userId, String inviteCode) {
+        powerRecordService.addUserPower(userId, PowerSource.REGISTER, PowerSource.REGISTER_POWER, PowerStatus.NO_TEMPORARY);
+        if (StringUtils.isNotBlank(inviteCode)) {
+            UserAccountDTO userAccountDTO = userAccountService.findUserAccountInfoByInviteCode(inviteCode);
+            if (userAccountDTO != null && userAccountDTO.getInviteTimes() < UserInviteConstant.ALLOWED_INVITE_TIMES) {
+                powerRecordService.addUserPower(userAccountDTO.getUserId(), PowerSource.INVITE,
+                        PowerSource.INVITE_POWER, PowerStatus.NO_TEMPORARY);
+                userAccountService.addUserInviteTimes(userAccountDTO.getUserId());
+            }
+        }
     }
 
 }

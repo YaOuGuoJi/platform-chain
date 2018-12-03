@@ -41,6 +41,11 @@ public class PowerSource {
     public static final String INVITE = "邀请好友";
 
     /**
+     * 邀请好友算力值
+     */
+    public static final Integer INVITE_POWER = 10;
+
+    /**
      * 关注公众号
      */
     public static final String PUBLIC = "关注公众号";

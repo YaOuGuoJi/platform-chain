@@ -7,7 +7,7 @@ import java.util.Date;
 
 /**
  * @author zhangqiang
- * @Date 2018/11/9
+ * @date 2018/11/9
  */
 @Data
 public class UserAccountDTO implements Serializable {
@@ -28,6 +28,16 @@ public class UserAccountDTO implements Serializable {
      * 密码
      */
     private String password;
+
+    /**
+     * 邀请码
+     */
+    private String inviteCode;
+
+    /**
+     * 邀请次数
+     */
+    private Integer inviteTimes;
 
     /**
      * 添加时间

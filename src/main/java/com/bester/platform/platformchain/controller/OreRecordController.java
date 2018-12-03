@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.Date;
 
 @RestController
 public class OreRecordController {
@@ -77,8 +76,7 @@ public class OreRecordController {
      */
     @GetMapping("/ore/total")
     public CommonResult queryTotalOre() {
-        Date date = new Date();
-        BigDecimal total = oreProduceService.totalOreNumber(date);
+        BigDecimal total = oreProduceService.totalOreNumber();
         BigDecimal day = oreProduceService.oreNumberByDay(new DateTime().getYear());
         return new CommonResultBuilder()
                 .code(200).message("查询成功").data("total", total).data("day", day).build();

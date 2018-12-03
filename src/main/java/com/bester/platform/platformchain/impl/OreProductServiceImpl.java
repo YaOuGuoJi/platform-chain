@@ -2,16 +2,23 @@ package com.bester.platform.platformchain.impl;
 
 import com.bester.platform.platformchain.constant.BlockChainParameters;
 import com.bester.platform.platformchain.service.OreProduceService;
+import com.bester.platform.platformchain.service.RedisClientService;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+
+import static com.bester.platform.platformchain.constant.RedisKeys.DAY_ORE_NUMBER_KEY;
+import static com.bester.platform.platformchain.constant.RedisKeys.TOTAL_ORE_NUMBER_KEY;
 
 /**
  * @author liuwen
@@ -21,53 +28,54 @@ import java.util.Date;
 public class OreProductServiceImpl implements OreProduceService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OreProductServiceImpl.class);
-
     /**
      * 起始发币日期: 2018年11月1日
      */
-    private static Date START_DATE;
+    private static final String START_DATE = "2018-11-01";
 
-    static {
-        try {
-            START_DATE = new SimpleDateFormat("yyyy-MM-dd").parse("2018-11-01");
-        } catch (ParseException e) {
-            LOGGER.error("转换时间异常！", e);
-        }
-    }
+    @Resource
+    private RedisClientService redisClientService;
 
     @Override
-    public BigDecimal totalOreNumber(Date date) {
-        BigDecimal total = new BigDecimal(0);
-        if (date.before(START_DATE)) {
+    public BigDecimal totalOreNumber() {
+        BigDecimal total = (BigDecimal) redisClientService.get(TOTAL_ORE_NUMBER_KEY);
+        if (total != null) {
             return total;
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        int startYear = new DateTime(START_DATE).getYear();
-        int thisYear = new DateTime(date).getYear();
-        Date start = new Date();
-        start.setTime(START_DATE.getTime());
+        total = new BigDecimal("0");
         try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date start = sdf.parse(START_DATE);
+            Date now = new Date();
+            int startYear = new DateTime(START_DATE).getYear();
+            int thisYear = new DateTime().getYear();
             for (int year = startYear; year <= thisYear; year++) {
                 Date endOfYear = sdf.parse(year + 1 + "-" + "01-01");
-                Date end = date.before(endOfYear) ? date : endOfYear;
+                Date end = now.before(endOfYear) ? now : endOfYear;
                 BigDecimal yearTotal = this.buildYearTotal(start, end);
                 total = total.add(yearTotal);
                 start = end;
             }
         } catch (ParseException e) {
             LOGGER.error("转换时间异常！", e);
+            return null;
         }
+        redisClientService.set(TOTAL_ORE_NUMBER_KEY, total, getNextDay());
         return total;
     }
 
     @Override
     public BigDecimal oreNumberByDay(int year) {
         int yearDiff = year - new DateTime(START_DATE).getYear();
-        if (yearDiff < 0) {
-            return new BigDecimal(0);
+        Assert.isTrue(yearDiff >= 0, "起始年份不得小于2018年!");
+        BigDecimal result = (BigDecimal) redisClientService.get(DAY_ORE_NUMBER_KEY + year);
+        if (result != null) {
+            return result;
         }
         BigDecimal half = new BigDecimal(Math.pow(2, yearDiff));
-        return BlockChainParameters.DAILY_ORE_LIMITED.divide(half, 5, RoundingMode.HALF_UP);
+        result = BlockChainParameters.DAILY_ORE_LIMITED.divide(half, 5, RoundingMode.HALF_UP);
+        redisClientService.set(DAY_ORE_NUMBER_KEY + year, result, getNextDay());
+        return result;
     }
 
     private BigDecimal buildYearTotal(Date start, Date end) {
@@ -75,5 +83,14 @@ public class OreProductServiceImpl implements OreProduceService {
         final int year = new DateTime(start).getYear();
         int dayDiff = new Long((end.getTime() - start.getTime()) / dayTime).intValue();
         return this.oreNumberByDay(year).multiply(new BigDecimal(dayDiff));
+    }
+
+    private Date getNextDay() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return new DateTime(calendar.getTime()).plusDays(1).toDate();
     }
 }

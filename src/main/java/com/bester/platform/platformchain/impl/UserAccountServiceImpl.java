@@ -54,11 +54,39 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public int addUserAccountInfo(int userId, String userName, String password) {
+    public int addUserAccountInfo(UserAccountDTO userAccountDTO) {
+        if (userAccountDTO == null) {
+            return 0;
+        }
         UserAccountEntity userAccountEntity = new UserAccountEntity();
-        userAccountEntity.setUserId(userId);
-        userAccountEntity.setUserName(userName);
-        userAccountEntity.setPassword(password);
+        BeanUtils.copyProperties(userAccountDTO, userAccountEntity);
         return userAccountDao.insertUserAccountInfo(userAccountEntity);
+    }
+
+    @Override
+    public UserAccountDTO findUserAccountInfoByInviteCode(String inviteCode) {
+        UserAccountEntity userAccountEntity = userAccountDao.selectByInviteCode(inviteCode);
+        if (userAccountEntity == null) {
+            return null;
+        }
+        UserAccountDTO userAccountDTO =  new UserAccountDTO();
+        BeanUtils.copyProperties(userAccountEntity, userAccountDTO);
+        return userAccountDTO;
+    }
+
+    @Override
+    public int addUserInviteTimes(int userId) {
+        return userAccountDao.addUserInviteTimes(userId);
+    }
+
+    @Override
+    public UserAccountDTO findUserAccountInfoByUserId(int userId) {
+        UserAccountEntity userAccountEntity = userAccountDao.selectByUserId(userId);
+        if (userAccountEntity == null) {
+            return null;
+        }
+        UserAccountDTO userAccountDTO =  new UserAccountDTO();
+        BeanUtils.copyProperties(userAccountEntity, userAccountDTO);
+        return userAccountDTO;
     }
 }

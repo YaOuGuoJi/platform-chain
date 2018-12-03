@@ -44,11 +44,33 @@ public interface UserAccountService {
     /**
      * 添加用户
      *
-     * @param userId
-     * @param userName
-     * @param password
+     * @param userAccountDTO
      * @return
      */
-    int addUserAccountInfo(int userId, String userName, String password);
+    int addUserAccountInfo(UserAccountDTO userAccountDTO);
+
+    /**
+     * 根据用户邀请码查询用户信息
+     *
+     * @param inviteCode
+     * @return
+     */
+    UserAccountDTO findUserAccountInfoByInviteCode(String inviteCode);
+
+    /**
+     * 用户邀请次数+1
+     *
+     * @param userId
+     * @return
+     */
+    int addUserInviteTimes(int userId);
+
+    /**
+     * 根据用户id查询用户信息
+     *
+     * @param userId
+     * @return
+     */
+    UserAccountDTO findUserAccountInfoByUserId(int userId);
 
 }

@@ -9,8 +9,14 @@ spring:
     username: yaouguoji
     password: liuwen
     driver-class-name: com.mysql.cj.jdbc.Driver
+
   jmx:
     default-domain: blockChain
+  redis:
+    database: 0
+    host: 47.92.154.234
+    port: 6379
+    password: yaouguoji
 
 mybatis:
   mapper-locations: classpath:sqlmap/*.xml

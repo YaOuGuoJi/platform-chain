@@ -1,7 +1,7 @@
 package com.bester.platform.platformchain.common;
 
+import com.alibaba.fastjson.JSON;
 import com.auth0.jwt.interfaces.Claim;
-import com.bester.platform.platformchain.enums.HttpStatus;
 import com.bester.platform.platformchain.service.UserAccountService;
 import com.bester.platform.platformchain.util.TokenUtil;
 import com.google.common.collect.Maps;
@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
@@ -34,7 +34,7 @@ public class UserInterceptor implements HandlerInterceptor {
     private UserAccountService userAccountService;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = TokenUtil.getToken(request);
         if (!StringUtils.isEmpty(token)) {
             try {
@@ -47,7 +47,7 @@ public class UserInterceptor implements HandlerInterceptor {
                 LOGGER.error("token验证失败！", e);
             }
         }
-        response.sendError(HttpStatus.UNAUTHORIZED.value, HttpStatus.UNAUTHORIZED.message);
+        sendJsonMessage(response);
         return false;
     }
 
@@ -64,6 +64,14 @@ public class UserInterceptor implements HandlerInterceptor {
         data.put("userId", userId);
         TokenUtil.updateToken2Cookie(response, data);
         userAccountService.addLoginRecord(NumberUtils.toInt(userId));
+    }
+
+    private static void sendJsonMessage(HttpServletResponse response) throws Exception {
+        response.setContentType("application/json; charset=utf-8");
+        PrintWriter writer = response.getWriter();
+        writer.print(JSON.toJSONString(CommonResult.fail(401, "没有登录！")));
+        writer.close();
+        response.flushBuffer();
     }
 
 }

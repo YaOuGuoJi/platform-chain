@@ -37,7 +37,6 @@ public class RedisClientServiceTest {
 
     @Test
     public void testInsert() {
-        List<ShoppingDTO> shoppingDTOList = new ArrayList<>();
         ShoppingDTO shoppingDTO = new ShoppingDTO();
         shoppingDTO.setCommodityId(574867290284L);
         shoppingDTO.setCommodityName("有线电脑鼠标家用办公常用USB电竞游戏鼠标台式牧马人 9.9包邮");
@@ -46,7 +45,6 @@ public class RedisClientServiceTest {
         shoppingDTO.setPrice(new BigDecimal("3.56"));
         shoppingDTO.setSalesVolume(0);
         shoppingDTO.setShortUrl("https://s.click.taobao.com/cdYNLJw");
-        shoppingDTOList.add(shoppingDTO);
         ShoppingDTO gameMouse = new ShoppingDTO();
         gameMouse.setCommodityId(577949864722L);
         gameMouse.setCommodityName("索魂F8游戏有线鼠标电竞专业家用办公笔记本台式电脑USB鼠标");
@@ -55,7 +53,6 @@ public class RedisClientServiceTest {
         gameMouse.setPrice(new BigDecimal("5.80"));
         gameMouse.setSalesVolume(0);
         gameMouse.setShortUrl("https://s.click.taobao.com/2EfNLJw");
-        shoppingDTOList.add(gameMouse);
         ShoppingDTO m100Mouse = new ShoppingDTO();
         m100Mouse.setCommodityId(577950148590L);
         m100Mouse.setCommodityName("/M100R 鼠标有线 电脑台式机笔记本专用外设光电鼠标");
@@ -64,7 +61,6 @@ public class RedisClientServiceTest {
         m100Mouse.setPrice(new BigDecimal("18.68"));
         m100Mouse.setSalesVolume(0);
         m100Mouse.setShortUrl("https://s.click.taobao.com/SycNLJw");
-        shoppingDTOList.add(m100Mouse);
         ShoppingDTO fm100Mouse = new ShoppingDTO();
         fm100Mouse.setCommodityId(578122737337L);
         fm100Mouse.setCommodityName("包邮HP惠普FM100有线鼠标笔记本台式电脑USB接口通用办公游戏鼠标");
@@ -73,7 +69,6 @@ public class RedisClientServiceTest {
         fm100Mouse.setPrice(new BigDecimal("5.31"));
         fm100Mouse.setSalesVolume(1);
         fm100Mouse.setShortUrl("https://s.click.taobao.com/PzgNLJw");
-        shoppingDTOList.add(fm100Mouse);
         ShoppingDTO silenceMouse = new ShoppingDTO();
         silenceMouse.setCommodityId(578243398082L);
         silenceMouse.setCommodityName("无声静音卡通伸缩线鼠标笔记本电脑可爱女生有线礼品鼠标");
@@ -82,8 +77,7 @@ public class RedisClientServiceTest {
         silenceMouse.setPrice(new BigDecimal("8.46"));
         silenceMouse.setSalesVolume(0);
         silenceMouse.setShortUrl("https://s.click.taobao.com/bdYNLJw");
-        shoppingDTOList.add(silenceMouse);
-        redisClientService.rightPush(RedisKeys.FIND_PAGE_SHOPPING_KEY, shoppingDTOList);
+        redisClientService.rightPush(RedisKeys.FIND_PAGE_SHOPPING_KEY, shoppingDTO, gameMouse, m100Mouse, fm100Mouse,silenceMouse);
         List<Object> list = redisClientService.lRange(RedisKeys.FIND_PAGE_SHOPPING_KEY, 0L, 5L);
         Assert.assertNotNull(list);
         System.out.println(list);

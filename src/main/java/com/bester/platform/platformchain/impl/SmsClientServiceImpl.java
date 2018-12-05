@@ -35,7 +35,7 @@ public class SmsClientServiceImpl implements SmsClientService {
 
     @Override
     public int sendVerifyCode(String phoneNum) {
-        String verifyCode = buildCode();
+        String verifyCode = this.buildCode();
         SendSmsRequest request = buildRequest(phoneNum, verifyCode);
         try {
             SendSmsResponse response = acsClient.getAcsResponse(request);
@@ -61,7 +61,7 @@ public class SmsClientServiceImpl implements SmsClientService {
         return 1;
     }
 
-    private static String buildCode() {
+    private String buildCode() {
         final int length = 6;
         StringBuilder sb = new StringBuilder();
         Random random = new Random();

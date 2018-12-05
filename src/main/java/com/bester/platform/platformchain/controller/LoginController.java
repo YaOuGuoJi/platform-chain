@@ -2,6 +2,7 @@ package com.bester.platform.platformchain.controller;
 
 import com.bester.platform.platformchain.common.CommonResult;
 import com.bester.platform.platformchain.common.CommonResultBuilder;
+import com.bester.platform.platformchain.constant.BlockChainParameters;
 import com.bester.platform.platformchain.constant.PowerSource;
 import com.bester.platform.platformchain.constant.PowerStatus;
 import com.bester.platform.platformchain.constant.UserInviteConstant;
@@ -9,6 +10,7 @@ import com.bester.platform.platformchain.dto.UserAccountDTO;
 import com.bester.platform.platformchain.dto.UserInfoDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
 import com.bester.platform.platformchain.service.PowerRecordService;
+import com.bester.platform.platformchain.service.SmsClientService;
 import com.bester.platform.platformchain.service.UserAccountService;
 import com.bester.platform.platformchain.service.UserInfoService;
 import com.bester.platform.platformchain.util.InviteCodeUtil;
@@ -47,6 +49,9 @@ public class LoginController {
     @Resource
     private UserInfoService userInfoService;
 
+    @Resource
+    SmsClientService smsClientService;
+
     @GetMapping("/user/isLogin")
     public CommonResult isLogin(HttpServletRequest request) {
         String token = TokenUtil.getToken(request);
@@ -56,6 +61,18 @@ public class LoginController {
             return CommonResult.success(false);
         }
         return CommonResult.success(true);
+    }
+
+    @GetMapping("/user/verificationCode")
+    public CommonResult sendVerificationCode(String phoneNum) {
+        if (StringUtils.isBlank(phoneNum) || phoneNum.length() < BlockChainParameters.PHONE_NUMBER_LENGTH) {
+            return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
+        }
+        int result = smsClientService.sendVerifyCode(phoneNum);
+        if (result == 0) {
+            return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "发送验证码失败，请稍后再试");
+        }
+        return CommonResult.success();
     }
 
     @PostMapping("/user/login")

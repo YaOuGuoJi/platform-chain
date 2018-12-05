@@ -49,4 +49,9 @@ public class UserAccountDTO implements Serializable {
      */
     private Date updateTime;
 
+    /**
+     * 手机号
+     */
+    private String phone;
+
 }

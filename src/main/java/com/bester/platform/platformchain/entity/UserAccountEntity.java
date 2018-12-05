@@ -45,4 +45,10 @@ public class UserAccountEntity {
      * 更新时间
      */
     private Date updateTime;
+
+    /**
+     * 手机号
+     */
+    private String phone;
+
 }

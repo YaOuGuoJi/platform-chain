@@ -130,7 +130,7 @@ public class LoginController {
         userAccountDTO.setUserId(userId);
         userAccountDTO.setUserName(userName);
         userAccountDTO.setPassword(password);
-        userAccountDTO.setInviteCode(InviteCodeUtil.userInviteCode(userId));
+        userAccountDTO.setInviteCode(buildUniqueInviteCode());
         int insert = userAccountService.addUserAccountInfo(userAccountDTO);
         if (insert < 0) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "注册失败");
@@ -158,6 +158,16 @@ public class LoginController {
                 userAccountService.addUserInviteTimes(userAccountDTO.getUserId());
             }
         }
+    }
+
+    private String buildUniqueInviteCode() {
+        String inviteCode = null;
+        UserAccountDTO userAccountDTO = null;
+        while (userAccountDTO == null) {
+            inviteCode = InviteCodeUtil.userInviteCode();
+            userAccountDTO = userAccountService.findUserAccountInfoByInviteCode(inviteCode);
+        }
+        return inviteCode;
     }
 
 }

@@ -44,7 +44,7 @@ public class SmsClientServiceImpl implements SmsClientService {
         request.setMethod(MethodType.POST);
         request.setPhoneNumbers(phoneNum);
         request.setSignName("亚欧国际小镇");
-        request.setTemplateCode();
+        request.setTemplateCode("");
         request.setTemplateParam("{\"code\":\"123\"}");
         try {
             SendSmsResponse response = acsClient.getAcsResponse(request);

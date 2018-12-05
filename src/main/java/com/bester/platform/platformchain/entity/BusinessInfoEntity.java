@@ -10,7 +10,7 @@ import java.util.Date;
 @Data
 public class BusinessInfoEntity {
 
-    private int id;
+    private Integer id;
 
     private String registerPhone;
 
@@ -22,7 +22,7 @@ public class BusinessInfoEntity {
 
     private String introduce;
 
-    private int type;
+    private Integer type;
 
     private String remarks;
 

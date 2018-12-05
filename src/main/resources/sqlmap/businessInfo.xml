@@ -3,7 +3,7 @@
 <mapper namespace="com.bester.platform.platformchain.dao.BusinessInfoDao">
     <resultMap id="businessInfoEntity" type="com.bester.platform.platformchain.entity.BusinessInfoEntity">
         <result column="id" property="id"/>
-        <result column="registerPhone" property="registerPhone"/>
+        <result column="register_phone" property="registerPhone"/>
         <result column="name" property="name"/>
         <result column="phone" property="phone"/>
         <result column="weChat" property="weChat"/>
@@ -14,7 +14,7 @@
         <result column="updateTime" property="updateTime"/>
     </resultMap>
     <sql id="allFields">
-        registerPhone,
+        register_phone,
         name,
         phone,
         weChat,
@@ -28,7 +28,7 @@
     <insert id="insertBusinessInfo" parameterType="com.bester.platform.platformchain.entity.UserInfoEntity">
         INSERT INTO
         business_info
-        <include refid="allFields"/>
+        (<include refid="allFields"/>)
         VALUES (
         #{businessInfo.registerPhone},
         #{businessInfo.name},

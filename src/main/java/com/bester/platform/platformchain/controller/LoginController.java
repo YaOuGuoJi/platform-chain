@@ -7,7 +7,6 @@ import com.bester.platform.platformchain.constant.PowerSource;
 import com.bester.platform.platformchain.constant.PowerStatus;
 import com.bester.platform.platformchain.constant.UserInviteConstant;
 import com.bester.platform.platformchain.dto.UserAccountDTO;
-import com.bester.platform.platformchain.dto.UserInfoDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
 import com.bester.platform.platformchain.service.PowerRecordService;
 import com.bester.platform.platformchain.service.SmsClientService;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
@@ -104,7 +102,7 @@ public class LoginController {
         } else {
             UserAccountDTO userAccountDTO = new UserAccountDTO();
             userAccountDTO.setPhoneNum(phoneNum);
-            userAccountDTO.setInviteCode(InviteCodeUtil.userInviteCode());
+            userAccountDTO.setInviteCode(buildUniqueInviteCode());
             int userId = userAccountService.addUserAccountInfo(userAccountDTO);
             if (userId < 0) {
                 return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "注册失败");
@@ -123,14 +121,6 @@ public class LoginController {
         }
     }
 
-    @PostMapping("/user/logout")
-    public CommonResult logout(HttpServletResponse response) {
-        Cookie cookie = new Cookie("token", "");
-        cookie.setPath("/");
-        response.addCookie(cookie);
-        return new CommonResultBuilder().code(200).message("退出成功").build();
-    }
-
     private void addPower(int userId, String inviteCode) {
         powerRecordService.addUserPower(userId, PowerSource.REGISTER, PowerSource.REGISTER_POWER, PowerStatus.NO_TEMPORARY);
         if (StringUtils.isNotBlank(inviteCode)) {
@@ -141,6 +131,16 @@ public class LoginController {
                 userAccountService.addUserInviteTimes(userAccountDTO.getUserId());
             }
         }
+    }
+
+    private String buildUniqueInviteCode() {
+        String inviteCode = null;
+        UserAccountDTO userAccountDTO = null;
+        while (userAccountDTO == null) {
+            inviteCode = InviteCodeUtil.userInviteCode();
+            userAccountDTO = userAccountService.findUserAccountInfoByInviteCode(inviteCode);
+        }
+        return inviteCode;
     }
 
 }

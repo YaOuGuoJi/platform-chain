@@ -16,15 +16,6 @@ public class UserAccountEntity {
      */
     private Integer userId;
 
-    /**
-     * 用户名
-     */
-    private String userName;
-
-    /**
-     * 密码
-     */
-    private String password;
 
     /**
      * 邀请码
@@ -49,6 +40,6 @@ public class UserAccountEntity {
     /**
      * 手机号
      */
-    private String phone;
+    private String phoneNum;
 
 }

@@ -3,9 +3,7 @@
 <mapper namespace="com.bester.platform.platformchain.dao.UserAccountDao">
 
     <resultMap id="userAccountEntity" type="com.bester.platform.platformchain.entity.UserAccountEntity">
-        <result column="UserId" property="userId"/>
-        <result column="UserName" property="userName"/>
-        <result column="Password" property="password"/>
+        <result column="PhoneNum" property="phoneNum"/>
         <result column="InviteCode" property="inviteCode"/>
         <result column="InviteTimes" property="inviteTimes"/>
         <result column="AddTime" property="addTime"/>
@@ -14,19 +12,17 @@
 
     <sql id="allFields">
         UserId,
-        UserName,
-        Password,
         InviteCode,
         InviteTimes,
         AddTime,
         UpdateTime
     </sql>
 
-    <select id="findUserAccountInfoByUserId" parameterType="map" resultMap="userAccountEntity">
+    <select id="findUserAccountInfoByPhoneNum" parameterType="map" resultMap="userAccountEntity">
         SELECT
         <include refid="allFields"/>
         FROM user_account
-        WHERE UserId = #{userId}
+        WHERE phoneNum = #{phoneNum}
     </select>
 
     <select id="findUserAccountInfoByUserName" parameterType="string" resultType="com.bester.platform.platformchain.entity.UserAccountEntity">
@@ -36,12 +32,11 @@
         WHERE UserName = #{userName}
     </select>
 
-    <insert id="insertUserAccountInfo" parameterType="com.bester.platform.platformchain.entity.UserAccountEntity">
+    <insert id="insertUserAccountInfo" parameterType="com.bester.platform.platformchain.entity.UserAccountEntity"
+            useGeneratedKeys="true" keyProperty="userAccountEntity.userId">
         INSERT INTO user_account
         (
-            UserId,
-            UserName,
-            Password,
+            phoneNum,
             InviteCode,
             InviteTimes,
             AddTime,
@@ -49,9 +44,7 @@
         )
         VALUES
         (
-            #{userAccountEntity.userId},
-            #{userAccountEntity.userName},
-            #{userAccountEntity.password},
+            #{userAccountEntity.phoneNum},
             #{userAccountEntity.inviteCode},
             0,
             NOW(),

@@ -9,12 +9,12 @@ import com.bester.platform.platformchain.dto.UserAccountDTO;
 public interface UserAccountService {
 
     /**
-     * 检查用户id是否存在
+     * 检查用户是否已经注册
      *
-     * @param userId
+     * @param phoneNum
      * @return
      */
-    boolean checkUserIdExist(int userId);
+    UserAccountDTO findUserAccountInfoByPhoneNum(String phoneNum);
 
     /**
      * 检查用户名和密码匹配性
@@ -23,7 +23,7 @@ public interface UserAccountService {
      * @param password
      * @return 返回生成token
      */
-    boolean checkUserPassword(String userName, String password);
+//    boolean checkUserPassword(String userName, String password);
 
     /**
      * 新增一条登录记录

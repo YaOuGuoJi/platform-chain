@@ -13,19 +13,19 @@ public class InviteCodeUtil {
 
     private static final int INVITE_CODE_LENGTH = 6;
 
-    public static String userInviteCode(int userId) {
-        if (userId <= 0) {
-            return "";
-        }
-        StringBuilder sb = new StringBuilder();
-        while (userId > 0) {
-            int mod = userId % SOURCE_ARR.length;
-            userId = (userId - mod) / SOURCE_ARR.length;
-            sb.append(SOURCE_ARR[mod]);
-        }
-        while (sb.length() < INVITE_CODE_LENGTH) {
-            sb.append("A");
-        }
-        return sb.toString();
+    public static String userInviteCode() {
+//        if (userId <= 0) {
+//            return "";
+//        }
+//        StringBuilder sb = new StringBuilder();
+//        while (userId > 0) {
+//            int mod = userId % SOURCE_ARR.length;
+//            userId = (userId - mod) / SOURCE_ARR.length;
+//            sb.append(SOURCE_ARR[mod]);
+//        }
+//        while (sb.length() < INVITE_CODE_LENGTH) {
+//            sb.append("A");
+//        }
+        return "ZXCVBN";
     }
 }

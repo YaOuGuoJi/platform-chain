@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
@@ -119,6 +120,14 @@ public class LoginController {
             userAccountService.addLoginRecord(userId);
             return CommonResult.success("注册成功");
         }
+    }
+
+    @PostMapping("/user/logout")
+    public CommonResult logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("token", "");
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        return new CommonResultBuilder().code(200).message("退出成功").build();
     }
 
     private void addPower(int userId, String inviteCode) {

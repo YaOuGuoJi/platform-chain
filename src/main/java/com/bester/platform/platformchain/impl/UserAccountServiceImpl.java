@@ -33,15 +33,6 @@ public class UserAccountServiceImpl implements UserAccountService {
         return userAccountDTO;
     }
 
-//    @Override
-//    public boolean checkUserPassword(String userName, String password) {
-//        UserAccountEntity userAccountInfo = userAccountDao.findUserAccountInfoByUserName(userName);
-//        if (userAccountInfo == null) {
-//            return false;
-//        }
-//        return password.equals(userAccountInfo.getPassword());
-//    }
-
     @Override
     public int addLoginRecord(int userId) {
         return userLoginDao.insertUserLoginRecord(userId);

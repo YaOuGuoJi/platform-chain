@@ -99,7 +99,9 @@ public class LoginController {
                 return CommonResult.fail(HttpStatus.ERROR);
             }
             userAccountService.addLoginRecord(userAccountInfo.getUserId());
-            return new CommonResultBuilder().code(200).data("userId", userAccountInfo.getUserId()).build();
+            Map<String, Integer> map = Maps.newHashMap();
+            map.put("userId", userAccountInfo.getUserId());
+            return CommonResult.success(map);
         } else {
             UserAccountDTO userAccountDTO = new UserAccountDTO();
             userAccountDTO.setPhoneNum(phoneNum);

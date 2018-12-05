@@ -17,15 +17,6 @@ public interface UserAccountService {
     UserAccountDTO findUserAccountInfoByPhoneNum(String phoneNum);
 
     /**
-     * 检查用户名和密码匹配性
-     *
-     * @param userName
-     * @param password
-     * @return 返回生成token
-     */
-//    boolean checkUserPassword(String userName, String password);
-
-    /**
      * 新增一条登录记录
      *
      * @param userId

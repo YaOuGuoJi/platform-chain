@@ -20,4 +20,8 @@ public class RedisKeys {
      */
     public static final String FIND_PAGE_SHOPPING_KEY = "commodityList";
 
+    /**
+     * 手机验证码
+     */
+    public static final String PHONE_VERIFY_CODE = "phoneVerifyCode_";
 }

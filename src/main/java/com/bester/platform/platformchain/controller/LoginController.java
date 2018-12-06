@@ -111,6 +111,7 @@ public class LoginController {
                 return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "注册失败");
             }
             UserInfoDTO userInfoDTO = new UserInfoDTO();
+            userInfoDTO.setUserName(phoneNum);
             userInfoDTO.setUserId(userId);
             userInfoDTO.setPhone(phoneNum);
             userInfoDTO.setVip(UserVipLevel.NON_VIP.level);

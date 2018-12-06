@@ -18,7 +18,8 @@
     </resultMap>
 
     <sql id="allFields">
-        UserId,
+        UserId
+        ,
         UserName,
         Sex,
         Birthday,
@@ -54,6 +55,9 @@
     <insert id="insertUserInfo" parameterType="com.bester.platform.platformchain.entity.UserInfoEntity">
         INSERT INTO user_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userInfo.userId != null and userInfo.userId != ''">
+                UserId,
+            </if>
             <if test="userInfo.userName != null and userInfo.userName != ''">
                 UserName,
             </if>
@@ -84,11 +88,12 @@
             <if test="userInfo.identityId != null and userInfo.identityId != ''">
                 IdentityId,
             </if>
-            <if test="userInfo.addTime == null">
-                AddTime
-            </if>
+            AddTime
         </trim>
         <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="userInfo.userId != null and userInfo.userId !=''">
+                #{userInfo.userId},
+            </if>
             <if test="userInfo.userName != null and userInfo.userName != ''">
                 #{userInfo.userName},
             </if>
@@ -119,9 +124,7 @@
             <if test="userInfo.identityId != null and userInfo.identityId != ''">
                 #{userInfo.identityId},
             </if>
-            <if test="userInfo.addTime == null ">
-                NOW()
-            </if>
+            NOW()
         </trim>
     </insert>
 

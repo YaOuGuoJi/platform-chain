@@ -78,8 +78,8 @@ public class LoginController {
     }
 
     @PostMapping("/user/verification")
-    public CommonResult userVerification(String phoneNum, String code,@RequestParam(required = false, defaultValue = "") String inviteCode, HttpServletResponse response) {
-        if (StringUtils.isBlank(phoneNum) || StringUtils.isBlank(code) || phoneNum.length() < BlockChainParameters.PHONE_NUMBER_LENGTH){
+    public CommonResult userVerification(String phoneNum, String code, @RequestParam(required = false, defaultValue = "") String inviteCode, HttpServletResponse response) {
+        if (StringUtils.isBlank(phoneNum) || StringUtils.isBlank(code) || phoneNum.length() < BlockChainParameters.PHONE_NUMBER_LENGTH) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
         String regex = "[0-9]{6}";
@@ -92,8 +92,8 @@ public class LoginController {
         }
         UserAccountDTO userAccountInfo = userAccountService.findUserAccountInfoByPhoneNum(phoneNum);
         if (userAccountInfo != null) {
+            Map<String, String> data = Maps.newHashMap();
             try {
-                Map<String, String> data = Maps.newHashMap();
                 data.put("userId", userAccountInfo.getUserId() + "");
                 TokenUtil.updateToken2Cookie(response, data);
             } catch (UnsupportedEncodingException e) {
@@ -101,9 +101,7 @@ public class LoginController {
                 return CommonResult.fail(HttpStatus.ERROR);
             }
             userAccountService.addLoginRecord(userAccountInfo.getUserId());
-            Map<String, Integer> map = Maps.newHashMap();
-            map.put("userId", userAccountInfo.getUserId());
-            return CommonResult.success(map);
+            return CommonResult.success(data);
         } else {
             UserAccountDTO userAccountDTO = new UserAccountDTO();
             userAccountDTO.setPhoneNum(phoneNum);

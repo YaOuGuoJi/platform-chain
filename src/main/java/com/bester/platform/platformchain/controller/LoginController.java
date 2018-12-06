@@ -153,9 +153,9 @@ public class LoginController {
     }
 
     private String buildUniqueInviteCode() {
-        String inviteCode = null;
-        UserAccountDTO userAccountDTO = null;
-        while (userAccountDTO == null) {
+        String inviteCode = InviteCodeUtil.userInviteCode();
+        UserAccountDTO userAccountDTO = userAccountService.findUserAccountInfoByInviteCode(inviteCode);
+        while (userAccountDTO != null) {
             inviteCode = InviteCodeUtil.userInviteCode();
             userAccountDTO = userAccountService.findUserAccountInfoByInviteCode(inviteCode);
         }

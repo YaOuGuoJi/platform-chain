@@ -7,7 +7,9 @@ import com.bester.platform.platformchain.constant.PowerSource;
 import com.bester.platform.platformchain.constant.PowerStatus;
 import com.bester.platform.platformchain.constant.UserInviteConstant;
 import com.bester.platform.platformchain.dto.UserAccountDTO;
+import com.bester.platform.platformchain.dto.UserInfoDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
+import com.bester.platform.platformchain.enums.UserVipLevel;
 import com.bester.platform.platformchain.service.PowerRecordService;
 import com.bester.platform.platformchain.service.SmsClientService;
 import com.bester.platform.platformchain.service.UserAccountService;
@@ -108,6 +110,14 @@ public class LoginController {
             userAccountDTO.setInviteCode(buildUniqueInviteCode());
             int userId = userAccountService.addUserAccountInfo(userAccountDTO);
             if (userId < 0) {
+                return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "注册失败");
+            }
+            UserInfoDTO userInfoDTO = new UserInfoDTO();
+            userInfoDTO.setUserId(userAccountDTO.getUserId());
+            userInfoDTO.setPhone(phoneNum);
+            userInfoDTO.setVip(UserVipLevel.NON_VIP.level);
+            int insert = userInfoService.insertUserInfo(userInfoDTO);
+            if (insert < 0) {
                 return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "注册失败");
             }
             addPower(userId, inviteCode);

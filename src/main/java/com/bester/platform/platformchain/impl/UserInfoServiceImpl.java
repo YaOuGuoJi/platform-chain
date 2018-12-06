@@ -34,8 +34,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     public int insertUserInfo(UserInfoDTO userInfoDTO) {
         UserInfoEntity userInfoEntity = new UserInfoEntity();
         BeanUtils.copyProperties(userInfoDTO, userInfoEntity);
-        userInfoDao.insertUserInfo(userInfoEntity);
-        return userInfoEntity.getUserId();
+        return userInfoDao.insertUserInfo(userInfoEntity);
     }
 
     @Override

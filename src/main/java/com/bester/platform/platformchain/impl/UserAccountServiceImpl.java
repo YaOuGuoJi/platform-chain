@@ -38,16 +38,6 @@ public class UserAccountServiceImpl implements UserAccountService {
         return userLoginDao.insertUserLoginRecord(userId);
     }
 
-    @Override
-    public UserAccountDTO findUserAccountInfoByUserName(String userName) {
-        UserAccountEntity userAccountInfoByUserName = userAccountDao.findUserAccountInfoByUserName(userName);
-        if (userAccountInfoByUserName == null) {
-            return null;
-        }
-        UserAccountDTO userAccountDTO = new UserAccountDTO();
-        BeanUtils.copyProperties(userAccountInfoByUserName, userAccountDTO);
-        return userAccountDTO;
-    }
 
     @Override
     public int addUserAccountInfo(UserAccountDTO userAccountDTO) {
@@ -66,7 +56,7 @@ public class UserAccountServiceImpl implements UserAccountService {
         if (userAccountEntity == null) {
             return null;
         }
-        UserAccountDTO userAccountDTO =  new UserAccountDTO();
+        UserAccountDTO userAccountDTO = new UserAccountDTO();
         BeanUtils.copyProperties(userAccountEntity, userAccountDTO);
         return userAccountDTO;
     }
@@ -82,7 +72,7 @@ public class UserAccountServiceImpl implements UserAccountService {
         if (userAccountEntity == null) {
             return null;
         }
-        UserAccountDTO userAccountDTO =  new UserAccountDTO();
+        UserAccountDTO userAccountDTO = new UserAccountDTO();
         BeanUtils.copyProperties(userAccountEntity, userAccountDTO);
         return userAccountDTO;
     }

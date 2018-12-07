@@ -24,13 +24,6 @@ public interface UserAccountService {
      */
     int addLoginRecord(int userId);
 
-    /**
-     * 查找用户名是否存在
-     *
-     * @param userName
-     * @return
-     */
-    UserAccountDTO findUserAccountInfoByUserName(String userName);
 
     /**
      * 添加用户

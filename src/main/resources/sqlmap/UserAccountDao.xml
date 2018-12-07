@@ -25,13 +25,6 @@
         WHERE phoneNum = #{phoneNum}
     </select>
 
-    <select id="findUserAccountInfoByUserName" parameterType="string" resultType="com.bester.platform.platformchain.entity.UserAccountEntity">
-        SELECT
-        <include refid="allFields"/>
-        FROM user_account
-        WHERE UserName = #{userName}
-    </select>
-
     <insert id="insertUserAccountInfo" parameterType="com.bester.platform.platformchain.entity.UserAccountEntity"
             useGeneratedKeys="true" keyProperty="userAccountEntity.userId">
         INSERT INTO user_account

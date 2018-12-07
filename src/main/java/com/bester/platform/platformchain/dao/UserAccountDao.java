@@ -18,14 +18,6 @@ public interface UserAccountDao {
     UserAccountEntity findUserAccountInfoByPhoneNum(@Param("phoneNum") String phoneNum);
 
     /**
-     * 根据用户名查询用户信息
-     *
-     * @param userName
-     * @return
-     */
-    UserAccountEntity findUserAccountInfoByUserName(@Param("userName") String userName);
-
-    /**
      * 添加用户
      * @param userAccountEntity 用户实体
      * @return

@@ -74,7 +74,7 @@ public class LoginController {
         if (result == 0) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "发送验证码失败，请稍后再试");
         }
-        return CommonResult.success();
+        return CommonResult.success(result);
     }
 
     @PostMapping("/user/verification")

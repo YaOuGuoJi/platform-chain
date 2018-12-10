@@ -57,4 +57,9 @@ public class BlockChainParameters {
      */
     public static final BigDecimal TIMES_BY_DAY = new BigDecimal(24 / 3);
 
+    /**
+     * 手机号码长度
+     */
+    public static final Integer PHONE_NUMBER_LENGTH = 11;
+
 }

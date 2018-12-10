@@ -70,21 +70,12 @@ public class UserInfoController {
             return CommonResult.fail(403, "用户名不得为空！");
         }
         int userId = UserInfoUtil.getUserId();
-        UserAccountDTO userAccountDTO = userAccountService.findUserAccountInfoByUserName(userInfoVO.userName);
+        UserAccountDTO userAccountDTO = userAccountService.findUserAccountInfoByPhoneNum(userInfoVO.phone);
         if (userAccountDTO != null && userId != userAccountDTO.getUserId()) {
-            return CommonResult.fail(403, "用户名已被占用！");
+            return CommonResult.fail(403, "该手机号已经注册！");
         }
         if (userInfoVO.sex == null || userInfoVO.sex <= 0) {
             return CommonResult.fail(403, "性别不合法");
-        }
-        if (StringUtils.isEmpty(userInfoVO.phone) || userInfoVO.phone.length() > 20) {
-            return CommonResult.fail(403, "手机号不合法！");
-        }
-        if (StringUtils.isEmpty(userInfoVO.email) || userInfoVO.email.length() > 30) {
-            return CommonResult.fail(403, "email不合法！");
-        }
-        if (StringUtils.isEmpty(userInfoVO.address) || userInfoVO.address.length() > 50) {
-            return CommonResult.fail(403, "地址为空或超长！");
         }
         return CommonResult.success();
     }

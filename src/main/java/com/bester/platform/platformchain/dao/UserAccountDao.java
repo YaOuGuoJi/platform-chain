@@ -10,20 +10,12 @@ import org.apache.ibatis.annotations.Param;
 public interface UserAccountDao {
 
     /**
-     * 查询用户账号信息
+     * 根据手机号查询用户账号信息
      *
-     * @param userId
+     * @param phoneNum
      * @return
      */
-    UserAccountEntity findUserAccountInfoByUserId(@Param("userId") int userId);
-
-    /**
-     * 根据用户名查询用户信息
-     *
-     * @param userName
-     * @return
-     */
-    UserAccountEntity findUserAccountInfoByUserName(@Param("userName") String userName);
+    UserAccountEntity findUserAccountInfoByPhoneNum(@Param("phoneNum") String phoneNum);
 
     /**
      * 添加用户

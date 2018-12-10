@@ -30,7 +30,6 @@ public class UserInviteController {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
         InviteVO inviteVO = new InviteVO();
-        inviteVO.setUserName(userAccountDTO.getUserName());
         inviteVO.setInviteCode(userAccountDTO.getInviteCode());
         inviteVO.setInviteTimes(userAccountDTO.getInviteTimes());
         inviteVO.setAllowedTimes(UserInviteConstant.ALLOWED_INVITE_TIMES);

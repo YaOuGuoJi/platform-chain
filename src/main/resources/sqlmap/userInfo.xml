@@ -18,7 +18,8 @@
     </resultMap>
 
     <sql id="allFields">
-        UserId,
+        UserId
+        ,
         UserName,
         Sex,
         Birthday,
@@ -40,21 +41,23 @@
         WHERE UserId=#{userId}
     </select>
     <update id="updateUserInfo">
-      update user_info
-      set UserName=#{userInfoEntity.userName},
-        Sex = #{userInfoEntity.sex},
-        Birthday=#{userInfoEntity.birthday},
-        Phone=#{userInfoEntity.phone},
-        Email=#{userInfoEntity.email},
-        Address=#{userInfoEntity.address},
-        Job=#{userInfoEntity.job}
-      where UserId = #{userInfoEntity.userId}
+        update user_info
+        set UserName=#{userInfoEntity.userName},
+            Sex     = #{userInfoEntity.sex},
+            Birthday=#{userInfoEntity.birthday},
+            Phone=#{userInfoEntity.phone},
+            Email=#{userInfoEntity.email},
+            Address=#{userInfoEntity.address},
+            Job=#{userInfoEntity.job}
+        where UserId = #{userInfoEntity.userId}
     </update>
 
-    <insert id="insertUserInfo" parameterType="com.bester.platform.platformchain.entity.UserInfoEntity"
-            useGeneratedKeys="true" keyProperty="userInfo.userId">
+    <insert id="insertUserInfo" parameterType="com.bester.platform.platformchain.entity.UserInfoEntity">
         INSERT INTO user_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userInfo.userId != null and userInfo.userId != ''">
+                UserId,
+            </if>
             <if test="userInfo.userName != null and userInfo.userName != ''">
                 UserName,
             </if>
@@ -85,11 +88,12 @@
             <if test="userInfo.identityId != null and userInfo.identityId != ''">
                 IdentityId,
             </if>
-            <if test="userInfo.addTime == null">
-                AddTime
-            </if>
+            AddTime
         </trim>
         <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            <if test="userInfo.userId != null and userInfo.userId !=''">
+                #{userInfo.userId},
+            </if>
             <if test="userInfo.userName != null and userInfo.userName != ''">
                 #{userInfo.userName},
             </if>
@@ -120,9 +124,7 @@
             <if test="userInfo.identityId != null and userInfo.identityId != ''">
                 #{userInfo.identityId},
             </if>
-            <if test="userInfo.addTime == null ">
-                NOW()
-            </if>
+            NOW()
         </trim>
     </insert>
 

@@ -20,16 +20,6 @@ public class UserAccountDTO implements Serializable {
     private Integer userId;
 
     /**
-     * 用户名
-     */
-    private String userName;
-
-    /**
-     * 密码
-     */
-    private String password;
-
-    /**
      * 邀请码
      */
     private String inviteCode;
@@ -48,5 +38,10 @@ public class UserAccountDTO implements Serializable {
      * 更新时间
      */
     private Date updateTime;
+
+    /**
+     * 手机号
+     */
+    private String phoneNum;
 
 }

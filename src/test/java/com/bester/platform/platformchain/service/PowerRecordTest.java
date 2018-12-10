@@ -43,8 +43,6 @@ public class PowerRecordTest {
     @Test
     public void testInsert() {
         UserAccountEntity userAccountEntity = new UserAccountEntity();
-        userAccountEntity.setUserName("spider");
-        userAccountEntity.setPassword("xxx");
         int userId = userAccountDao.insertUserAccountInfo(userAccountEntity);
         System.out.println(userAccountEntity.getUserId());
     }

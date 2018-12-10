@@ -7,11 +7,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -70,9 +68,9 @@ public class RedisClientServiceImpl implements RedisClientService {
     }
 
     @Override
-    public void rightPush(String key, Collection<Object> values) {
+    public void rightPush(String key, Object... values) {
         Assert.isTrue(StringUtils.isNotEmpty(key), "key不得为空！");
-        Assert.isTrue(!CollectionUtils.isEmpty(values), "value列表不得为空！");
+        Assert.isTrue(values != null, "value不得为空！");
         ListOperations<String, Object> listOperations = redisTemplate.opsForList();
         listOperations.rightPushAll(key, values);
     }

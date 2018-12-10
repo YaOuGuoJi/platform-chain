@@ -22,7 +22,8 @@ import java.util.Map;
  */
 public class TokenUtil {
 
-    private static String SECRET = "yaouguoji";
+    private static final String SECRET = "yaouguoji";
+    private static final String COOKIE_KEY = "token";
 
     /**
      * 生成新token并设置cookie
@@ -39,7 +40,7 @@ public class TokenUtil {
             builder.withClaim(entry.getKey(), entry.getValue());
         }
         String token = builder.withExpiresAt(expireTime).withIssuedAt(new Date()).sign(Algorithm.HMAC256(SECRET));
-        Cookie cookie = new Cookie("token", token);
+        Cookie cookie = new Cookie(COOKIE_KEY, token);
         cookie.setPath("/");
         cookie.setMaxAge(15 * 24 * 3600);
         response.addCookie(cookie);
@@ -62,7 +63,7 @@ public class TokenUtil {
         Cookie[] cookies = request.getCookies();
         if (ArrayUtils.isNotEmpty(cookies)) {
             for (Cookie cookie : cookies) {
-                if ("token".equals(cookie.getName())) {
+                if (COOKIE_KEY.equals(cookie.getName())) {
                     return cookie.getValue();
                 }
             }

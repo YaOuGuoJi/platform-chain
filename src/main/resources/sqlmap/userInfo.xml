@@ -128,4 +128,10 @@
         </trim>
     </insert>
 
+    <update id="updateUserVipLevel" parameterType="map">
+        UPDATE user_info
+        SET Vip=#{level}
+        WHERE UserId=#{userId}
+    </update>
+
 </mapper>

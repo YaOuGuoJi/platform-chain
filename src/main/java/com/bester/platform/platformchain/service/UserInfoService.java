@@ -1,6 +1,7 @@
 package com.bester.platform.platformchain.service;
 
 import com.bester.platform.platformchain.dto.UserInfoDTO;
+import com.bester.platform.platformchain.enums.UserVipLevel;
 
 /**
  * @author liuwen
@@ -26,9 +27,19 @@ public interface UserInfoService {
 
     /**
      * 修改用户信息
+     *
      * @param userInfoDTO
      * @return
      */
 
     int updateUserInfo(UserInfoDTO userInfoDTO);
+
+    /**
+     * 升级用户VIP等级
+     *
+     * @param userId
+     * @param level
+     * @return
+     */
+    int updateUserVipLevel(int userId, UserVipLevel level);
 }

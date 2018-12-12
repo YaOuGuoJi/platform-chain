@@ -30,7 +30,7 @@ public class BlackGoldCardDaoTest {
         for (int i = 0; i < 100; i++) {
             BlackGoldCardEntity entity = new BlackGoldCardEntity();
             entity.setCardId(buildCardId());
-            entity.setPassword(InviteCodeUtil.userInviteCode());
+            entity.setPassword(password());
             list.add(entity);
         }
         int i = blackGoldCardDao.addBlackGoldCards(list);
@@ -39,11 +39,20 @@ public class BlackGoldCardDaoTest {
     }
 
     private String buildCardId() {
-        StringBuilder sb = new StringBuilder("BG");
+        StringBuilder sb = new StringBuilder("BG201801");
         Random random = new Random();
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < 10; i++) {
             int num = random.nextInt(10);
             sb.append(String.valueOf(num));
+        }
+        return sb.toString();
+    }
+
+    private String password() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 8; i++) {
+            char c = (char) (Math.random() * 26 + 'A');
+            sb.append(c);
         }
         return sb.toString();
     }

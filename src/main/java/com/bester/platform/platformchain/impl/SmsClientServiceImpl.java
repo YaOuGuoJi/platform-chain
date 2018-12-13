@@ -35,10 +35,10 @@ public class SmsClientServiceImpl implements SmsClientService {
     private IAcsClient acsClient;
 
     @Override
-    public int sendVerifyCode(String phoneNum) {
+    public String sendVerifyCode(String phoneNum) {
         String verifyCode = this.buildCode();
         redisClientService.set(RedisKeys.PHONE_VERIFY_CODE + phoneNum, verifyCode, EXPIRED_TIME);
-        return NumberUtils.toInt(verifyCode);
+        return verifyCode;
 //        SendSmsRequest request = buildRequest(phoneNum, verifyCode);
 //        try {
 //            SendSmsResponse response = acsClient.getAcsResponse(request);

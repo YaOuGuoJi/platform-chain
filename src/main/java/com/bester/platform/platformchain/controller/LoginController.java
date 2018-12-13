@@ -70,8 +70,8 @@ public class LoginController {
         if (StringUtils.isBlank(phoneNum) || phoneNum.length() != BlockChainParameters.PHONE_NUMBER_LENGTH) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
-        int result = smsClientService.sendVerifyCode(phoneNum);
-        if (result == 0) {
+        String result = smsClientService.sendVerifyCode(phoneNum);
+        if (StringUtils.isBlank(result) || result.length() != 6) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "发送验证码失败，请稍后再试");
         }
         return CommonResult.success(result);

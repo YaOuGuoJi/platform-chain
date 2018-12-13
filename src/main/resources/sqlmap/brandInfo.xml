@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bester.platform.platformchain.dao.BrandInfoDao">
+    <resultMap id="BrandInfo" type="com.bester.platform.platformchain.entity.BrandInfoEntity">
+        <result column="BrandId" property="BrandId"/>
+        <result column="BrandName" property="BrandName"/>
+        <result column="BrandLogo" property="BrandLogo"/>
+        <result column="Deleted" property="Deleted"/>
+        <result column="Floor" property="Floor"/>
+        <result column="Address" property="Address"/>
+        <result column="phoneNum" property="phoneNum"/>
+        <result column="ShopPicture" property="ShopPicture"/>
+        <result column="Introduce" property="Introduce"/>
+        <result column="AddTime" property="AddTime"/>
+        <result column="UpdateTime" property="UpdateTime"/>
+    </resultMap>
+
+    <select id="selectBrandInfo" parameterType="map" resultMap="BrandInfo">
+        SELECT
+        BrandId, BrandLogo, BrandName, Floor, Address, PhoneNum
+        FROM brand_info
+        WHERE 1=1
+        <if test="BrandName != null and BrandName != ''">
+            AND BrandName LIKE CONCAT(CONCAT('%',#{BrandName}),'%')
+        </if>
+    </select>
+
+    <select id="selectBrandById" parameterType="map" resultType="com.bester.platform.platformchain.entity.BrandInfoEntity">
+        SELECT
+        ShopPicture, BrandLogo, BrandName, Address, PhoneNum, Introduce
+        FROM brand_info
+        WHERE
+        BrandId = #{BrandId}
+    </select>
+</mapper>

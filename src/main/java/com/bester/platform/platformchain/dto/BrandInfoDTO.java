@@ -1,14 +1,15 @@
-package com.bester.platform.platformchain.entity;
+package com.bester.platform.platformchain.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author yanrui
  */
 @Data
-public class BrandInfoEntity {
+public class BrandInfoDTO implements Serializable {
 
     private String BrandId;
 

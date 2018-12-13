@@ -2,6 +2,7 @@ package com.bester.platform.platformchain.entity;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -30,6 +31,11 @@ public class VoucherCardEntity {
      * 绑定用户id
      */
     private Integer userId;
+
+    /**
+     * 金额
+     */
+    private BigDecimal amount;
 
     /**
      * 添加时间

@@ -1,6 +1,9 @@
 package com.bester.platform.platformchain.dao;
 
+import com.bester.platform.platformchain.entity.BlackGoldCardEntity;
+import com.bester.platform.platformchain.util.RandomUtil;
 import com.google.common.collect.Lists;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,22 +26,29 @@ public class BlackGoldCardDaoTest {
 
     @Test
     public void testAdd() {
-        List<String> str = buildCardIdList();
-        for (String a : str) {
-            String cardId = "BG0001" + a;
-            System.out.println(cardId);
-        }
-
+//        List<String> str = buildCardIdList();
 //        List<BlackGoldCardEntity> list = Lists.newArrayList();
-//        for (int i = 0; i < 100; i++) {
+//        for (String a : str) {
+//            String cardId = "BG0001" + a;
 //            BlackGoldCardEntity entity = new BlackGoldCardEntity();
-//            entity.setCardId(buildCardId());
+//            entity.setCardId(cardId);
 //            entity.setPassword(RandomUtil.getStringRandom(8));
 //            list.add(entity);
 //        }
 //        int i = blackGoldCardDao.addBlackGoldCards(list);
 //        System.out.println("添加成功: " + i);
-//        Assert.assertEquals(i, 100);
+//        Assert.assertEquals(i, 50);
+
+        List<BlackGoldCardEntity> list = Lists.newArrayList();
+        for (int i = 0; i < 650; i++) {
+            BlackGoldCardEntity entity = new BlackGoldCardEntity();
+            entity.setCardId(buildCardId());
+            entity.setPassword(RandomUtil.getStringRandom(8));
+            list.add(entity);
+        }
+        int i = blackGoldCardDao.addBlackGoldCards(list);
+        System.out.println("添加成功: " + i);
+        Assert.assertEquals(i, 650);
     }
 
     private String buildCardId() {

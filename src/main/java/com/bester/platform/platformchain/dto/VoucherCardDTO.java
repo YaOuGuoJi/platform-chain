@@ -36,6 +36,11 @@ public class VoucherCardDTO implements Serializable {
     private Integer userId;
 
     /**
+     * 金额
+     */
+    private BigDecimal amount;
+
+    /**
      * 添加时间
      */
     private Date addTime;

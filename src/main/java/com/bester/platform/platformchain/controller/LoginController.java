@@ -115,7 +115,7 @@ public class LoginController {
                 return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "注册失败");
             }
             UserInfoDTO userInfoDTO = new UserInfoDTO();
-            userInfoDTO.setUserName(phoneNum);
+            userInfoDTO.setUserName("");
             userInfoDTO.setUserId(userId);
             userInfoDTO.setPhone(phoneNum);
             userInfoDTO.setVip(UserVipLevel.NON_VIP.level);
@@ -133,7 +133,7 @@ public class LoginController {
                 return CommonResult.fail(HttpStatus.ERROR);
             }
             userAccountService.addLoginRecord(userId);
-            return CommonResult.success(data).setMessage("注册成功");
+            return CommonResult.success("注册成功");
         }
     }
 

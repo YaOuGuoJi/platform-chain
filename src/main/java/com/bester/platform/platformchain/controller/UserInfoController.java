@@ -7,6 +7,7 @@ import com.bester.platform.platformchain.enums.HttpStatus;
 import com.bester.platform.platformchain.service.UserAccountService;
 import com.bester.platform.platformchain.service.UserInfoService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
+import com.google.common.collect.Maps;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.StringUtils;
@@ -18,6 +19,7 @@ import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * @author liuwen
@@ -56,13 +58,18 @@ public class UserInfoController {
     }
 
     @GetMapping("/user/detail")
-    public CommonResult<UserInfoDTO> userInfo() {
+    public CommonResult<Membership> userInfo() {
         int userId = UserInfoUtil.getUserId();
         UserInfoDTO userInfoDTO = userInfoService.findUserInfoByUserId(userId);
         if (userInfoDTO == null) {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
-        return CommonResult.success(userInfoDTO);
+        Membership membership = new Membership();
+        membership.setUserName(userInfoDTO.getUserName());
+        membership.setVipLevel(userInfoDTO.getVip());
+        membership.setPhone(userInfoDTO.getPhone());
+        membership.setIdentityId(userInfoDTO.getIdentityId());
+        return CommonResult.success(membership);
     }
 
     private CommonResult validParams(UserInfoVO userInfoVO) {
@@ -117,4 +124,30 @@ public class UserInfoController {
          */
         private String job;
     }
+
+    @Data
+    public class Membership {
+
+        /**
+         * 会籍
+         */
+        private Integer vipLevel;
+
+        /**
+         * 姓名
+         */
+        private String userName;
+
+        /**
+         * 电话
+         */
+        private String phone;
+
+        /**
+         * 身份证号
+         */
+        private String identityId;
+
+    }
+
 }

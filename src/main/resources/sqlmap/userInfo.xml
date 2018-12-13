@@ -18,8 +18,7 @@
     </resultMap>
 
     <sql id="allFields">
-        UserId
-        ,
+        UserId,
         UserName,
         Sex,
         Birthday,

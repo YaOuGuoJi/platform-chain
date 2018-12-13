@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bester.platform.platformchain.dao.VoucherCardDao">
+    <resultMap id="voucherCardEntity" type="com.bester.platform.platformchain.entity.VoucherCardEntity">
+        <result column="Id" property="id"/>
+        <result column="CardId" property="cardId"/>
+        <result column="Status" property="status"/>
+        <result column="UserId" property="userId"/>
+        <result column="AddTime" property="addTime"/>
+        <result column="UpdateTime" property="updateTime"/>
+    </resultMap>
+
+    <sql id="allFields">
+        Id,
+        CardId,
+        Status,
+        UserId,
+        AddTime,
+        UpdateTime
+    </sql>
+
+    <insert id="addCard" parameterType="map">
+        INSERT INTO voucher_card
+        (
+        CardId,
+        Status,
+        UserId,
+        AddTime,
+        UpdateTime
+        ) VALUES
+        <foreach collection="entityList" index="index" item="entity" separator=",">
+            (
+            #{entity.cardId},
+            '0',
+            '0',
+            NOW(),
+            NOW()
+            )
+        </foreach>
+    </insert>
+
+    <select id="findCardByCardId" parameterType="map" resultMap="voucherCardEntity">
+        SELECT
+        <include refid="allFields"/>
+        FROM voucher_card
+        WHERE CardId = #{cardId}
+    </select>
+
+    <update id="bindCard2User" parameterType="map">
+        UPDATE voucher_card
+        SET
+        Status=1,
+        UserId=#{userId},
+        UpdateTime=NOW()
+        WHERE CardId=#{cardId}
+    </update>
+
+    <select id="findUserBindCards" parameterType="map" resultMap="voucherCardEntity">
+        SELECT
+        <include refid="allFields"/>
+        FROM voucher_card
+        WHERE UserId=#{userId}
+    </select>
+
+</mapper>

@@ -2,6 +2,7 @@ package com.bester.platform.platformchain.dao;
 
 import com.bester.platform.platformchain.entity.BlackGoldCardEntity;
 import com.bester.platform.platformchain.util.InviteCodeUtil;
+import com.bester.platform.platformchain.util.RandomUtil;
 import com.google.common.collect.Lists;
 import org.junit.Assert;
 import org.junit.Test;
@@ -26,34 +27,38 @@ public class BlackGoldCardDaoTest {
 
     @Test
     public void testAdd() {
-        List<BlackGoldCardEntity> list = Lists.newArrayList();
-        for (int i = 0; i < 100; i++) {
-            BlackGoldCardEntity entity = new BlackGoldCardEntity();
-            entity.setCardId(buildCardId());
-            entity.setPassword(password());
-            list.add(entity);
-        }
-        int i = blackGoldCardDao.addBlackGoldCards(list);
-        System.out.println("添加成功: " + i);
-        Assert.assertEquals(i, 100);
+        String cardId = buildCardId();
+        System.out.println(cardId);
+
+//        List<BlackGoldCardEntity> list = Lists.newArrayList();
+//        for (int i = 0; i < 100; i++) {
+//            BlackGoldCardEntity entity = new BlackGoldCardEntity();
+//            entity.setCardId(buildCardId());
+//            entity.setPassword(RandomUtil.getStringRandom(8));
+//            list.add(entity);
+//        }
+//        int i = blackGoldCardDao.addBlackGoldCards(list);
+//        System.out.println("添加成功: " + i);
+//        Assert.assertEquals(i, 100);
     }
 
     private String buildCardId() {
-        StringBuilder sb = new StringBuilder("BG201801");
+        StringBuilder sb = new StringBuilder("BG0001");
         Random random = new Random();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 6; i++) {
             int num = random.nextInt(10);
             sb.append(String.valueOf(num));
         }
         return sb.toString();
     }
 
-    private String password() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 8; i++) {
-            char c = (char) (Math.random() * 26 + 'A');
-            sb.append(c);
-        }
-        return sb.toString();
+    private List<String> buildCardIdList() {
+        return Lists.newArrayList("000000", "111111", "666666", "888888", "999999",
+                "000001", "000006", "000008", "000009", "000666", "000888", "666888", "006688", "006888", "888666",
+                "123456", "654321", "888999", "999888", "000999", "999666", "686868", "868686", "898989", "989898",
+                "008666", "");
+
     }
+
+
 }

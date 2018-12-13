@@ -3,13 +3,15 @@ package com.bester.platform.platformchain.controller;
 import com.bester.platform.platformchain.common.CommonResult;
 import com.bester.platform.platformchain.dto.UserAccountDTO;
 import com.bester.platform.platformchain.dto.UserInfoDTO;
+import com.bester.platform.platformchain.dto.VoucherCardDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
 import com.bester.platform.platformchain.service.UserAccountService;
 import com.bester.platform.platformchain.service.UserInfoService;
+import com.bester.platform.platformchain.service.VoucherCardService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
-import com.google.common.collect.Maps;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +21,7 @@ import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Map;
+import java.util.List;
 
 /**
  * @author liuwen
@@ -32,6 +34,8 @@ public class UserInfoController {
     private UserInfoService userInfoService;
     @Resource
     private UserAccountService userAccountService;
+    @Resource
+    private VoucherCardService voucherCardService;
 
     @PostMapping("/user/updateInfo")
     public CommonResult updateUserInfo(UserInfoVO userInfoVO) {
@@ -64,11 +68,17 @@ public class UserInfoController {
         if (userInfoDTO == null) {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
+        List<VoucherCardDTO> voucherCardDTOList = voucherCardService.findUserBindVouchers(userId);
         Membership membership = new Membership();
         membership.setUserName(userInfoDTO.getUserName());
         membership.setVipLevel(userInfoDTO.getVip());
-        membership.setPhone(userInfoDTO.getPhone());
+        membership.setPhone(userInfoDTO.getPhone().replaceAll("(\\d{3})\\d{4}(\\d{4})","$1****$2"));
         membership.setIdentityId(userInfoDTO.getIdentityId());
+        if (CollectionUtils.isEmpty(voucherCardDTOList) || voucherCardDTOList.size() <= 0) {
+            membership.setVoucherAmount("");
+        } else {
+            membership.setVoucherAmount("2000.00");
+        }
         return CommonResult.success(membership);
     }
 
@@ -147,6 +157,11 @@ public class UserInfoController {
          * 身份证号
          */
         private String identityId;
+
+        /**
+         * 代金券余额
+         */
+        private String voucherAmount;
 
     }
 

@@ -36,7 +36,7 @@
             #{entity.cardId},
             '0',
             '0',
-            #{entity.amount}
+            #{entity.amount},
             NOW(),
             NOW()
             )

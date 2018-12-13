@@ -82,10 +82,6 @@ public class CardBindController {
         if (userId <= 0) {
             return CommonResult.fail(HttpStatus.UNAUTHORIZED);
         }
-        List<VoucherCardDTO> userBindVouchers = voucherCardService.findUserBindVouchers(userId);
-        if (!CollectionUtils.isEmpty(userBindVouchers) || userBindVouchers.size() >= 1) {
-            return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "您已经充值过代金券！");
-        }
         VoucherCardDTO voucherCardDTO = voucherCardService.findVoucherCardById(cardId);
         if (voucherCardDTO == null || voucherCardDTO.getStatus() != 0 || voucherCardDTO.getUserId() != 0) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "卡号无效！");

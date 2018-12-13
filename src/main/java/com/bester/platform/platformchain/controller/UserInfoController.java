@@ -70,8 +70,7 @@ public class UserInfoController {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
         List<VoucherCardDTO> voucherCardDTOList = voucherCardService.findUserBindVouchers(userId);
-        BigDecimal amount = CollectionUtils.isEmpty(voucherCardDTOList) ? new BigDecimal("0.00")
-                : voucherCardDTOList.get(0).getAmount();
+        BigDecimal amount = plusAmount(voucherCardDTOList);
         Membership membership = new Membership();
         membership.setUserName(userInfoDTO.getUserName());
         membership.setVipLevel(userInfoDTO.getVip());
@@ -94,6 +93,13 @@ public class UserInfoController {
             return CommonResult.fail(403, "性别不合法");
         }
         return CommonResult.success();
+    }
+
+    private BigDecimal plusAmount(List<VoucherCardDTO> voucherCardDTOList) {
+        if (CollectionUtils.isEmpty(voucherCardDTOList)) {
+            return BigDecimal.ZERO;
+        }
+        return voucherCardDTOList.stream().map(VoucherCardDTO::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     @Data

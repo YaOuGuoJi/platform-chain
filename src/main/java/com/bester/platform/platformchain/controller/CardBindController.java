@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.regex.Pattern;
 import java.util.List;
 
 /**
@@ -45,7 +46,16 @@ public class CardBindController {
         if (!validParams(cardId, password)) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
+        String passwordRegex = "([a-z]|[A-Z]|[0-9]){8}";
+        if (!Pattern.matches(passwordRegex, password)) {
+            return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "密码错误");
+        }
+        String cardRegex = ".{12}";
+        if (!Pattern.matches(cardRegex, cardId)) {
+            return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "卡号错误");
+        }
         cardId = cardId.toUpperCase();
+        password = password.toUpperCase();
         BlackGoldCardDTO card = blackGoldCardService.findBlackGoldCardByCardId(cardId);
         if (card == null || card.getStatus() != 0 || card.getUserId() != 0) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "卡号无效！");

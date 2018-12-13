@@ -92,7 +92,7 @@ public class LoginController {
         }
         int verifyCode = smsClientService.verifyCode(phoneNum, code);
         if (verifyCode == 0) {
-            return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "发送验证码错误");
+            return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "验证码错误");
         }
         UserAccountDTO userAccountInfo = userAccountService.findUserAccountInfoByPhoneNum(phoneNum);
         if (userAccountInfo != null) {

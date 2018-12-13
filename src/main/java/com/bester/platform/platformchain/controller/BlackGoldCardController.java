@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.regex.Pattern;
 
 /**
  * @author liuwen
@@ -38,6 +39,10 @@ public class BlackGoldCardController {
         }
         if (!validParams(cardId, password)) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
+        }
+        String passwordRegex = "([a-z]|[A-Z]|[0-9]){8}";
+        if (!Pattern.matches(passwordRegex, password)) {
+            return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "密码错误");
         }
         BlackGoldCardDTO card = blackGoldCardService.findBlackGoldCardByCardId(cardId);
         if (card == null || card.getStatus() != 0 || card.getUserId() != 0) {

@@ -3,6 +3,7 @@ package com.bester.platform.platformchain.impl;
 import com.bester.platform.platformchain.dao.UserInfoDao;
 import com.bester.platform.platformchain.dto.UserInfoDTO;
 import com.bester.platform.platformchain.entity.UserInfoEntity;
+import com.bester.platform.platformchain.enums.UserVipLevel;
 import com.bester.platform.platformchain.service.UserInfoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -42,5 +43,14 @@ public class UserInfoServiceImpl implements UserInfoService {
         UserInfoEntity userInfoEntity = new UserInfoEntity();
         BeanUtils.copyProperties(userInfoDTO, userInfoEntity);
         return userInfoDao.updateUserInfo(userInfoEntity);
+    }
+
+    @Override
+    public int updateUserVipLevel(int userId, UserVipLevel level) {
+        UserInfoEntity userInfoEntity = userInfoDao.selectById(userId);
+        if (userInfoEntity == null || userInfoEntity.getVip().equals(level.level)) {
+            return 0;
+        }
+        return userInfoDao.updateUserVipLevel(userId, level.level);
     }
 }

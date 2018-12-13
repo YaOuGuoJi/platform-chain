@@ -33,7 +33,7 @@ public class BrandInfoServiceImpl implements BrandInfoService {
             return null;
         }
         BrandInfoDTO brandInfoDTO = new BrandInfoDTO();
-        BeanUtils.copyProperties(brandInfoDTO,brandInfoEntity);
+        BeanUtils.copyProperties(brandInfoEntity,brandInfoDTO);
         return brandInfoDTO;
     }
 }

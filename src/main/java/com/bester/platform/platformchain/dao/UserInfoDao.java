@@ -32,4 +32,13 @@ public interface UserInfoDao {
      */
     int updateUserInfo(@Param("userInfoEntity") UserInfoEntity userInfoEntity);
 
+    /**
+     * 升级会员等级
+     *
+     * @param userId
+     * @param level
+     * @return
+     */
+    int updateUserVipLevel(@Param("userId") int userId, @Param("level") int level);
+
 }

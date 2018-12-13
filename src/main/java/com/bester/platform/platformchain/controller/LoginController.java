@@ -87,7 +87,6 @@ public class LoginController {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
         int verifyCode = smsClientService.verifyCode(phoneNum, code);
-        verifyCode = 1;
         if (verifyCode == 0) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "验证码错误");
         }

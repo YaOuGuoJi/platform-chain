@@ -34,7 +34,7 @@ public class TokenUtil {
      */
     public static void updateToken2Cookie(HttpServletResponse response,
                                           Map<String, String> dataMap) throws UnsupportedEncodingException {
-        Date expireTime = new DateTime().plusHours(1).toDate();
+        Date expireTime = new DateTime().plusDays(7).toDate();
         JWTCreator.Builder builder = JWT.create();
         for (Map.Entry<String, String> entry : dataMap.entrySet()) {
             builder.withClaim(entry.getKey(), entry.getValue());

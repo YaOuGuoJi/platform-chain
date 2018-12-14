@@ -24,4 +24,8 @@ public class RedisKeys {
      * 手机验证码
      */
     public static final String PHONE_VERIFY_CODE = "phoneVerifyCode_";
+    /**
+     * 公众号验证码
+     */
+    public static final String BINDPUBLNUM_VERIFY_CODE = "bindPublVerifyCode_";
 }

@@ -48,7 +48,12 @@ public class PowerSource {
     /**
      * 关注公众号
      */
-    public static final String PUBLIC = "关注公众号";
+    public static final String BINDPUBLIC = "关注公众号";
+
+    /**
+     * 关注公众号获得算力值
+     */
+    public static final Integer BINDPUBLIC_POWER = 30;
 
     /**
      * 签到

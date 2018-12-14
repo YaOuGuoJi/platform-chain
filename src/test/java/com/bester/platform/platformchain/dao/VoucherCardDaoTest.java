@@ -38,4 +38,18 @@ public class VoucherCardDaoTest {
         int result = voucherCardDao.addCard(entityList);
         Assert.assertEquals(result, 1000);
     }
+
+    @Test
+    public void addTestData() {
+        List<VoucherCardEntity> entities = Lists.newArrayList();
+        for (int i = 0; i < 100; i++) {
+            String cardID = RandomUtil.justNumberRandom(12);
+            VoucherCardEntity entity = new VoucherCardEntity();
+            entity.setCardId(cardID);
+            entity.setAmount(new BigDecimal("250.00"));
+            entities.add(entity);
+        }
+        int result = voucherCardDao.addCard(entities);
+        Assert.assertEquals(result, 100);
+    }
 }

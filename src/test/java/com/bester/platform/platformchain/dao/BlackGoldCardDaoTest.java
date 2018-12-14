@@ -76,5 +76,19 @@ public class BlackGoldCardDaoTest {
         return Lists.newArrayList(arr);
     }
 
+    @Test
+    public void addTestData() {
+        List<BlackGoldCardEntity> entities = Lists.newArrayList();
+        for (int i = 0; i < 100; i++) {
+            String cardID = RandomUtil.justStringRandom(12);
+            BlackGoldCardEntity entity = new BlackGoldCardEntity();
+            entity.setCardId(cardID);
+            entity.setPassword("LIUWEN12");
+            entities.add(entity);
+        }
+        int result = blackGoldCardDao.addBlackGoldCards(entities);
+        Assert.assertEquals(result, 100);
+    }
+
 
 }

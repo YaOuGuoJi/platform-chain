@@ -21,4 +21,22 @@ public class RandomUtil {
         }
         return sb.toString();
     }
+
+    public static String justStringRandom(int length) {
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        for(int i = 0; i < length; i++) {
+            sb.append((char) (random.nextInt(26) + 65));
+        }
+        return sb.toString();
+    }
+
+    public static String justNumberRandom(int length) {
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        for(int i = 0; i < length; i++) {
+            sb.append(random.nextInt(10));
+        }
+        return sb.toString();
+    }
 }

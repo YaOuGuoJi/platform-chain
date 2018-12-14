@@ -11,13 +11,11 @@ import com.bester.platform.platformchain.service.UserInfoService;
 import com.bester.platform.platformchain.service.VoucherCardService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.regex.Pattern;
-import java.util.List;
 
 /**
  * @author liuwen

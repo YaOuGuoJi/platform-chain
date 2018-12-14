@@ -70,11 +70,11 @@ public class LoginController {
         if (StringUtils.isBlank(phoneNum) || phoneNum.length() != BlockChainParameters.PHONE_NUMBER_LENGTH) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
-        String result = smsClientService.sendVerifyCode(phoneNum);
-        if (StringUtils.isBlank(result) || result.length() != 6) {
+        int result = smsClientService.sendVerifyCode(phoneNum);
+        if (result <= 0) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "发送验证码失败，请稍后再试");
         }
-        return CommonResult.success(result);
+        return CommonResult.success();
     }
 
     @PostMapping("/user/verification")

@@ -12,7 +12,7 @@ public interface SmsClientService {
      * @param phoneNum
      * @return
      */
-    String sendVerifyCode(String phoneNum);
+    int sendVerifyCode(String phoneNum);
 
     /**
      * 验证手机验证码

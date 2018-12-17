@@ -10,6 +10,7 @@ import com.bester.platform.platformchain.service.BlackGoldCardService;
 import com.bester.platform.platformchain.service.UserInfoService;
 import com.bester.platform.platformchain.service.VoucherCardService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,7 +59,8 @@ public class CardBindController {
         if (card == null || card.getStatus() != 0 || card.getUserId() != 0) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "卡号无效！");
         }
-        if (!card.getPassword().equalsIgnoreCase(password)) {
+        String pwdMD5 = DigestUtils.md5Hex(password);
+        if (!card.getPassword().equalsIgnoreCase(pwdMD5)) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "密码错误!");
         }
         int result = blackGoldCardService.bindCardToUser(cardId, userId);

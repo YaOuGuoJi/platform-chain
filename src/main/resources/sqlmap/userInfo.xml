@@ -48,6 +48,7 @@
             Email=#{userInfoEntity.email},
             Address=#{userInfoEntity.address},
             Job=#{userInfoEntity.job}
+            UpdateTime=NOW()
         where UserId = #{userInfoEntity.userId}
     </update>
 
@@ -130,6 +131,7 @@
     <update id="updateUserVipLevel" parameterType="map">
         UPDATE user_info
         SET Vip=#{level}
+            UpdateTime=NOW()
         WHERE UserId=#{userId}
     </update>
 

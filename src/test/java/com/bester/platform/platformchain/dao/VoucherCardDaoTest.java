@@ -28,7 +28,7 @@ public class VoucherCardDaoTest {
     public void testAdd() {
         List<VoucherCardEntity> entityList = Lists.newArrayList();
         for (int i = 0; i < 1000; i++) {
-            String cardId = "VO01" + RandomUtil.getStringRandom(12);
+            String cardId = "VO01" + RandomUtil.charAndNumberRandom(12);
             cardId = cardId.replaceAll("O", "0");
             VoucherCardEntity voucherCardEntity = new VoucherCardEntity();
             voucherCardEntity.setCardId(cardId);

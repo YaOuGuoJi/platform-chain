@@ -41,4 +41,12 @@ public interface UserInfoDao {
      */
     int updateUserVipLevel(@Param("userId") int userId, @Param("level") int level);
 
+    /**
+     * 更新绑定公众号状态
+     * @param userId
+     * @param bindPublicNum
+     * @return
+     */
+    int updateUserBindPublicNum(@Param("userId") int userId,@Param("bindPublicNum") int bindPublicNum);
+
 }

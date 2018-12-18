@@ -53,4 +53,9 @@ public class UserInfoServiceImpl implements UserInfoService {
         }
         return userInfoDao.updateUserVipLevel(userId, level.level);
     }
+
+    @Override
+    public int updateUserBindPublicNum(int userId, int bindPublicNum) {
+        return userInfoDao.updateUserBindPublicNum(userId,bindPublicNum);
+    }
 }

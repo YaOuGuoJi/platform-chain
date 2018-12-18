@@ -71,20 +71,24 @@ public class LoginController {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
         int result = smsClientService.sendVerifyCode(phoneNum);
-        if (result == 0) {
+        if (result <= 0) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "发送验证码失败，请稍后再试");
         }
-        return CommonResult.success(result);
+        return CommonResult.success();
     }
 
     @PostMapping("/user/verification")
     public CommonResult userVerification(String phoneNum, String code, @RequestParam(required = false, defaultValue = "") String inviteCode, HttpServletResponse response) {
-        if (StringUtils.isBlank(phoneNum) || StringUtils.isBlank(code) || phoneNum.length() < BlockChainParameters.PHONE_NUMBER_LENGTH) {
+        if (StringUtils.isBlank(phoneNum) || StringUtils.isBlank(code)) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
-        String regex = "[0-9]{6}";
-        if (!Pattern.matches(regex, code)) {
-            return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
+        String phoneRegex = "^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,3,5-8])|(18[0-9])|166|198|199|(147))\\d{8}$";
+        if (!Pattern.matches(phoneRegex, phoneNum)) {
+            return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "手机号码错误");
+        }
+        String codeRegex = "[0-9]{6}";
+        if (!Pattern.matches(codeRegex, code)) {
+            return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "验证码错误");
         }
         int verifyCode = smsClientService.verifyCode(phoneNum, code);
         if (verifyCode == 0) {
@@ -101,7 +105,7 @@ public class LoginController {
                 return CommonResult.fail(HttpStatus.ERROR);
             }
             userAccountService.addLoginRecord(userAccountInfo.getUserId());
-            return CommonResult.success(data);
+            return CommonResult.success(data).setMessage("登录成功");
         } else {
             UserAccountDTO userAccountDTO = new UserAccountDTO();
             userAccountDTO.setPhoneNum(phoneNum);
@@ -111,7 +115,7 @@ public class LoginController {
                 return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "注册失败");
             }
             UserInfoDTO userInfoDTO = new UserInfoDTO();
-            userInfoDTO.setUserName(phoneNum);
+            userInfoDTO.setUserName("");
             userInfoDTO.setUserId(userId);
             userInfoDTO.setPhone(phoneNum);
             userInfoDTO.setVip(UserVipLevel.NON_VIP.level);

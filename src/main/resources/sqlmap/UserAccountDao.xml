@@ -54,7 +54,8 @@
 
     <update id="addUserInviteTimes" parameterType="map">
         UPDATE user_account
-        SET InviteTimes = InviteTimes + 1
+        SET InviteTimes = InviteTimes + 1,
+        UpdateTime=NOW()
         WHERE UserId = #{userId}
     </update>
 

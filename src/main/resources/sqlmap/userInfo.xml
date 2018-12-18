@@ -19,8 +19,7 @@
     </resultMap>
 
     <sql id="allFields">
-        UserId
-        ,
+        UserId,
         UserName,
         Sex,
         Birthday,
@@ -51,7 +50,8 @@
             Email=#{userInfoEntity.email},
             Address=#{userInfoEntity.address},
             Job=#{userInfoEntity.job},
-            BindPublicNum=#{userInfoEntity.bindPublicNum}
+            BindPublicNum=#{userInfoEntity.bindPublicNum},
+            UpdateTime=NOW()
         where UserId = #{userInfoEntity.userId}
     </update>
 
@@ -130,5 +130,19 @@
             NOW()
         </trim>
     </insert>
+
+    <update id="updateUserVipLevel" parameterType="map">
+        UPDATE user_info
+        SET Vip=#{level},
+            UpdateTime=NOW()
+        WHERE UserId=#{userId}
+    </update>
+
+    <update id="updateUserBindPublicNum">
+        update user_info
+        set BindPublicNum=#{bindPublicNum},
+            UpdateTime=NOW()
+        where UserId=#{userId}
+    </update>
 
 </mapper>

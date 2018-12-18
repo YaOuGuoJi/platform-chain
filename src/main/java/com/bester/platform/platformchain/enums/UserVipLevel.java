@@ -7,7 +7,9 @@ package com.bester.platform.platformchain.enums;
 
 public enum UserVipLevel {
 
-    NON_VIP(0, "非会员");
+    NON_VIP(0, "白银会籍"),
+
+    BlackGold(10, "黑金会籍");
 
 
     UserVipLevel(int level, String description) {

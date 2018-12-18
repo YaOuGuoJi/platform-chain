@@ -32,4 +32,21 @@ public interface UserInfoDao {
      */
     int updateUserInfo(@Param("userInfoEntity") UserInfoEntity userInfoEntity);
 
+    /**
+     * 升级会员等级
+     *
+     * @param userId
+     * @param level
+     * @return
+     */
+    int updateUserVipLevel(@Param("userId") int userId, @Param("level") int level);
+
+    /**
+     * 更新绑定公众号状态
+     * @param userId
+     * @param bindPublicNum
+     * @return
+     */
+    int updateUserBindPublicNum(@Param("userId") int userId,@Param("bindPublicNum") int bindPublicNum);
+
 }

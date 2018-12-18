@@ -33,7 +33,7 @@ public class BlackGoldCardDaoTest {
 //            String cardId = "BG0001" + a;
 //            BlackGoldCardEntity entity = new BlackGoldCardEntity();
 //            entity.setCardId(cardId);
-//            entity.setPassword(RandomUtil.getStringRandom(8));
+//            entity.setPassword(RandomUtil.charAndNumberRandom(8));
 //            list.add(entity);
 //        }
 //        int i = blackGoldCardDao.addBlackGoldCards(list);
@@ -44,7 +44,7 @@ public class BlackGoldCardDaoTest {
         for (int i = 0; i < 650; i++) {
             BlackGoldCardEntity entity = new BlackGoldCardEntity();
             entity.setCardId(buildCardId());
-            entity.setPassword(RandomUtil.getStringRandom(8));
+            entity.setPassword(RandomUtil.charAndNumberRandom(8));
             list.add(entity);
         }
         int i = blackGoldCardDao.addBlackGoldCards(list);
@@ -81,7 +81,7 @@ public class BlackGoldCardDaoTest {
     public void addTestData() {
         List<BlackGoldCardEntity> entities = Lists.newArrayList();
         for (int i = 0; i < 100; i++) {
-            String cardID = RandomUtil.justStringRandom(12);
+            String cardID = RandomUtil.charsRandom(12);
             BlackGoldCardEntity entity = new BlackGoldCardEntity();
             entity.setCardId(cardID);
             entity.setPassword("LIUWEN12");

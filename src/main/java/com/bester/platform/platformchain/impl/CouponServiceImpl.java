@@ -26,7 +26,6 @@ public class CouponServiceImpl implements CouponService {
         couponEntity.setCouponName(couponDTO.getCouponName());
         couponEntity.setMargin(couponDTO.getMargin());
         couponEntity.setCouponType(couponDTO.getCouponType());
-        couponEntity.setCouponType(couponDTO.getCouponType());
         couponEntity.setOfferCash(couponDTO.getOfferCash());
         couponEntity.setOfferDiscount(couponDTO.getOfferDiscount());
         couponEntity.setThreshold(couponDTO.getThreshold());

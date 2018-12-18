@@ -23,4 +23,22 @@
       UpdateTime
     </sql>
 
+    <select id="findUnusedAndUsedCouponId" resultType="integer">
+        SELECT
+        CouponId
+        FROM user_coupon
+        WHERE UserId = #{userId}
+        AND Status = #{status}
+    </select>
+
+    <select id="findExpiredCoupon" resultType="integer">
+        <![CDATA[
+        SELECT
+        CouponId
+        FROM user_coupon
+        WHERE UserId = #{userId}
+        AND NOW() > FailureTime
+            ]]>
+    </select>
+
 </mapper>

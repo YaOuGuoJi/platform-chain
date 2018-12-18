@@ -18,4 +18,12 @@ public interface CouponDao {
      */
     int addCoupon(@Param("coupon") CouponEntity coupon);
 
+    /**
+     * 根据ID查询优惠券信息
+     *
+     * @param couponId
+     * @return
+     */
+    CouponEntity inquireCouponById(@Param("id") Integer couponId);
+
 }

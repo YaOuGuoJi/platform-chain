@@ -33,7 +33,7 @@ public class CouponDTO {
     /**
      * 优惠形式（1：指定XX现金，2：折扣）
      */
-    private Integer type;
+    private Integer couponType;
 
     /**
      * 优惠现金
@@ -44,11 +44,6 @@ public class CouponDTO {
      * 优惠折扣
      */
     private BigDecimal offerDiscount;
-
-    /**
-     * 使用条件（1：无限制，2：满XX元可用)
-     */
-    private Integer condition;
 
     /**
      * 使用门槛（满XX元可用，为零则代表使用条件为无限制）

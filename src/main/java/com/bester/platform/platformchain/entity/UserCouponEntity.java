@@ -34,11 +34,6 @@ public class UserCouponEntity {
     private Integer couponId;
 
     /**
-     * 领取时间
-     */
-    private Date pickUpTime;
-
-    /**
      * 失效时间
      */
     private Date failureTime;

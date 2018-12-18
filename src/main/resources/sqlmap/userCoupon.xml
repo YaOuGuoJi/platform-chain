@@ -6,7 +6,6 @@
         <result column="UserId" property="userId"/>
         <result column="ShopId" property="shopId"/>
         <result column="CouponId" property="couponId"/>
-        <result column="PickUpTime" property="pickUpTime"/>
         <result column="FailureTime" property="failureTime"/>
         <result column="Status" property="status"/>
         <result column="AddTime" property="addTime"/>
@@ -18,7 +17,6 @@
       UserId,
       ShopId,
       CouponId,
-      PickUpTime,
       FailureTime,
       Status,
       AddTime,

@@ -27,5 +27,5 @@ public class RedisKeys {
     /**
      * 公众号验证码
      */
-    public static final String BINDPUBLNUM_VERIFY_CODE = "bindPublVerifyCode_";
+    public static final String WECHAT_VERIFY_CODE = "weChatVerifyCode_";
 }

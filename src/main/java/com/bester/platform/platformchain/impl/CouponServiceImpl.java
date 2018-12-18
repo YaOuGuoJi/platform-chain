@@ -53,6 +53,7 @@ public class CouponServiceImpl implements CouponService {
         CouponEntity couponEntity = couponDao.inquireCouponById(couponId);
         CouponDTO dto = new CouponDTO();
         if (couponEntity != null) {
+            dto.setId(couponEntity.getId());
             dto.setCouponName(couponEntity.getCouponName());
             dto.setMargin(couponEntity.getMargin());
             dto.setCouponType(couponEntity.getCouponType());
@@ -66,6 +67,8 @@ public class CouponServiceImpl implements CouponService {
             List<String> list = Arrays.asList(availableList);
             dto.setAvailable(list);
             dto.setDescription(couponEntity.getDescription());
+            dto.setAddTime(couponEntity.getAddTime());
+            dto.setUpdateTime(couponEntity.getUpdateTime());
         }
         return dto;
     }

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bester.platform.platformchain.dao.CouponDao">
+    <resultMap id="couponEntity" type="com.bester.platform.platformchain.entity.CouponEntity">
+        <result column="Id" property="id"/>
+        <result column="CouponName" property="couponName"/>
+        <result column="Margin" property="margin"/>
+        <result column="CouponType" property="couponType"/>
+        <result column="OfferDiscount" property="offerDiscount"/>
+        <result column="OfferCash" property="offerCash"/>
+        <result column="Condition" property="condition"/>
+        <result column="Threshold" property="threshold"/>
+        <result column="VipLevel" property="vipLevel"/>
+        <result column="LimitNum" property="limitNum"/>
+        <result column="ValidityPeriod" property="validityPeriod"/>
+        <result column="Available" property="available"/>
+        <result column="Description" property="description"/>
+        <result column="AddTime" property="addTime"/>
+        <result column="UpdateTime" property="updateTime"/>
+    </resultMap>
+
+    <sql id="allFields">
+      Id,
+      CouponName,
+      Margin,
+      CouponType,
+      OfferDiscount,
+      OfferCash,
+      Condition,
+      Threshold,
+      VipLevel,
+      LimitNum,
+      ValidityPeriod,
+      Available,
+      Description,
+      AddTime,
+      UpdateTime
+    </sql>
+
+</mapper>

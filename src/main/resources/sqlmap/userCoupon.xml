@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bester.platform.platformchain.dao.UserCouponDao">
+    <resultMap id="userCouponEntity" type="com.bester.platform.platformchain.entity.UserCouponEntity">
+        <result column="Id" property="id"/>
+        <result column="UserId" property="userId"/>
+        <result column="ShopId" property="shopId"/>
+        <result column="CouponId" property="couponId"/>
+        <result column="PickUpTime" property="pickUpTime"/>
+        <result column="FailureTime" property="failureTime"/>
+        <result column="Status" property="status"/>
+        <result column="AddTime" property="addTime"/>
+        <result column="UpdateTime" property="updateTime"/>
+    </resultMap>
+
+    <sql id="allFields">
+      Id,
+      UserId,
+      ShopId,
+      CouponId,
+      PickUpTime,
+      FailureTime,
+      Status,
+      AddTime,
+      UpdateTime
+    </sql>
+
+</mapper>

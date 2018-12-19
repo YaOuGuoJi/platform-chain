@@ -3,6 +3,7 @@ package com.bester.platform.platformchain.dto;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -26,7 +27,7 @@ public class UserCouponDTO {
     /**
      * 商户ID
      */
-    private Integer shopId;
+    private List<String> shopId;
 
     /**
      * 优惠券ID

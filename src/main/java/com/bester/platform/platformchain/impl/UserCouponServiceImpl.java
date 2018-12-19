@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,21 +30,21 @@ public class UserCouponServiceImpl implements UserCouponService {
     public List<Integer> findExpiredCoupon(Integer userId) {
         return userCouponDao.findExpiredCoupon(userId);
     }
+
     @Override
     public int receiveCoupon(UserCouponDTO userCouponDTO) {
-        if(userCouponDTO==null){
+        if (userCouponDTO == null) {
             return 0;
         }
-        String shopIdString = userCouponDTO.getShopId().toString();
-        String shopId = shopIdString.substring(shopIdString.indexOf("[") + 1, shopIdString.indexOf("]"));
-        UserCouponEntity userCouponEntity=new UserCouponEntity();
-        BeanUtils.copyProperties(userCouponDTO,userCouponEntity);
+        String shopId = userCouponDTO.getShopId() == null ? "" : String.join(",",userCouponDTO.getShopId());
+        UserCouponEntity userCouponEntity = new UserCouponEntity();
+        BeanUtils.copyProperties(userCouponDTO, userCouponEntity);
         userCouponEntity.setShopId(shopId);
         return userCouponDao.receiveCoupon(userCouponEntity);
     }
 
     @Override
     public int findCouponCountById(Integer userId, Integer couponId) {
-        return userCouponDao.findCouponCountById(userId,couponId);
+        return userCouponDao.findCouponCountById(userId, couponId);
     }
 }

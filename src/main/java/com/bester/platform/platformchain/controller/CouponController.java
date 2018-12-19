@@ -69,6 +69,7 @@ public class CouponController {
         Date failureTime = today.plusDays(couponDTO.getValidityPeriod()).toDate();
         Date failureDate = sdf.parse(sdf.format(failureTime));
         userCouponDTO.setFailureTime(failureDate);
+
         int affectCount = userCouponService.receiveCoupon(userCouponDTO);
         if(affectCount==0){
             return CommonResult.fail(500,"领取失败");

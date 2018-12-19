@@ -32,4 +32,10 @@ public class BrandInfoDTO implements Serializable {
     private Date AddTime;
 
     private Date UpdateTime;
+
+    private String type;
+
+    private Integer praiseNum;
+
+    private Integer collectNum;
 }

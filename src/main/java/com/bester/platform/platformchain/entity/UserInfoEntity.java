@@ -67,6 +67,16 @@ public class UserInfoEntity {
     private String identityId;
 
     /**
+     * 点赞的品牌idList
+     */
+    private String BrandLikeList;
+
+    /**
+     * 收藏的品牌idList
+     */
+    private String BrandCollectList;
+
+    /**
      * 添加时间
      */
     private Date addTime;

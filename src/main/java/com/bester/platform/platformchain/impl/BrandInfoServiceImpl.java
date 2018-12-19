@@ -21,8 +21,8 @@ public class BrandInfoServiceImpl implements BrandInfoService {
     private BrandInfoDao brandInfoDao;
 
     @Override
-    public List<BrandInfoDTO> selectBrandInfo(String BrandName) {
-        List<BrandInfoEntity> brandInfoEntities = brandInfoDao.selectBrandInfo(BrandName);
+    public List<BrandInfoDTO> selectBrandInfo(String BrandName, String type, Integer Floor) {
+        List<BrandInfoEntity> brandInfoEntities = brandInfoDao.selectBrandInfo(BrandName, type, Floor);
         return BeansListUtils.copyListProperties(brandInfoEntities,BrandInfoDTO.class);
     }
 
@@ -32,6 +32,20 @@ public class BrandInfoServiceImpl implements BrandInfoService {
         if (brandInfoEntity == null){
             return null;
         }
+        BrandInfoDTO brandInfoDTO = new BrandInfoDTO();
+        BeanUtils.copyProperties(brandInfoEntity,brandInfoDTO);
+        return brandInfoDTO;
+    }
+
+    @Override
+    public List<BrandInfoDTO> selectByPraiseNum() {
+        List<BrandInfoEntity> brandInfoEntityList = brandInfoDao.selectByPraiseNum();
+        return BeansListUtils.copyListProperties(brandInfoEntityList,BrandInfoDTO.class);
+    }
+
+    @Override
+    public BrandInfoDTO updateNum(Integer praiseNum, Integer collectNum) {
+        BrandInfoEntity brandInfoEntity = brandInfoDao.updateNum(praiseNum, collectNum);
         BrandInfoDTO brandInfoDTO = new BrandInfoDTO();
         BeanUtils.copyProperties(brandInfoEntity,brandInfoDTO);
         return brandInfoDTO;

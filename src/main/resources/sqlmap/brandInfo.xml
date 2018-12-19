@@ -11,25 +11,58 @@
         <result column="phoneNum" property="phoneNum"/>
         <result column="ShopPicture" property="ShopPicture"/>
         <result column="Introduce" property="Introduce"/>
+        <result column="type" property="type"/>
+        <result column="praiseNum" property="praiseNum"/>
+        <result column="collectNum" property="collectNum"/>
         <result column="AddTime" property="AddTime"/>
         <result column="UpdateTime" property="UpdateTime"/>
     </resultMap>
 
     <select id="selectBrandInfo" parameterType="map" resultMap="BrandInfo">
         SELECT
-        BrandId, BrandLogo, BrandName, Floor, Address, PhoneNum
+        BrandId, BrandLogo, BrandName, Floor, Address, PhoneNum, type, praiseNum, collectNum
         FROM brand_info
         WHERE 1=1
         <if test="BrandName != null and BrandName != ''">
-            AND BrandName LIKE CONCAT(CONCAT('%',#{BrandName}),'%')
+            AND BrandName LIKE CONCAT(CONCAT('%',#{BrandName}),'%'),
+        </if>
+        <if test="type != null and type != ''">
+            AND type = #{type},
+        </if>
+        <if test="Floor != null and Floor != ''">
+            AND Floor = #{Floor}
         </if>
     </select>
 
     <select id="selectBrandById" parameterType="map" resultType="com.bester.platform.platformchain.entity.BrandInfoEntity">
         SELECT
-        ShopPicture, BrandLogo, BrandName, Address, PhoneNum, Introduce
+        ShopPicture, BrandLogo, BrandName, Address, PhoneNum, Introduce, type, praiseNum, collectNum
         FROM brand_info
         WHERE
         BrandId = #{BrandId}
     </select>
+
+    <select id="selectByPraiseNum" parameterType="map" resultMap="BrandInfo">
+        SELECT
+        BrandId, BrandLogo, BrandName, Floor, Address, PhoneNum, type, praiseNum, collectNum
+        FROM
+        brand_info
+        WHERE
+        1=1
+        ORDER by praiseNum DESC
+    </select>
+
+    <update id="updateNum" parameterType="map">
+        UPDATE
+        brand_info
+        <trim prefix="SET" suffixOverrides=","> 
+            <if test="praiseNum!=null">
+                  praiseNum =  #{praiseNum},
+            </if> 
+            <if test="collectNum!=null">
+                  collectNum =  #{collectNum},
+            </if> 
+        </trim>       
+        WHERE 1=1
+    </update>
 </mapper>

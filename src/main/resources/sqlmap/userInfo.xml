@@ -13,6 +13,8 @@
         <result column="CarId" property="carId"/>
         <result column="Vip" property="vip"/>
         <result column="IdentityId" property="identityId"/>
+        <result column="BrandLikeList" property="BrandLikeList"/>
+        <result column="BrandCollectList" property="BrandCollectList"/>
         <result column="AddTime" property="addTime"/>
         <result column="UpdateTime" property="updateTime"/>
     </resultMap>
@@ -131,6 +133,28 @@
         UPDATE user_info
         SET Vip=#{level}
         WHERE UserId=#{userId}
+    </update>
+
+    <select id="selectLikeOrCollect" parameterType="map" resultType="com.bester.platform.platformchain.entity.UserInfoEntity">
+        SELECT
+        BrandLikeList, BrandCollectList
+        FROM
+        user_info
+        WHERE UserId = #{UserId}
+    </select>
+
+    <update id="updateLikeOrCollect" parameterType="map">
+        UPDATE
+        user_info
+        <trim prefix="SET" suffixOverrides=","> 
+            <if test="BrandLikeList != null">
+                  BrandLikeList =  #{BrandLikeList},
+            </if> 
+            <if test="BrandCollectList != null">
+                  BrandCollectList =  #{BrandCollectList},
+            </if> 
+        </trim>
+        WHERE 1=1
     </update>
 
 </mapper>

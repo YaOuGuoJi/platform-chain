@@ -10,12 +10,16 @@ import com.bester.platform.platformchain.service.CouponService;
 import com.bester.platform.platformchain.service.UserCouponService;
 import com.bester.platform.platformchain.service.UserInfoService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
+import org.joda.time.DateTime;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,30 +38,42 @@ public class CouponController {
 
     /**
      * 用户领取优惠券
+     *
      * @param couponId
      * @return
      */
-    @GetMapping("user/receive/coupon")
-    public CommonResult receiveCoupon(int couponId){
+    @GetMapping("/user/receive/coupon")
+    public CommonResult receiveCoupon(int couponId) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         CouponDTO couponDTO = couponService.inquireCouponById(couponId);
-        if(couponDTO==null){
-            return CommonResult.fail(403,"参数错误");
+        if (couponDTO == null) {
+            return CommonResult.fail(403, "参数错误");
         }
         int userId = UserInfoUtil.getUserId();
         UserInfoDTO userInfo = userInfoService.findUserInfoByUserId(userId);
-        if(couponDTO.getVipLevel()>userInfo.getVip()){
-            return CommonResult.fail(403,"等级不够");
+        if (couponDTO.getVipLevel() > userInfo.getVip()) {
+            return CommonResult.fail(403, "等级不够");
         }
-        if(couponDTO.getMargin()<=0){
-            return CommonResult.fail(404,"优惠券已抢光");
+        if(couponDTO.getLimitNum()<=userCouponService.findCouponCountById(userId,couponDTO.getId())){
+            return CommonResult.fail(403,"领取已达上限");
         }
-        UserCouponDTO userCouponDTO=new UserCouponDTO();
-        userCouponDTO.setShopId(1);
+        if (couponDTO.getMargin() <= 0) {
+            return CommonResult.fail(404, "优惠券已抢光");
+        }
+        UserCouponDTO userCouponDTO = new UserCouponDTO();
+        userCouponDTO.setShopId(couponDTO.getShopId());
         userCouponDTO.setUserId(userId);
         userCouponDTO.setCouponId(couponId);
         userCouponDTO.setStatus(2);
-
-        return null;
+        DateTime today = new DateTime();
+        Date failureTime = today.plusDays(couponDTO.getValidityPeriod()).toDate();
+        Date failureDate = sdf.parse(sdf.format(failureTime));
+        userCouponDTO.setFailureTime(failureDate);
+        int affectCount = userCouponService.receiveCoupon(userCouponDTO);
+        if(affectCount==0){
+            return CommonResult.fail(500,"领取失败");
+        }
+        return CommonResult.success("200");
     }
 
     /**

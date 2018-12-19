@@ -1,9 +1,8 @@
 package com.bester.platform.platformchain.service;
 
-import java.util.List;
-
-import com.bester.platform.platformchain.dao.UserCouponDao;
 import com.bester.platform.platformchain.dto.UserCouponDTO;
+
+import java.util.List;
 
 /**
  * @author zhangqiang
@@ -31,8 +30,18 @@ public interface UserCouponService {
 
     /**
      * 用户领取优惠券
+     *
      * @param userCouponDTO
      * @return
      */
-   int receiveCoupon(UserCouponDTO userCouponDTO);
+    int receiveCoupon(UserCouponDTO userCouponDTO);
+
+    /**
+     * 根据用户的id和优惠券id查询该用户领取该类型优惠券的数量
+     *
+     * @param userId
+     * @param couponId
+     * @return
+     */
+    int findCouponCountById(Integer userId, Integer couponId);
 }

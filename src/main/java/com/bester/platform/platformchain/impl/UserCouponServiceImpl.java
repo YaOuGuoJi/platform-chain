@@ -19,7 +19,6 @@ public class UserCouponServiceImpl implements UserCouponService {
 
     @Resource
     private UserCouponDao userCouponDao;
-    @Resource
 
     @Override
     public List<Integer> findUnusedAndUsedCouponId(Integer userId, Integer status) {
@@ -35,8 +34,16 @@ public class UserCouponServiceImpl implements UserCouponService {
         if(userCouponDTO==null){
             return 0;
         }
+        String shopIdString = userCouponDTO.getShopId().toString();
+        String shopId = shopIdString.substring(shopIdString.indexOf("[") + 1, shopIdString.indexOf("]"));
         UserCouponEntity userCouponEntity=new UserCouponEntity();
         BeanUtils.copyProperties(userCouponDTO,userCouponEntity);
+        userCouponEntity.setShopId(shopId);
         return userCouponDao.receiveCoupon(userCouponEntity);
+    }
+
+    @Override
+    public int findCouponCountById(Integer userId, Integer couponId) {
+        return userCouponDao.findCouponCountById(userId,couponId);
     }
 }

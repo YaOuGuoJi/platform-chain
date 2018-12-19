@@ -28,7 +28,11 @@
         (UserId,ShopId,CouponId,FailureTime,Status,AddTime,UpdateTime)values
         (#{userCoupon.userId},#{userCoupon.shopId},#{userCoupon.couponId},#{userCoupon.failureTime},#{userCoupon.status},now(),now())
     </insert>
-
+    <select id="findCouponCountById" resultType="int">
+        select count(Id)
+        from user_coupon
+        where UserId=#{userId} and CouponId=#{couponId}
+    </select>
     <select id="findUnusedAndUsedCouponId" resultType="integer">
         SELECT
         CouponId

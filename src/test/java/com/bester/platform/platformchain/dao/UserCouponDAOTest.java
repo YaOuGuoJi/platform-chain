@@ -19,7 +19,7 @@ public class UserCouponDAOTest {
         UserCouponEntity userCoupon=new UserCouponEntity();
         userCoupon.setUserId(1);
         userCoupon.setCouponId(2);
-        userCoupon.setShopId(3);
+        userCoupon.setShopId("123");
         userCoupon.setStatus(2);
         userCoupon.setFailureTime(new Date());
         int i = userCouponDao.receiveCoupon(userCoupon);

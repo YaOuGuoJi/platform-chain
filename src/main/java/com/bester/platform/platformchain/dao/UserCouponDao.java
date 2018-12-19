@@ -37,4 +37,13 @@ public interface UserCouponDao {
      * @return
      */
     int receiveCoupon(@Param("userCoupon") UserCouponEntity userCoupon);
+
+    /**
+     * 根据用户的id和优惠券id查询该用户领取该类型优惠券的数量
+     * @param userId
+     * @param couponId
+     * @return
+     */
+    int findCouponCountById(@Param("userId")Integer userId,
+                            @Param("couponId") Integer couponId);
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -22,16 +23,16 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public int addCoupon(CouponDTO couponDTO) {
-        CouponEntity couponEntity = new CouponEntity();
-        couponEntity.setCouponName(couponDTO.getCouponName());
-        couponEntity.setMargin(couponDTO.getMargin());
-        couponEntity.setCouponType(couponDTO.getCouponType());
-        couponEntity.setOfferCash(couponDTO.getOfferCash());
-        couponEntity.setOfferDiscount(couponDTO.getOfferDiscount());
-        couponEntity.setThreshold(couponDTO.getThreshold());
-        couponEntity.setVipLevel(couponDTO.getVipLevel());
-        couponEntity.setLimitNum(couponDTO.getLimitNum());
-        couponEntity.setValidityPeriod(couponDTO.getValidityPeriod());
+        CouponEntity entity = new CouponEntity();
+        entity.setCouponName(couponDTO.getCouponName());
+        entity.setMargin(couponDTO.getMargin());
+        entity.setCouponType(couponDTO.getCouponType());
+        entity.setOfferCash(couponDTO.getOfferCash());
+        entity.setOfferDiscount(couponDTO.getOfferDiscount());
+        entity.setThreshold(couponDTO.getThreshold());
+        entity.setVipLevel(couponDTO.getVipLevel());
+        entity.setLimitNum(couponDTO.getLimitNum());
+        entity.setValidityPeriod(couponDTO.getValidityPeriod());
         StringBuilder stringBuilder = new StringBuilder();
         if (!CollectionUtils.isEmpty(couponDTO.getAvailable())) {
             List<String> list = couponDTO.getAvailable();
@@ -42,8 +43,33 @@ public class CouponServiceImpl implements CouponService {
                 }
             }
         }
-        couponEntity.setAvailable(stringBuilder.toString());
-        couponEntity.setDescription(couponDTO.getDescription());
-        return couponDao.addCoupon(couponEntity);
+        entity.setAvailable(stringBuilder.toString());
+        entity.setDescription(couponDTO.getDescription());
+        return couponDao.addCoupon(entity);
+    }
+
+    @Override
+    public CouponDTO inquireCouponById(Integer couponId) {
+        CouponEntity couponEntity = couponDao.inquireCouponById(couponId);
+        CouponDTO dto = new CouponDTO();
+        if (couponEntity != null) {
+            dto.setId(couponEntity.getId());
+            dto.setCouponName(couponEntity.getCouponName());
+            dto.setMargin(couponEntity.getMargin());
+            dto.setCouponType(couponEntity.getCouponType());
+            dto.setOfferCash(couponEntity.getOfferCash());
+            dto.setOfferDiscount(couponEntity.getOfferDiscount());
+            dto.setThreshold(couponEntity.getThreshold());
+            dto.setVipLevel(couponEntity.getVipLevel());
+            dto.setLimitNum(couponEntity.getLimitNum());
+            dto.setValidityPeriod(couponEntity.getValidityPeriod());
+            String[] availableList = couponEntity.getAvailable().split(",");
+            List<String> list = Arrays.asList(availableList);
+            dto.setAvailable(list);
+            dto.setDescription(couponEntity.getDescription());
+            dto.setAddTime(couponEntity.getAddTime());
+            dto.setUpdateTime(couponEntity.getUpdateTime());
+        }
+        return dto;
     }
 }

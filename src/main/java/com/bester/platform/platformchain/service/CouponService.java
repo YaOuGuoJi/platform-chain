@@ -17,4 +17,12 @@ public interface CouponService {
      */
     int addCoupon(CouponDTO couponDTO);
 
+    /**
+     * 根据ID查询优惠券信息
+     *
+     * @param couponId
+     * @return
+     */
+    CouponDTO inquireCouponById(Integer couponId);
+
 }

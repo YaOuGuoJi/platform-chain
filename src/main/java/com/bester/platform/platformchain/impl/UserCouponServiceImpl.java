@@ -6,9 +6,9 @@ import com.bester.platform.platformchain.entity.UserCouponEntity;
 import com.bester.platform.platformchain.service.UserCouponService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author zhangqiang
@@ -16,9 +16,20 @@ import javax.annotation.Resource;
  */
 @Service
 public class UserCouponServiceImpl implements UserCouponService {
+
     @Resource
     private UserCouponDao userCouponDao;
+    @Resource
 
+    @Override
+    public List<Integer> findUnusedAndUsedCouponId(Integer userId, Integer status) {
+        return userCouponDao.findUnusedAndUsedCouponId(userId, status);
+    }
+
+    @Override
+    public List<Integer> findExpiredCoupon(Integer userId) {
+        return userCouponDao.findExpiredCoupon(userId);
+    }
     @Override
     public int receiveCoupon(UserCouponDTO userCouponDTO) {
         if(userCouponDTO==null){

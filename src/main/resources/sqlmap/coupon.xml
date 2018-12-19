@@ -25,7 +25,6 @@
       CouponType,
       OfferDiscount,
       OfferCash,
-      Condition,
       Threshold,
       VipLevel,
       LimitNum,
@@ -35,6 +34,13 @@
       AddTime,
       UpdateTime
     </sql>
+
+    <select id="inquireCouponById" resultMap="couponEntity">
+        SELECT
+        <include refid="allFields"/>
+        FROM coupon
+        WHERE Id = #{id}
+    </select>
 
 
     <insert id="addCoupon" parameterType="map">

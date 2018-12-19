@@ -27,6 +27,11 @@ public class UserInfoEntity {
     private Integer sex;
 
     /**
+     * 民族
+     */
+    private String nationality;
+
+    /**
      * 生日
      */
     private Date birthday;

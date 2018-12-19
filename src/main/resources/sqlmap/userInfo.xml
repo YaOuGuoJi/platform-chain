@@ -5,6 +5,7 @@
         <result column="UserId" property="userId"/>
         <result column="UserName" property="userName"/>
         <result column="Sex" property="sex"/>
+        <result column="Nationality" property="nationality"/>
         <result column="Birthday" property="birthday"/>
         <result column="Phone" property="phone"/>
         <result column="Email" property="email"/>
@@ -21,6 +22,7 @@
         UserId,
         UserName,
         Sex,
+        Nationality,
         Birthday,
         Phone,
         Email,
@@ -42,7 +44,8 @@
     <update id="updateUserInfo">
         update user_info
         set UserName=#{userInfoEntity.userName},
-            Sex     = #{userInfoEntity.sex},
+            Sex= #{userInfoEntity.sex},
+            Nationality=#{userInfoEntity.nationality},
             Birthday=#{userInfoEntity.birthday},
             Phone=#{userInfoEntity.phone},
             Email=#{userInfoEntity.email},
@@ -63,6 +66,9 @@
             </if>
             <if test="userInfo.sex &gt; 0">
                 Sex,
+            </if>
+            <if test="userInfo.nationality != null and userInfo.nationality != ''">
+                Nationality,
             </if>
             <if test="userInfo.birthday != null">
                 Birthday,
@@ -99,6 +105,9 @@
             </if>
             <if test="userInfo.sex &gt; 0">
                 #{userInfo.sex},
+            </if>
+            <if test="userInfo.nationality != null and userInfo.nationality != ''">
+                #{userInfo.nationality},
             </if>
             <if test="userInfo.birthday != null">
                 #{userInfo.birthday},

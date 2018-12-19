@@ -45,6 +45,10 @@ public class IdentityController {
         if (userId <= 0) {
             return CommonResult.fail(HttpStatus.UNAUTHORIZED);
         }
+        UserInfoDTO userInfoDTO = userInfoService.findUserInfoByUserId(userId);
+        if (StringUtils.isNotEmpty(userInfoDTO.getIdentityId())) {
+            return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "您已进行过实名认证！");
+        }
         if (image == null || image.isEmpty()) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "图片为空！");
         }
@@ -67,11 +71,10 @@ public class IdentityController {
         if (!validFields(idCardDTO)) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "识别信息不完整，请重新上传照片！");
         }
-        return bindIdentityCard2User(userId, idCardDTO);
+        return bindIdentityCard2User(userInfoDTO, idCardDTO);
     }
 
-    private CommonResult bindIdentityCard2User(int userId, IDCardDTO idCardDTO) {
-        UserInfoDTO userInfoDTO = userInfoService.findUserInfoByUserId(userId);
+    private CommonResult bindIdentityCard2User(UserInfoDTO userInfoDTO, IDCardDTO idCardDTO) {
         userInfoDTO.setUserName(idCardDTO.getName());
         userInfoDTO.setSex("男".equals(idCardDTO.getSex()) ? 1 : 2);
         userInfoDTO.setNationality(idCardDTO.getNationality());

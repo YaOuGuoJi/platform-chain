@@ -26,7 +26,7 @@ public class UserCouponEntity {
     /**
      * 商户ID
      */
-    private Integer shopId;
+    private String shopId;
 
     /**
      * 优惠券ID

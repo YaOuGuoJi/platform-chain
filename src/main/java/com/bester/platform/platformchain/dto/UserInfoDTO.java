@@ -29,6 +29,11 @@ public class UserInfoDTO implements Serializable {
     private Integer sex;
 
     /**
+     * 民族
+     */
+    private String nationality;
+
+    /**
      * 生日
      */
     private Date birthday;

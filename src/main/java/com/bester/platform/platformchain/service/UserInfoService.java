@@ -42,4 +42,12 @@ public interface UserInfoService {
      * @return
      */
     int updateUserVipLevel(int userId, UserVipLevel level);
+
+    /**
+     * 更新绑定公众号状态
+     * @param userId
+     * @param bindPublicNum
+     * @return
+     */
+    int updateUserBindPublicNum(int userId, int bindPublicNum);
 }

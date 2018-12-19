@@ -30,7 +30,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/index")
                 .excludePathPatterns("/user/verification")
                 .excludePathPatterns("/user/verificationCode")
-                .excludePathPatterns("/user/identityCard");
+                .excludePathPatterns("/user/identityCard")
+                .excludePathPatterns("/user/weChat/verifyCode");
     }
 
     @Override

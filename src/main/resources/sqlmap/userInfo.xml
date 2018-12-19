@@ -16,6 +16,7 @@
         <result column="IdentityId" property="identityId"/>
         <result column="AddTime" property="addTime"/>
         <result column="UpdateTime" property="updateTime"/>
+        <result column="BindPublicNum" property="bindPublicNum"/>
     </resultMap>
 
     <sql id="allFields">
@@ -32,7 +33,8 @@
         Vip,
         IdentityId,
         AddTime,
-        UpdateTime
+        UpdateTime,
+        BindPublicNum
     </sql>
 
     <select id="selectById" resultMap="userInfoEntity">
@@ -51,6 +53,7 @@
             Email=#{userInfoEntity.email},
             Address=#{userInfoEntity.address},
             Job=#{userInfoEntity.job},
+            BindPublicNum=#{userInfoEntity.bindPublicNum},
             UpdateTime=NOW()
         where UserId = #{userInfoEntity.userId}
     </update>
@@ -142,6 +145,13 @@
         SET Vip=#{level},
             UpdateTime=NOW()
         WHERE UserId=#{userId}
+    </update>
+
+    <update id="updateUserBindPublicNum">
+        update user_info
+        set BindPublicNum=#{bindPublicNum},
+            UpdateTime=NOW()
+        where UserId=#{userId}
     </update>
 
 </mapper>

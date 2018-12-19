@@ -81,5 +81,9 @@ public class UserInfoEntity {
      */
     private Date updateTime;
 
+    /**
+     * 是否绑定过公众号 1-是 0-否
+     */
+    private Integer bindPublicNum;
 }
 

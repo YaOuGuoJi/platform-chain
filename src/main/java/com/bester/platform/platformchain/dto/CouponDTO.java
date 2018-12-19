@@ -23,7 +23,7 @@ public class CouponDTO {
     /**
      * 商户ID
      */
-    private Integer shopId;
+    private List<String> shopId;
 
     /**
      * 优惠券名称

@@ -21,6 +21,11 @@ public class CouponDTO {
     private Integer id;
 
     /**
+     * 商户ID
+     */
+    private Integer shopId;
+
+    /**
      * 优惠券名称
      */
     private String couponName;

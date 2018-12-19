@@ -3,6 +3,7 @@
 <mapper namespace="com.bester.platform.platformchain.dao.CouponDao">
     <resultMap id="couponEntity" type="com.bester.platform.platformchain.entity.CouponEntity">
         <result column="Id" property="id"/>
+        <result column="ShopId" property="shopId"/>
         <result column="CouponName" property="couponName"/>
         <result column="Margin" property="margin"/>
         <result column="CouponType" property="couponType"/>
@@ -21,6 +22,7 @@
     <sql id="allFields">
       Id,
       CouponName,
+      ShopId,
       Margin,
       CouponType,
       OfferDiscount,

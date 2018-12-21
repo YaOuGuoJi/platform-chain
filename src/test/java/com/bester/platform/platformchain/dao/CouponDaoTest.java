@@ -24,5 +24,12 @@ public class CouponDaoTest {
         CouponEntity couponEntity = couponDao.inquireCouponById(2);
         System.out.println(couponEntity.getShopId());
     }
+    @Test
+    public void updateCouponInfoTest(){
+        CouponEntity couponEntity=new CouponEntity();
+        couponEntity.setId(2);
+        couponEntity.setMargin(9);
+        couponDao.updateCouponInfo(couponEntity);
+    }
 
 }

@@ -5,6 +5,7 @@ import com.bester.platform.platformchain.dto.CouponDTO;
 import com.bester.platform.platformchain.entity.CouponEntity;
 import com.bester.platform.platformchain.service.CouponService;
 import com.google.common.collect.Lists;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -74,5 +75,20 @@ public class CouponServiceImpl implements CouponService {
             dto.setUpdateTime(couponEntity.getUpdateTime());
         }
         return dto;
+    }
+
+    @Override
+    public int updateCouponInfo(CouponDTO coupon) {
+        if (coupon == null) {
+            return 0;
+        }
+        if(coupon.getId()==null){
+            return 0;
+        }
+        String shopId = CollectionUtils.isEmpty(coupon.getShopId()) ? "" : String.join(",", coupon.getShopId());
+        CouponEntity couponEntity = new CouponEntity();
+        BeanUtils.copyProperties(coupon,couponEntity);
+        couponEntity.setShopId(shopId);
+        return couponDao.updateCouponInfo(couponEntity);
     }
 }

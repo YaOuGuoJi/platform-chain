@@ -6,9 +6,9 @@ import com.bester.platform.platformchain.entity.UserCouponEntity;
 import com.bester.platform.platformchain.service.UserCouponService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,7 +36,7 @@ public class UserCouponServiceImpl implements UserCouponService {
         if (userCouponDTO == null) {
             return 0;
         }
-        String shopId = userCouponDTO.getShopId() == null ? "" : String.join(",",userCouponDTO.getShopId());
+        String shopId = CollectionUtils.isEmpty(userCouponDTO.getShopId()) ? "" : String.join(",", userCouponDTO.getShopId());
         UserCouponEntity userCouponEntity = new UserCouponEntity();
         BeanUtils.copyProperties(userCouponDTO, userCouponEntity);
         userCouponEntity.setShopId(shopId);

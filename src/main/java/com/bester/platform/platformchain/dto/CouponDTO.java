@@ -2,6 +2,7 @@ package com.bester.platform.platformchain.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -13,8 +14,9 @@ import java.util.List;
  * @date 2018-12-17
  */
 @Data
-public class CouponDTO {
+public class CouponDTO implements Serializable {
 
+    private static final long serialVersionUID = -7343570557876426826L;
     /**
      * 主键ID
      */

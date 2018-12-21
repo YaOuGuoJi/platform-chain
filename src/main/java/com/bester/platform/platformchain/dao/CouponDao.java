@@ -26,4 +26,11 @@ public interface CouponDao {
      */
     CouponEntity inquireCouponById(@Param("id") Integer couponId);
 
+    /**
+     * 更新优惠券信息
+     * @param coupon
+     * @return
+     */
+    int updateCouponInfo(@Param("coupon") CouponEntity coupon);
+
 }

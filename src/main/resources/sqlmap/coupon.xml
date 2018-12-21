@@ -44,7 +44,49 @@
         WHERE Id = #{id}
     </select>
 
-
+    <update id="updateCouponInfo" parameterType="com.bester.platform.platformchain.entity.CouponEntity">
+        update coupon
+        <set>
+            <if test="coupon.shopId!=null">
+                ShopId=#{coupon.shopId},
+            </if>
+            <if test="coupon.couponName!=null">
+                CouponName=#{coupon.couponName},
+            </if>
+            <if test="coupon.margin!=null">
+                Margin=#{coupon.margin},
+            </if>
+            <if test="coupon.couponType!=null">
+                CouponType=#{coupon.couponType},
+            </if>
+            <if test="coupon.offerDiscount!=null">
+                OfferDiscount=#{coupon.offerDiscount},
+            </if>
+            <if test="coupon.offerCash!=null">
+                OfferCash=#{coupon.offerCash},
+            </if>
+            <if test="coupon.threshold!=null">
+                Threshold=#{coupon.threshold},
+            </if>
+            <if test="coupon.vipLevel">
+                VipLevel=#{coupon.vipLevel},
+            </if>
+            <if test="coupon.limitNum!=null">
+                LimitNum=#{coupon.limitNum},
+            </if>
+            <if test="coupon.validityPeriod!=null">
+                ValidityPeriod=#{coupon.validityPeriod},
+            </if>
+            <if test="coupon.available!=null">
+                Available=#{coupon.available},
+            </if>
+            <if test="coupon.description!=null">
+                Description=#{coupon.description},
+            </if>
+                UpdateTime=NOW()
+        </set>
+        where Id=#{coupon.id}
+    </update>
     <insert id="addCoupon" parameterType="map">
         INSERT INTO coupon
         <trim prefix="(" suffix=")" suffixOverrides=",">

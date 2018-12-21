@@ -10,8 +10,9 @@ import com.bester.platform.platformchain.service.CouponService;
 import com.bester.platform.platformchain.service.UserCouponService;
 import com.bester.platform.platformchain.service.UserInfoService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,6 +37,7 @@ public class CouponController {
     private UserCouponService userCouponService;
     @Resource
     private UserInfoService userInfoService;
+    private static final Logger LOGGER = LoggerFactory.getLogger(CouponController.class);
 
     /**
      * 用户领取优惠券
@@ -44,13 +46,12 @@ public class CouponController {
      * @return
      */
     @GetMapping("/user/receive/coupon")
-    public CommonResult receiveCoupon(String couponId) throws ParseException {
+    public CommonResult receiveCoupon(Integer couponId) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        if (StringUtils.isBlank(couponId) || couponId.length() < 1) {
-            return CommonResult.fail(403,"参数错误");
+        if (couponId == null) {
+            return CommonResult.fail(403, "参数错误");
         }
-        int couponIdInt = Integer.parseInt(couponId);
-        CouponDTO couponDTO = couponService.inquireCouponById(couponIdInt);
+        CouponDTO couponDTO = couponService.inquireCouponById(couponId);
         if (couponDTO == null) {
             return CommonResult.fail(403, "参数错误");
         }
@@ -65,18 +66,26 @@ public class CouponController {
         if (couponDTO.getMargin() <= 0) {
             return CommonResult.fail(404, "优惠券已抢光");
         }
+        CouponDTO newCouponDTO = new CouponDTO();
+        newCouponDTO.setId(couponDTO.getId());
+        newCouponDTO.setMargin(couponDTO.getMargin() - 1);
+        int UpdateMargin = couponService.updateCouponInfo(newCouponDTO);
+        if (UpdateMargin == 0) {
+            LOGGER.error("优惠券剩余量更新失败！");
+            CommonResult.fail(403, "暂时无法领取");
+        }
         UserCouponDTO userCouponDTO = new UserCouponDTO();
         userCouponDTO.setShopId(couponDTO.getShopId());
         userCouponDTO.setUserId(userId);
-        userCouponDTO.setCouponId(couponIdInt);
+        userCouponDTO.setCouponId(couponId);
         userCouponDTO.setStatus(2);
         DateTime today = new DateTime();
         Date failureTime = today.plusDays(couponDTO.getValidityPeriod()).toDate();
         Date failureDate = sdf.parse(sdf.format(failureTime));
         userCouponDTO.setFailureTime(failureDate);
-
         int affectCount = userCouponService.receiveCoupon(userCouponDTO);
         if (affectCount == 0) {
+            LOGGER.error("用户" + userInfo.getPhone() + "领取优惠券" + couponDTO.getId() + "失败");
             return CommonResult.fail(500, "领取失败");
         }
         return CommonResult.success("200");

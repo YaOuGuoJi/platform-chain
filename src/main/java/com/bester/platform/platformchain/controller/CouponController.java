@@ -10,6 +10,7 @@ import com.bester.platform.platformchain.service.CouponService;
 import com.bester.platform.platformchain.service.UserCouponService;
 import com.bester.platform.platformchain.service.UserInfoService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
+import com.google.common.collect.Maps;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -122,7 +124,9 @@ public class CouponController {
                 couponList.add(couponDTO);
             }
         });
-        return CommonResult.success(couponList);
+        Map<String, List<CouponDTO>> data = Maps.newHashMap();
+        data.put("couponInfoList", couponList);
+        return CommonResult.success(data);
     }
 
 

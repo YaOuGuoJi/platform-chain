@@ -33,8 +33,8 @@ public class UserCouponServiceTest {
         String format = s1.format(new Date());
         Date parse = s1.parse(format);
         userCouponDTO.setFailureTime(parse);
-        int i = userCouponService.receiveCoupon(userCouponDTO);
-        System.out.println(i);
+//        int i = userCouponService.receiveCoupon(userCouponDTO);
+//        System.out.println(i);
 
 
 

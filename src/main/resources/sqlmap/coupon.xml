@@ -47,45 +47,50 @@
     <update id="updateCouponInfo" parameterType="com.bester.platform.platformchain.entity.CouponEntity">
         update coupon
         <set>
-            <if test="coupon.shopId!=null">
-                ShopId=#{coupon.shopId},
+            <if test="coupon.shopId != null and coupon.shopId !=''">
+                ShopId = #{coupon.shopId},
             </if>
-            <if test="coupon.couponName!=null">
-                CouponName=#{coupon.couponName},
+            <if test="coupon.couponName != null and coupon.couponName!=''">
+                CouponName = #{coupon.couponName},
             </if>
-            <if test="coupon.margin!=null">
-                Margin=#{coupon.margin},
+            <if test="coupon.margin != null and coupon.margin!=''">
+                Margin = #{coupon.margin},
             </if>
-            <if test="coupon.couponType!=null">
-                CouponType=#{coupon.couponType},
+            <if test="coupon.couponType != null and coupon.couponType != ''">
+                CouponType = #{coupon.couponType},
             </if>
-            <if test="coupon.offerDiscount!=null">
-                OfferDiscount=#{coupon.offerDiscount},
+            <if test="coupon.offerDiscount != null and coupon.offerDiscount !=''">
+                OfferDiscount = #{coupon.offerDiscount},
             </if>
-            <if test="coupon.offerCash!=null">
-                OfferCash=#{coupon.offerCash},
+            <if test="coupon.offerCash != null and coupon.offerCash != ''">
+                OfferCash = #{coupon.offerCash},
             </if>
-            <if test="coupon.threshold!=null">
-                Threshold=#{coupon.threshold},
+            <if test="coupon.threshold != null and coupon.threshold !=''">
+                Threshold = #{coupon.threshold},
             </if>
-            <if test="coupon.vipLevel">
-                VipLevel=#{coupon.vipLevel},
+            <if test="coupon.vipLevel != null and coupon.vipLevel !=''">
+                VipLevel = #{coupon.vipLevel},
             </if>
-            <if test="coupon.limitNum!=null">
-                LimitNum=#{coupon.limitNum},
+            <if test="coupon.limitNum != null and coupon.limitNum !=''">
+                LimitNum = #{coupon.limitNum},
             </if>
-            <if test="coupon.validityPeriod!=null">
-                ValidityPeriod=#{coupon.validityPeriod},
+            <if test="coupon.validityPeriod != null and coupon.validityPeriod !=''">
+                ValidityPeriod = #{coupon.validityPeriod},
             </if>
-            <if test="coupon.available!=null">
-                Available=#{coupon.available},
+            <if test="coupon.available != null and coupon.available != ''">
+                Available = #{coupon.available},
             </if>
-            <if test="coupon.description!=null">
-                Description=#{coupon.description},
+            <if test="coupon.description != null and coupon.description != ''">
+                Description = #{coupon.description},
             </if>
-                UpdateTime=NOW()
+            UpdateTime = NOW()
         </set>
-        where Id=#{coupon.id}
+        where Id = #{coupon.id}
+    </update>
+    <update id="updateCouponNum" parameterType="int">
+        update coupon
+        set Margin = #{couponNum}
+        where Id = #{id}
     </update>
     <insert id="addCoupon" parameterType="map">
         INSERT INTO coupon

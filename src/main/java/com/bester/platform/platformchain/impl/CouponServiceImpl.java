@@ -82,12 +82,12 @@ public class CouponServiceImpl implements CouponService {
         if (coupon == null) {
             return 0;
         }
-        if(coupon.getId()==null){
+        if (coupon.getId() == null) {
             return 0;
         }
-        String shopId = CollectionUtils.isEmpty(coupon.getShopId()) ? "" : String.join(",", coupon.getShopId());
+        String shopId = CollectionUtils.isEmpty(coupon.getShopId()) ? null : String.join(",", coupon.getShopId());
         CouponEntity couponEntity = new CouponEntity();
-        BeanUtils.copyProperties(coupon,couponEntity);
+        BeanUtils.copyProperties(coupon, couponEntity);
         couponEntity.setShopId(shopId);
         return couponDao.updateCouponInfo(couponEntity);
     }

@@ -46,6 +46,13 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
+    public int bindIdentityInfo(UserInfoDTO userInfoDTO) {
+        UserInfoEntity userInfoEntity = new UserInfoEntity();
+        BeanUtils.copyProperties(userInfoDTO, userInfoEntity);
+        return userInfoDao.bindIdentityInfo(userInfoEntity);
+    }
+
+    @Override
     public int updateUserVipLevel(int userId, UserVipLevel level) {
         UserInfoEntity userInfoEntity = userInfoDao.selectById(userId);
         if (userInfoEntity == null || userInfoEntity.getVip().equals(level.level)) {

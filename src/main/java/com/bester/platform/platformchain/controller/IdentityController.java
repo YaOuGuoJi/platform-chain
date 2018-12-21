@@ -87,7 +87,7 @@ public class IdentityController {
         } catch (ParseException e) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "生日格式错误！");
         }
-        int i = userInfoService.updateUserInfo(userInfoDTO);
+        int i = userInfoService.bindIdentityInfo(userInfoDTO);
         return i <= 0 ? CommonResult.fail(HttpStatus.ERROR.value, "绑定身份证失败！") : CommonResult.success();
     }
 

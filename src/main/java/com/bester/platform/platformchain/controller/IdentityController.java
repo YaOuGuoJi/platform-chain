@@ -92,6 +92,9 @@ public class IdentityController {
     }
 
     private boolean validFields(IDCardDTO idCardDTO) {
+        if (idCardDTO == null) {
+            return false;
+        }
         try {
             for (Field field : idCardDTO.getClass().getDeclaredFields()) {
                 field.setAccessible(true);

@@ -107,14 +107,22 @@ public class IdentityCardServiceImpl implements IdentityCardService {
             JSONObject wordsResult = jsonObject.getJSONObject("words_result");
             if (wordsResult != null) {
                 IDCardDTO idCardDTO = new IDCardDTO();
-                idCardDTO.setName(wordsResult.getJSONObject("姓名").getString("words"));
-                idCardDTO.setSex(wordsResult.getJSONObject("性别").getString("words"));
-                idCardDTO.setNationality(wordsResult.getJSONObject("民族").getString("words"));
-                idCardDTO.setBirthday(wordsResult.getJSONObject("出生").getString("words"));
-                idCardDTO.setAddress(wordsResult.getJSONObject("住址").getString("words"));
-                idCardDTO.setIdentityId(wordsResult.getJSONObject("公民身份号码").getString("words"));
+                idCardDTO.setName(getField("姓名", wordsResult));
+                idCardDTO.setSex(getField("性别", wordsResult));
+                idCardDTO.setNationality(getField("民族", wordsResult));
+                idCardDTO.setBirthday(getField("出生", wordsResult));
+                idCardDTO.setAddress(getField("住址", wordsResult));
+                idCardDTO.setIdentityId(getField("公民身份号码", wordsResult));
                 return idCardDTO;
             }
+        }
+        return null;
+    }
+
+    private String getField(String jsonKey, JSONObject wordsResult) {
+        JSONObject field = wordsResult.getJSONObject(jsonKey);
+        if (field != null) {
+            return field.getString("words");
         }
         return null;
     }

@@ -4,11 +4,11 @@ import com.bester.platform.platformchain.dao.CouponDao;
 import com.bester.platform.platformchain.dto.CouponDTO;
 import com.bester.platform.platformchain.entity.CouponEntity;
 import com.bester.platform.platformchain.service.CouponService;
+import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -55,6 +55,9 @@ public class CouponServiceImpl implements CouponService {
         if (couponEntity != null) {
             dto.setId(couponEntity.getId());
             dto.setCouponName(couponEntity.getCouponName());
+            String[] shopIdList = couponEntity.getShopId().split(",");
+            List<String> shopId = Lists.newArrayList(shopIdList);
+            dto.setShopId(shopId);
             dto.setMargin(couponEntity.getMargin());
             dto.setCouponType(couponEntity.getCouponType());
             dto.setOfferCash(couponEntity.getOfferCash());
@@ -64,7 +67,7 @@ public class CouponServiceImpl implements CouponService {
             dto.setLimitNum(couponEntity.getLimitNum());
             dto.setValidityPeriod(couponEntity.getValidityPeriod());
             String[] availableList = couponEntity.getAvailable().split(",");
-            List<String> list = Arrays.asList(availableList);
+            List<String> list = Lists.newArrayList(availableList);
             dto.setAvailable(list);
             dto.setDescription(couponEntity.getDescription());
             dto.setAddTime(couponEntity.getAddTime());

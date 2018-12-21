@@ -1,6 +1,6 @@
 package com.bester.platform.platformchain.service;
 
-import com.bester.platform.platformchain.dto.IDCardDTO;
+import com.bester.platform.platformchain.dto.UserIdentityDTO;
 
 import java.io.InputStream;
 
@@ -15,7 +15,7 @@ public interface IdentityCardService {
      * @param inputStream
      * @return
      */
-    IDCardDTO idCardOCR(InputStream inputStream);
+    UserIdentityDTO idCardOCR(InputStream inputStream);
 
     /**
      * OCR识别身份证信息
@@ -23,7 +23,7 @@ public interface IdentityCardService {
      * @param imgData
      * @return
      */
-    IDCardDTO idCardOCR(byte[] imgData);
+    UserIdentityDTO idCardOCR(byte[] imgData);
 
 }
 

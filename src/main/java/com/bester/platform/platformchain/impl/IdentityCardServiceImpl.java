@@ -3,7 +3,7 @@ package com.bester.platform.platformchain.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.bester.platform.platformchain.constant.RedisKeys;
-import com.bester.platform.platformchain.dto.IDCardDTO;
+import com.bester.platform.platformchain.dto.UserIdentityDTO;
 import com.bester.platform.platformchain.service.IdentityCardService;
 import com.bester.platform.platformchain.service.RedisClientService;
 import com.bester.platform.platformchain.util.auth.Base64Util;
@@ -32,7 +32,7 @@ public class IdentityCardServiceImpl implements IdentityCardService {
     private RedisClientService redisClientService;
 
     @Override
-    public IDCardDTO idCardOCR(InputStream inputStream) {
+    public UserIdentityDTO idCardOCR(InputStream inputStream) {
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
             BufferedInputStream in = new BufferedInputStream(inputStream);
             short bufSize = 1024;
@@ -50,7 +50,7 @@ public class IdentityCardServiceImpl implements IdentityCardService {
     }
 
     @Override
-    public IDCardDTO idCardOCR(byte[] imgData) {
+    public UserIdentityDTO idCardOCR(byte[] imgData) {
         String idCardURL = "https://aip.baidubce.com/rest/2.0/ocr/v1/idcard";
         try {
             String imgStr = Base64Util.encode(imgData);
@@ -101,19 +101,19 @@ public class IdentityCardServiceImpl implements IdentityCardService {
         return jsonObject.getString("access_token");
     }
 
-    private IDCardDTO parseIDCardDTO(String result) {
+    private UserIdentityDTO parseIDCardDTO(String result) {
         if (StringUtils.isNotEmpty(result)) {
             JSONObject jsonObject = JSON.parseObject(result);
             JSONObject wordsResult = jsonObject.getJSONObject("words_result");
             if (wordsResult != null) {
-                IDCardDTO idCardDTO = new IDCardDTO();
-                idCardDTO.setName(getField("姓名", wordsResult));
-                idCardDTO.setSex(getField("性别", wordsResult));
-                idCardDTO.setNationality(getField("民族", wordsResult));
-                idCardDTO.setBirthday(getField("出生", wordsResult));
-                idCardDTO.setAddress(getField("住址", wordsResult));
-                idCardDTO.setIdentityId(getField("公民身份号码", wordsResult));
-                return idCardDTO;
+                UserIdentityDTO userIdentityDTO = new UserIdentityDTO();
+                userIdentityDTO.setName(getField("姓名", wordsResult));
+                userIdentityDTO.setSex(getField("性别", wordsResult));
+                userIdentityDTO.setNationality(getField("民族", wordsResult));
+                userIdentityDTO.setBirthday(getField("出生", wordsResult));
+                userIdentityDTO.setAddress(getField("住址", wordsResult));
+                userIdentityDTO.setIdentityId(getField("公民身份号码", wordsResult));
+                return userIdentityDTO;
             }
         }
         return null;

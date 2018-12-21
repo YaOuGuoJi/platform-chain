@@ -44,4 +44,10 @@ public class CouponServiceTest {
         Assert.assertTrue(result > 0);
     }
 
+    @Test
+    public void selectCoupon() {
+        CouponDTO couponDTO = couponService.inquireCouponById(1);
+        System.out.println(couponDTO);
+    }
+
 }

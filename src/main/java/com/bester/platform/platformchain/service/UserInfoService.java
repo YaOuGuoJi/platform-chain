@@ -52,7 +52,7 @@ public interface UserInfoService {
      * @param brandLikeList
      * @return
      */
-    int updateLikeOrCollect(List<Integer> brandLikeList, List<Integer> brandCollectList);
+    int updateLikeOrCollect(List<String> brandLikeList, List<String> brandCollectList);
 
     /**
      * 根据用户id查询用户信息

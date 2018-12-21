@@ -11,7 +11,7 @@ import java.util.Date;
 @Data
 public class BrandInfoDTO implements Serializable {
 
-    private String BrandId;
+    private Integer BrandId;
 
     private String BrandName;
 

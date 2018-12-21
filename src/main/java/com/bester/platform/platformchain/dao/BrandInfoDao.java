@@ -43,5 +43,5 @@ public interface BrandInfoDao {
      * @param collectNum
      * @return
      */
-    BrandInfoEntity updateNum(@Param("PraiseNum")Integer praiseNum,@Param("collectNum")Integer collectNum);
+    BrandInfoEntity updateNum(@Param("praiseNum")Integer praiseNum,@Param("collectNum")Integer collectNum);
 }

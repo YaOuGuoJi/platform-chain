@@ -10,7 +10,7 @@ import java.util.Date;
 @Data
 public class BrandInfoEntity {
 
-    private String BrandId;
+    private Integer BrandId;
 
     private String BrandName;
 

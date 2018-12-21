@@ -59,20 +59,12 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public int updateLikeOrCollect(List<Integer> brandLikeList,List<Integer> brandCollectList) {
+    public int updateLikeOrCollect(List<String> brandLikeList,List<String> brandCollectList) {
         if (brandLikeList != null && brandCollectList == null) {
-            List<String> newLikeList = new ArrayList<>(brandLikeList.size());
-            for (Integer myInt : brandLikeList) {
-                newLikeList.add(String.valueOf(myInt));
-            }
-            String brandLike = String.join(",", newLikeList);
+            String brandLike = String.join(",", brandLikeList);
             return userInfoDao.updateLikeOrCollect(brandLike,null);
         }else if(brandCollectList != null && brandLikeList == null) {
-            List<String> newCollectList = new ArrayList<>(brandCollectList.size());
-            for (Integer myInt : brandCollectList) {
-                newCollectList.add(String.valueOf(myInt));
-            }
-            String brandCollect = String.join(",", newCollectList);
+            String brandCollect = String.join(",", brandCollectList);
             return userInfoDao.updateLikeOrCollect(null, brandCollect);
         }
         return userInfoDao.updateLikeOrCollect(null,null);
@@ -85,22 +77,12 @@ public class UserInfoServiceImpl implements UserInfoService {
         }
         UserInfoEntity userInfoEntity = userInfoDao.selectLikeOrCollect(UserId);
         String brandLike = userInfoEntity.getBrandLikeList();
-        List<String> likeList = Arrays.asList(brandLike.split(","));
-        List<Integer> likeIntegerList = new ArrayList<>();
-        if (!likeList.isEmpty()) {
-            likeIntegerList = likeList.stream().map(Integer::parseInt)
-                    .collect(Collectors.toList());
-        }
+        List<String> likeList = new ArrayList<>(Arrays.asList(brandLike.split(",")));
         String brandCollect = userInfoEntity.getBrandCollectList();
-        List<String> collectList = Arrays.asList(brandCollect.split(","));
-        List<Integer> collectIntegerList = new ArrayList<>();
-        if (!collectList.isEmpty()) {
-            collectIntegerList = collectList.stream().map(Integer::parseInt)
-                    .collect(Collectors.toList());
-        }
+        List<String> collectList = new ArrayList<>(Arrays.asList(brandCollect.split(",")));
         UserInfoDTO userInfoDTO = new UserInfoDTO();
-        userInfoDTO.setBrandLikeList(likeIntegerList);
-        userInfoDTO.setBrandCollectList(collectIntegerList);
+        userInfoDTO.setBrandLikeList(likeList);
+        userInfoDTO.setBrandCollectList(collectList);
         return userInfoDTO;
     }
 }

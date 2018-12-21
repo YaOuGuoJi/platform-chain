@@ -72,12 +72,12 @@ public class UserInfoDTO implements Serializable {
     /**
      * 点赞的品牌idList
      */
-    private List<Integer> BrandLikeList;
+    private List<String> BrandLikeList;
 
     /**
      * 收藏的品牌idList
      */
-    private List<Integer> BrandCollectList;
+    private List<String> BrandCollectList;
 
     /**
      * 添加时间

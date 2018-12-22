@@ -90,7 +90,7 @@
     <update id="updateCouponNum" parameterType="int">
         update coupon
         set Margin = #{couponNum},
-        UpdateTime = NOW()
+            UpdateTime = NOW()
         where Id = #{id}
     </update>
     <insert id="addCoupon" parameterType="map">

@@ -32,6 +32,13 @@ public class UserInfoController {
     @Resource
     private VoucherCardService voucherCardService;
 
+    /**
+     * 修改用户信息
+     *
+     * @param email
+     * @param job
+     * @return
+     */
     @PostMapping("/user/updateInfo")
     public CommonResult updateUserInfo(String email, String job) {
         String emailRegex = "^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*\\.[a-zA-Z0-9]{2,6}$";
@@ -50,6 +57,11 @@ public class UserInfoController {
         return result > 0 ? CommonResult.success() : CommonResult.fail(HttpStatus.ERROR);
     }
 
+    /**
+     * 查询用户详情
+     *
+     * @return
+     */
     @GetMapping("/user/detail")
     public CommonResult<Membership> userInfo() {
         int userId = UserInfoUtil.getUserId();

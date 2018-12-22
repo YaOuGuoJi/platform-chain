@@ -2,17 +2,18 @@ package com.bester.platform.platformchain.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
- *
- *
  * @author zhangqiang
  * @date 2018-12-17
  */
 @Data
-public class UserCouponDTO {
+public class UserCouponDTO implements Serializable {
 
+    private static final long serialVersionUID = -1492632368646875634L;
     /**
      * 主键ID
      */
@@ -26,17 +27,12 @@ public class UserCouponDTO {
     /**
      * 商户ID
      */
-    private Integer shopId;
+    private List<String> shopId;
 
     /**
      * 优惠券ID
      */
     private Integer couponId;
-
-    /**
-     * 领取时间
-     */
-    private Date pickUpTime;
 
     /**
      * 失效时间

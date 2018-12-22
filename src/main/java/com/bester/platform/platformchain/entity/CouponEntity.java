@@ -20,6 +20,11 @@ public class CouponEntity {
     private Integer id;
 
     /**
+     * 商户ID
+     */
+    private String  shopId;
+
+    /**
      * 优惠券名称
      */
     private String couponName;
@@ -43,11 +48,6 @@ public class CouponEntity {
      * 优惠折扣
      */
     private BigDecimal offerDiscount;
-
-    /**
-     * 使用条件（1：无限制，2：满XX元可用)
-     */
-    private Integer condition;
 
     /**
      * 使用门槛（满XX元可用,为零时则代表使用条件无限制)

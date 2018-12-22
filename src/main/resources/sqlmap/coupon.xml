@@ -88,10 +88,11 @@
         where Id = #{coupon.id}
     </update>
     <update id="updateCouponNum" parameterType="int">
-        update coupon
-        set Margin = #{couponNum},
+        UPDATE coupon
+        SET Margin = Margin - 1,
             UpdateTime = NOW()
-        where Id = #{id}
+        WHERE Id = #{id}
+        AND (Margin - 1) >= 0
     </update>
     <insert id="addCoupon" parameterType="map">
         INSERT INTO coupon

@@ -43,7 +43,7 @@ public class UserCouponServiceImpl implements UserCouponService {
         if (userCouponDTO == null) {
             return 0;
         }
-        int coupon = couponDao.updateCouponNum(userCouponDTO.getCouponId(), couponNum - 1);
+        int coupon = couponDao.updateCouponNum(userCouponDTO.getCouponId());
         if (coupon == 0) {
             LOGGER.error("用户" + userCouponDTO.getUserId() + "领取优惠券时，更新优惠券余量失败，此时优惠券剩余" + couponNum + "张");
             return 0;

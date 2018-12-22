@@ -38,10 +38,8 @@ public interface CouponDao {
      * 更新优惠券的数量
      *
      * @param id
-     * @param couponNum
      * @return
      */
-    int updateCouponNum(@Param("id") int id,
-                        @Param("couponNum") int couponNum);
+    int updateCouponNum(@Param("id") int id);
 
 }

@@ -41,20 +41,14 @@
         SELECT
         <include refid="allFields"/>
         FROM user_info
-        WHERE UserId=#{userId}
+        WHERE UserId = #{userId}
     </select>
     <update id="updateUserInfo">
         update user_info
-        set UserName=#{userInfoEntity.userName},
-            Sex= #{userInfoEntity.sex},
-            Nationality=#{userInfoEntity.nationality},
-            Birthday=#{userInfoEntity.birthday},
-            Phone=#{userInfoEntity.phone},
-            Email=#{userInfoEntity.email},
-            Address=#{userInfoEntity.address},
-            Job=#{userInfoEntity.job},
-            BindPublicNum=#{userInfoEntity.bindPublicNum},
-            UpdateTime=NOW()
+        set
+            Email = #{userInfoEntity.email},
+            Job = #{userInfoEntity.job},
+            UpdateTime = NOW()
         where UserId = #{userInfoEntity.userId}
     </update>
 

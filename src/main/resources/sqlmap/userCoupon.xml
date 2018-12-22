@@ -6,7 +6,6 @@
         <result column="UserId" property="userId"/>
         <result column="ShopId" property="shopId"/>
         <result column="CouponId" property="couponId"/>
-        <result column="PickUpTime" property="pickUpTime"/>
         <result column="FailureTime" property="failureTime"/>
         <result column="Status" property="status"/>
         <result column="AddTime" property="addTime"/>
@@ -18,11 +17,38 @@
       UserId,
       ShopId,
       CouponId,
-      PickUpTime,
       FailureTime,
       Status,
       AddTime,
       UpdateTime
     </sql>
+    <insert id="receiveCoupon" parameterType="com.bester.platform.platformchain.entity.UserCouponEntity"
+            useGeneratedKeys="true" keyProperty="userCoupon.id">
+        insert into user_coupon
+        (UserId,ShopId,CouponId,FailureTime,Status,AddTime,UpdateTime)values
+        (#{userCoupon.userId},#{userCoupon.shopId},#{userCoupon.couponId},#{userCoupon.failureTime},#{userCoupon.status},now(),now())
+    </insert>
+    <select id="findCouponCountById" resultType="int">
+        select count(Id)
+        from user_coupon
+        where UserId=#{userId} and CouponId=#{couponId}
+    </select>
+    <select id="findUnusedAndUsedCouponId" resultType="integer">
+        SELECT
+        CouponId
+        FROM user_coupon
+        WHERE UserId = #{userId}
+        AND Status = #{status}
+    </select>
+
+    <select id="findExpiredCoupon" resultType="integer">
+        <![CDATA[
+        SELECT
+        CouponId
+        FROM user_coupon
+        WHERE UserId = #{userId}
+        AND NOW() > FailureTime
+            ]]>
+    </select>
 
 </mapper>

@@ -2,12 +2,15 @@ package com.bester.platform.platformchain.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @author liuwen
  * @date 2018/12/19
  */
 @Data
-public class IDCardDTO {
+public class UserIdentityDTO implements Serializable {
+    private static final long serialVersionUID = -4403151945864889065L;
     /**
      * 姓名
      */

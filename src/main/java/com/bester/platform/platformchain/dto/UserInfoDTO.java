@@ -64,7 +64,8 @@ public class UserInfoDTO implements Serializable {
     private Integer carId;
 
     /**
-     * 是否VIP用户 1-是 0-不是
+     * VIP级别
+     * @see com.bester.platform.platformchain.enums.UserVipLevel
      */
     private Integer vip;
 

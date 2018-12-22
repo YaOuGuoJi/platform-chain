@@ -35,6 +35,14 @@ public interface UserInfoService {
     int updateUserInfo(UserInfoDTO userInfoDTO);
 
     /**
+     * 绑定身份证
+     *
+     * @param userInfoDTO
+     * @return
+     */
+    int bindIdentityInfo(UserInfoDTO userInfoDTO);
+
+    /**
      * 升级用户VIP等级
      *
      * @param userId

@@ -1,7 +1,7 @@
 package com.bester.platform.platformchain.controller;
 
 import com.bester.platform.platformchain.common.CommonResult;
-import com.bester.platform.platformchain.dto.IDCardDTO;
+import com.bester.platform.platformchain.dto.UserIdentityDTO;
 import com.bester.platform.platformchain.dto.UserInfoDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
 import com.bester.platform.platformchain.service.IdentityCardService;
@@ -45,6 +45,10 @@ public class IdentityController {
         if (userId <= 0) {
             return CommonResult.fail(HttpStatus.UNAUTHORIZED);
         }
+        UserInfoDTO userInfoDTO = userInfoService.findUserInfoByUserId(userId);
+        if (StringUtils.isNotEmpty(userInfoDTO.getIdentityId())) {
+            return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "您已进行过实名认证！");
+        }
         if (image == null || image.isEmpty()) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "图片为空！");
         }
@@ -63,15 +67,14 @@ public class IdentityController {
             LOGGER.error("转byte数组失败！", e);
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "解析文件失败！");
         }
-        IDCardDTO idCardDTO = identityCardService.idCardOCR(bytes);
-        if (!validFields(idCardDTO)) {
+        UserIdentityDTO userIdentityDTO = identityCardService.idCardOCR(bytes);
+        if (!validFields(userIdentityDTO)) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "识别信息不完整，请重新上传照片！");
         }
-        return bindIdentityCard2User(userId, idCardDTO);
+        return bindIdentityCard2User(userInfoDTO, userIdentityDTO);
     }
 
-    private CommonResult bindIdentityCard2User(int userId, IDCardDTO idCardDTO) {
-        UserInfoDTO userInfoDTO = userInfoService.findUserInfoByUserId(userId);
+    private CommonResult bindIdentityCard2User(UserInfoDTO userInfoDTO, UserIdentityDTO idCardDTO) {
         userInfoDTO.setUserName(idCardDTO.getName());
         userInfoDTO.setSex("男".equals(idCardDTO.getSex()) ? 1 : 2);
         userInfoDTO.setNationality(idCardDTO.getNationality());
@@ -84,11 +87,14 @@ public class IdentityController {
         } catch (ParseException e) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "生日格式错误！");
         }
-        int i = userInfoService.updateUserInfo(userInfoDTO);
+        int i = userInfoService.bindIdentityInfo(userInfoDTO);
         return i <= 0 ? CommonResult.fail(HttpStatus.ERROR.value, "绑定身份证失败！") : CommonResult.success();
     }
 
-    private boolean validFields(IDCardDTO idCardDTO) {
+    private boolean validFields(UserIdentityDTO idCardDTO) {
+        if (idCardDTO == null) {
+            return false;
+        }
         try {
             for (Field field : idCardDTO.getClass().getDeclaredFields()) {
                 field.setAccessible(true);

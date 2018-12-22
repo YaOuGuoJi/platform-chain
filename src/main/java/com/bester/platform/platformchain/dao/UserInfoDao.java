@@ -33,6 +33,14 @@ public interface UserInfoDao {
     int updateUserInfo(@Param("userInfoEntity") UserInfoEntity userInfoEntity);
 
     /**
+     * 绑定身份证信息
+     *
+     * @param userInfoEntity
+     * @return
+     */
+    int bindIdentityInfo(@Param("userInfoEntity") UserInfoEntity userInfoEntity);
+
+    /**
      * 升级会员等级
      *
      * @param userId

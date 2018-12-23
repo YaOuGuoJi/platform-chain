@@ -38,7 +38,7 @@ public class BrandInfoEntity {
     /**
      * 具体区位
      */
-    private String Address;
+    private String address;
 
     /**
      * 联系方式

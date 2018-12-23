@@ -26,17 +26,12 @@ public class UserCouponEntity {
     /**
      * 商户ID
      */
-    private Integer shopId;
+    private String shopId;
 
     /**
      * 优惠券ID
      */
     private Integer couponId;
-
-    /**
-     * 领取时间
-     */
-    private Date pickUpTime;
 
     /**
      * 失效时间

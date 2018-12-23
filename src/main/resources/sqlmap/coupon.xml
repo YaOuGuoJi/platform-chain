@@ -3,12 +3,12 @@
 <mapper namespace="com.bester.platform.platformchain.dao.CouponDao">
     <resultMap id="couponEntity" type="com.bester.platform.platformchain.entity.CouponEntity">
         <result column="Id" property="id"/>
+        <result column="ShopId" property="shopId"/>
         <result column="CouponName" property="couponName"/>
         <result column="Margin" property="margin"/>
         <result column="CouponType" property="couponType"/>
         <result column="OfferDiscount" property="offerDiscount"/>
         <result column="OfferCash" property="offerCash"/>
-        <result column="Condition" property="condition"/>
         <result column="Threshold" property="threshold"/>
         <result column="VipLevel" property="vipLevel"/>
         <result column="LimitNum" property="limitNum"/>
@@ -22,11 +22,11 @@
     <sql id="allFields">
       Id,
       CouponName,
+      ShopId,
       Margin,
       CouponType,
       OfferDiscount,
       OfferCash,
-      Condition,
       Threshold,
       VipLevel,
       LimitNum,
@@ -36,5 +36,105 @@
       AddTime,
       UpdateTime
     </sql>
+
+    <select id="inquireCouponById" resultMap="couponEntity">
+        SELECT
+        <include refid="allFields"/>
+        FROM coupon
+        WHERE Id = #{id}
+    </select>
+
+    <update id="updateCouponInfo" parameterType="com.bester.platform.platformchain.entity.CouponEntity">
+        update coupon
+        <set>
+            <if test="coupon.shopId != null and coupon.shopId !=''">
+                ShopId = #{coupon.shopId},
+            </if>
+            <if test="coupon.couponName != null and coupon.couponName != ''">
+                CouponName = #{coupon.couponName},
+            </if>
+            <if test="coupon.margin != null and coupon.margin!=''">
+                Margin = #{coupon.margin},
+            </if>
+            <if test="coupon.couponType != null and coupon.couponType != ''">
+                CouponType = #{coupon.couponType},
+            </if>
+            <if test="coupon.offerDiscount != null and coupon.offerDiscount != ''">
+                OfferDiscount = #{coupon.offerDiscount},
+            </if>
+            <if test="coupon.offerCash != null and coupon.offerCash != ''">
+                OfferCash = #{coupon.offerCash},
+            </if>
+            <if test="coupon.threshold != null and coupon.threshold != ''">
+                Threshold = #{coupon.threshold},
+            </if>
+            <if test="coupon.vipLevel != null and coupon.vipLevel != ''">
+                VipLevel = #{coupon.vipLevel},
+            </if>
+            <if test="coupon.limitNum != null and coupon.limitNum != ''">
+                LimitNum = #{coupon.limitNum},
+            </if>
+            <if test="coupon.validityPeriod != null and coupon.validityPeriod != ''">
+                ValidityPeriod = #{coupon.validityPeriod},
+            </if>
+            <if test="coupon.available != null and coupon.available != ''">
+                Available = #{coupon.available},
+            </if>
+            <if test="coupon.description != null and coupon.description != ''">
+                Description = #{coupon.description},
+            </if>
+            UpdateTime = NOW()
+        </set>
+        where Id = #{coupon.id}
+    </update>
+    <update id="updateCouponNum" parameterType="int">
+        UPDATE coupon
+        SET Margin = Margin - 1,
+            UpdateTime = NOW()
+        WHERE Id = #{id}
+        AND (Margin - 1) >= 0
+    </update>
+    <insert id="addCoupon" parameterType="map">
+        INSERT INTO coupon
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            CouponName,
+            ShopId,
+            Margin,
+            CouponType,
+            <if test="coupon.offerDiscount != null and coupon.offerDiscount != ''">
+                OfferDiscount,
+            </if>
+            <if test="coupon.offerCash != null and coupon.offerCash != ''">
+                OfferCash,
+            </if>
+            Threshold,
+            VipLevel,
+            LimitNum,
+            ValidityPeriod,
+            Available,
+            Description,
+            AddTime
+        </trim>
+        <trim prefix="VALUES (" suffix=")" suffixOverrides=",">
+            #{coupon.couponName},
+            #{coupon.shopId},
+            #{coupon.margin},
+            #{coupon.couponType},
+            <if test="coupon.offerDiscount != null and coupon.offerDiscount != ''">
+                #{coupon.offerDiscount},
+            </if>
+            <if test="coupon.OfferCash != null and coupon.offerCash !=''">
+                #{coupon.offerCash},
+            </if>
+            #{coupon.threshold},
+            #{coupon.vipLevel},
+            #{coupon.limitNum},
+            #{coupon.validityPeriod},
+            #{coupon.available},
+            #{coupon.description},
+            NOW()
+        </trim>
+    </insert>
+
 
 </mapper>

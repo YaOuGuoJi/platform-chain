@@ -30,10 +30,10 @@ public class BrandInfoController {
     private UserInfoService userInfoService;
 
     @GetMapping("/brand/list")
-    public CommonResult getBrandInfo(@RequestParam(required = false, defaultValue = "")String BrandName,
-                                     @RequestParam(required = false, defaultValue = "")String type,
-                                     @RequestParam(required = false, defaultValue = "")Integer Floor){
-        List<BrandInfoDTO> brandInfoDTOList = brandInfoService.selectBrandInfo(BrandName,type,Floor);
+    public CommonResult getBrandInfo(@RequestParam(required = false, defaultValue = "")String brandName,
+                                     @RequestParam(required = false, defaultValue = "")Integer type,
+                                     @RequestParam(required = false, defaultValue = "")Integer floor){
+        List<BrandInfoDTO> brandInfoDTOList = brandInfoService.selectBrandInfo(brandName,type,floor);
         Map<Integer,List<BrandInfoDTO>> floor2BrandList = brandInfoDTOList.stream().collect(Collectors.groupingBy(BrandInfoDTO::getFloor));
         return CommonResult.success(floor2BrandList);
     }
@@ -41,16 +41,16 @@ public class BrandInfoController {
     /**
      * 根据品牌名称（模糊查询），业态，及楼号查询品牌信息
      *
-     * @param BrandName
+     * @param brandName
      * @param type
      * @param Floor
      * @return
      */
     @GetMapping("/brand/like/collect")
-    public CommonResult<List<UserLikeAndCollect>> showLikeAndCollect(@RequestParam(required = false, defaultValue = "")String BrandName,
-                                                                     @RequestParam(required = false, defaultValue = "")String type,
+    public CommonResult<List<UserLikeAndCollect>> showLikeAndCollect(@RequestParam(required = false, defaultValue = "")String brandName,
+                                                                     @RequestParam(required = false, defaultValue = "")Integer type,
                                                                      @RequestParam(required = false, defaultValue = "")Integer Floor){
-        List<BrandInfoDTO> brandInfoDTOList = brandInfoService.selectBrandInfo(BrandName,type,Floor);
+        List<BrandInfoDTO> brandInfoDTOList = brandInfoService.selectBrandInfo(brandName,type,Floor);
         List<UserLikeAndCollect> userLikeAndCollectList = judgeLikeAndCollect(brandInfoDTOList);
         return CommonResult.success(userLikeAndCollectList);
     }
@@ -70,15 +70,15 @@ public class BrandInfoController {
     /**
      * 根据brandId查询某个品牌具体信息
      *
-     * @param BrandId
+     * @param brandId
      * @return
      */
     @GetMapping("/brand/info")
-    public CommonResult getBrandInfoById(Integer BrandId){
-        if (BrandId == null){
+    public CommonResult getBrandInfoById(Integer brandId){
+        if (brandId == null){
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
-        BrandInfoDTO brandInfoDTO = brandInfoService.selectBrandById(BrandId);
+        BrandInfoDTO brandInfoDTO = brandInfoService.selectBrandById(brandId);
         if (brandInfoDTO == null){
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
@@ -111,30 +111,46 @@ public class BrandInfoController {
         UserInfoDTO userInfoDTO = userInfoService.selectLikeOrCollect(userId);
         if (type == LIKE) {
             List<String> brandLikeList = userInfoDTO.getBrandLikeList();
+            boolean likeFlag = true;
             for (int i = 0; i < brandLikeList.size(); i++) {
                 String brandLike = brandLikeList.get(i);
                 if (brandLike.equals(brandIds)) {
-                    brandInfoService.updateNum(praiseNum - STEP_NUM, null);
+                    if (praiseNum == 0){
+                        brandInfoService.updateNum(brandId,0,null);
+                    } else {
+                        brandInfoService.updateNum(brandId, praiseNum - STEP_NUM, null);
+                    }
                     brandLikeList.remove(i);
-                } else {
-                    brandInfoService.updateNum(praiseNum + STEP_NUM, null);
-                    brandLikeList.add(brandIds);
+                    likeFlag = false;
+                    break;
                 }
             }
-            userInfoService.updateLikeOrCollect(brandLikeList, null);
+            if(likeFlag){
+                brandInfoService.updateNum(brandId,praiseNum + STEP_NUM, null);
+                brandLikeList.add(brandIds);
+            }
+            userInfoService.updateLikeOrCollect(userId,brandLikeList, null);
         }else if (type == COLLECT) {
+            boolean collectFlag = true;
             List<String> brandCollectList = userInfoDTO.getBrandCollectList();
             for (int i = 0; i < brandCollectList.size(); i++) {
                 String brandCollect = brandCollectList.get(i);
                 if (brandCollect.equals(brandIds)) {
-                    brandInfoService.updateNum(null, collectNum - STEP_NUM);
+                    if (collectNum == 0){
+                        brandInfoService.updateNum(brandId,null,0);
+                    } else {
+                        brandInfoService.updateNum(brandId, null, collectNum - STEP_NUM);
+                    }
                     brandCollectList.remove(i);
-                } else {
-                    brandInfoService.updateNum(null,collectNum+ STEP_NUM);
-                    brandCollectList.add(brandIds);
+                    collectFlag = false;
+                    break;
                 }
             }
-            userInfoService.updateLikeOrCollect(null, brandCollectList);
+            if (collectFlag) {
+                brandInfoService.updateNum(brandId,null,collectNum+ STEP_NUM);
+                brandCollectList.add(brandIds);
+            }
+            userInfoService.updateLikeOrCollect(userId,null, brandCollectList);
         }
         return CommonResult.success();
     }
@@ -177,7 +193,7 @@ public class BrandInfoController {
     @Data
     private class UserLikeAndCollect{
 
-        private int UserId;
+        private int userId;
 
         private int brandId;
 
@@ -185,7 +201,7 @@ public class BrandInfoController {
 
         private String brandName;
 
-        private int Floor;
+        private int floor;
 
         private int praiseNum;
 

@@ -75,12 +75,12 @@ public class UserInfoEntity {
     /**
      * 点赞的品牌idList
      */
-    private String BrandLikeList;
+    private String brandLikeList;
 
     /**
      * 收藏的品牌idList
      */
-    private String BrandCollectList;
+    private String brandCollectList;
 
     /**
      * 添加时间

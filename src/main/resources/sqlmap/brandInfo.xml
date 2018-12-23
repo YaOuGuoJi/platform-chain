@@ -2,20 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bester.platform.platformchain.dao.BrandInfoDao">
     <resultMap id="BrandInfo" type="com.bester.platform.platformchain.entity.BrandInfoEntity">
-        <result column="BrandId" property="BrandId"/>
-        <result column="BrandName" property="BrandName"/>
-        <result column="BrandLogo" property="BrandLogo"/>
-        <result column="Deleted" property="Deleted"/>
-        <result column="Floor" property="Floor"/>
-        <result column="Address" property="Address"/>
+        <result column="BrandId" property="brandId"/>
+        <result column="BrandName" property="brandName"/>
+        <result column="BrandLogo" property="brandLogo"/>
+        <result column="Deleted" property="deleted"/>
+        <result column="Floor" property="floor"/>
+        <result column="Address" property="address"/>
         <result column="phoneNum" property="phoneNum"/>
-        <result column="ShopPicture" property="ShopPicture"/>
-        <result column="Introduce" property="Introduce"/>
+        <result column="ShopPicture" property="shopPicture"/>
+        <result column="Introduce" property="introduce"/>
         <result column="type" property="type"/>
         <result column="praiseNum" property="praiseNum"/>
         <result column="collectNum" property="collectNum"/>
-        <result column="AddTime" property="AddTime"/>
-        <result column="UpdateTime" property="UpdateTime"/>
+        <result column="AddTime" property="addTime"/>
+        <result column="UpdateTime" property="updateTime"/>
     </resultMap>
 
     <select id="selectBrandInfo" parameterType="map" resultMap="BrandInfo">
@@ -23,14 +23,14 @@
         BrandId, BrandLogo, BrandName, Floor, Address, PhoneNum, type, praiseNum, collectNum
         FROM brand_info
         WHERE 1=1
-        <if test="BrandName != null and BrandName != ''">
-            AND BrandName LIKE CONCAT(CONCAT('%',#{BrandName}),'%'),
+        <if test="brandName != null and brandName != ''">
+            AND BrandName LIKE CONCAT(CONCAT('%',#{brandName}),'%')
         </if>
         <if test="type != null and type != ''">
-            AND type = #{type},
+            AND type = #{type}
         </if>
-        <if test="Floor != null and Floor != ''">
-            AND Floor = #{Floor}
+        <if test="floor != null and floor != ''">
+            AND Floor = #{floor}
         </if>
     </select>
 
@@ -39,7 +39,7 @@
         ShopPicture, BrandLogo, BrandName, Address, PhoneNum, Introduce, type, praiseNum, collectNum
         FROM brand_info
         WHERE
-        BrandId = #{BrandId}
+        BrandId = #{brandId}
     </select>
 
     <select id="selectByPraiseNum" parameterType="map" resultMap="BrandInfo">
@@ -52,16 +52,16 @@
         ORDER by praiseNum DESC
     </select>
 
-    <update id="updateNum" parameterType="map">
-        UPDATE
-        brand_info
-        <trim prefix="SET" suffixOverrides=","> 
-            <if test="praiseNum!=null">
-                  praiseNum =  #{praiseNum},
-            </if> 
-            <if test="collectNum!=null">
-                  collectNum =  #{collectNum},
-            </if> 
-        </trim>       
+    <update id="updateNum" parameterType="java.lang.Integer">
+        UPDATE brand_info
+        SET
+        <if test="praiseNum!=null">
+        praiseNum =#{praiseNum},
+        </if>
+        <if test="collectNum!=null">
+            collectNum=#{collectNum},
+        </if>
+        UpdateTime=NOW()
+        WHERE BrandId=#{brandId}
     </update>
 </mapper>

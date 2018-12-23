@@ -64,17 +64,18 @@ public interface UserInfoService {
     /**
      * 修改用户的点赞与收藏品牌
      *
+     * @param userId
      * @param brandCollectList
      * @param brandLikeList
      * @return
      */
-    int updateLikeOrCollect(List<String> brandLikeList, List<String> brandCollectList);
+    int updateLikeOrCollect(Integer userId, List<String> brandLikeList, List<String> brandCollectList);
 
     /**
      * 根据用户id查询用户信息
      *
-     * @param UserId
+     * @param userId
      * @return
      */
-    UserInfoDTO selectLikeOrCollect(int UserId);
+    UserInfoDTO selectLikeOrCollect(int userId);
 }

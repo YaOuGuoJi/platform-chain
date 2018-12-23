@@ -11,31 +11,73 @@ import java.util.Date;
 @Data
 public class BrandInfoDTO implements Serializable {
 
-    private Integer BrandId;
+    /**
+     * 品牌id
+     */
+    private Integer brandId;
 
-    private String BrandName;
+    /**
+     *品牌名称
+     */
+    private String brandName;
 
-    private String BrandLogo;
+    /**
+     * 品牌logo
+     */
+    private String brandLogo;
 
-    private Integer Deleted;
+    /**
+     * 是否删除
+     */
+    private Integer deleted;
 
-    private Integer Floor;
+    /**
+     * 楼号
+     */
+    private Integer floor;
 
-    private String Address;
+    /**
+     * 具体区位
+     */
+    private String address;
 
+    /**
+     * 联系方式
+     */
     private String phoneNum;
 
-    private String ShopPicture;
+    /**
+     * 商铺图片
+     */
+    private String shopPicture;
 
-    private String Introduce;
+    /**
+     * 品牌介绍
+     */
+    private String introduce;
 
-    private Date AddTime;
+    /**
+     * 添加时间
+     */
+    private Date addTime;
 
-    private Date UpdateTime;
+    /**
+     * 修改时间
+     */
+    private Date updateTime;
 
-    private String type;
+    /**
+     * 业态
+     */
+    private Integer type;
 
+    /**
+     * 点赞数
+     */
     private Integer praiseNum;
 
+    /**
+     * 收藏数
+     */
     private Integer collectNum;
 }

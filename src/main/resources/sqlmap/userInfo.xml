@@ -14,8 +14,8 @@
         <result column="CarId" property="carId"/>
         <result column="Vip" property="vip"/>
         <result column="IdentityId" property="identityId"/>
-        <result column="BrandLikeList" property="BrandLikeList"/>
-        <result column="BrandCollectList" property="BrandCollectList"/>
+        <result column="BrandLikeList" property="brandLikeList"/>
+        <result column="BrandCollectList" property="brandCollectList"/>
         <result column="AddTime" property="addTime"/>
         <result column="UpdateTime" property="updateTime"/>
         <result column="BindPublicNum" property="bindPublicNum"/>
@@ -172,21 +172,20 @@
         BrandLikeList, BrandCollectList
         FROM
         user_info
-        WHERE UserId = #{UserId}
+        WHERE UserId = #{userId}
     </select>
 
-    <update id="updateLikeOrCollect" parameterType="map">
-        UPDATE
-        user_info
-        <trim prefix="SET" suffixOverrides=","> 
-            <if test="BrandLikeList != null">
-                  BrandLikeList =  #{BrandLikeList},
-            </if> 
-            <if test="BrandCollectList != null">
-                  BrandCollectList =  #{BrandCollectList},
-            </if> 
-        </trim>
-        WHERE 1=1
+    <update id="updateLikeOrCollect">
+        UPDATE user_info
+        SET
+        <if test="brandLikeList!=null">
+        BrandLikeList=#{brandLikeList},
+        </if>
+        <if test="brandCollectList!=null">
+        BrandCollectList=#{brandCollectList},
+        </if>
+        UpdateTime=NOW()
+        WHERE UserId=#{userId}
     </update>
 
 </mapper>

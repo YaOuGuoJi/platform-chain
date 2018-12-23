@@ -61,18 +61,21 @@ public interface UserInfoDao {
     /**
      * 根据用户id修改收藏与点赞
      *
-     * @param BrandCollectList
-     * @param BrandLikeList
+     * @param userId
+     * @param brandCollectList
+     * @param brandLikeList
      * @return
      */
-    int updateLikeOrCollect(@Param("BrandLikeList") String BrandLikeList, @Param("BrandCollectList") String BrandCollectList);
+    int updateLikeOrCollect(@Param("userId") Integer userId,
+                            @Param("brandLikeList") String brandLikeList,
+                            @Param("brandCollectList") String brandCollectList);
 
     /**
      * 根据用户id查询用户信息
      *
-     * @param UserId
+     * @param userId
      * @return
      */
-    UserInfoEntity selectLikeOrCollect(@Param("UserId") int UserId);
+    UserInfoEntity selectLikeOrCollect(@Param("userId") int userId);
 
 }

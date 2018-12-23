@@ -12,7 +12,6 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author liuwen
@@ -71,23 +70,26 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public int updateLikeOrCollect(List<String> brandLikeList,List<String> brandCollectList) {
+    public int updateLikeOrCollect(Integer userId, List<String> brandLikeList,List<String> brandCollectList) {
+        if (userId == null){
+            return 0;
+        }
         if (brandLikeList != null && brandCollectList == null) {
-            String brandLike = String.join(",", brandLikeList);
-            return userInfoDao.updateLikeOrCollect(brandLike,null);
+            String brandLike = String.join("," , brandLikeList);
+            return userInfoDao.updateLikeOrCollect(userId, brandLike,null);
         }else if(brandCollectList != null && brandLikeList == null) {
             String brandCollect = String.join(",", brandCollectList);
-            return userInfoDao.updateLikeOrCollect(null, brandCollect);
+            return userInfoDao.updateLikeOrCollect(userId,null, brandCollect);
         }
-        return userInfoDao.updateLikeOrCollect(null,null);
+        return userInfoDao.updateLikeOrCollect(userId,null,null);
     }
 
     @Override
-    public UserInfoDTO selectLikeOrCollect(int UserId) {
-        if (UserId == 0) {
+    public UserInfoDTO selectLikeOrCollect(int userId) {
+        if (userId == 0) {
             return null;
         }
-        UserInfoEntity userInfoEntity = userInfoDao.selectLikeOrCollect(UserId);
+        UserInfoEntity userInfoEntity = userInfoDao.selectLikeOrCollect(userId);
         String brandLike = userInfoEntity.getBrandLikeList();
         List<String> likeList = new ArrayList<>(Arrays.asList(brandLike.split(",")));
         String brandCollect = userInfoEntity.getBrandCollectList();

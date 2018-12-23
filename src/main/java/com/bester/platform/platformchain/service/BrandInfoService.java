@@ -12,20 +12,20 @@ public interface BrandInfoService {
     /**
      * 按条件动态查询所有品牌池
      *
-     * @param BrandName
+     * @param brandName
      * @param type
-     * @param Floor
+     * @param floor
      * @return
      */
-    List<BrandInfoDTO> selectBrandInfo(String BrandName, String type, Integer Floor);
+    List<BrandInfoDTO> selectBrandInfo(String brandName, Integer type, Integer floor);
 
     /**
      * 根据品牌id查询品牌信息
      *
-     * @param BrandId
+     * @param brandId
      * @return
      */
-    BrandInfoDTO selectBrandById(Integer BrandId);
+    BrandInfoDTO selectBrandById(Integer brandId);
 
     /**
      * 根据点赞数降序排序
@@ -37,11 +37,12 @@ public interface BrandInfoService {
     /**
      * 修改点赞数与收藏数
      *
+     * @param brandId
      * @param praiseNum
      * @param collectNum
      * @return
      */
-    BrandInfoDTO updateNum(Integer praiseNum, Integer collectNum);
+    int updateNum(Integer brandId,Integer praiseNum, Integer collectNum);
 
 
 

@@ -4,22 +4,22 @@
     <resultMap id="businessInfoEntity" type="com.bester.platform.platformchain.entity.BusinessInfoEntity">
         <result column="id" property="id"/>
         <result column="register_phone" property="registerPhone"/>
-        <result column="name" property="name"/>
+        <result column="business_name" property="businessName"/>
         <result column="phone" property="phone"/>
         <result column="weChat" property="weChat"/>
         <result column="introduce" property="introduce"/>
-        <result column="type" property="type"/>
+        <result column="business_type" property="businessType"/>
         <result column="remarks" property="remarks"/>
         <result column="addTime" property="addTime"/>
         <result column="updateTime" property="updateTime"/>
     </resultMap>
     <sql id="allFields">
         register_phone,
-        name,
+        business_name,
         phone,
         weChat,
         introduce,
-        type,
+        business_type,
         remarks,
         addTime,
         updateTime
@@ -31,11 +31,11 @@
         (<include refid="allFields"/>)
         VALUES (
         #{businessInfo.registerPhone},
-        #{businessInfo.name},
+        #{businessInfo.businessName},
         #{businessInfo.phone},
         #{businessInfo.weChat},
         #{businessInfo.introduce},
-        #{businessInfo.type},
+        #{businessInfo.businessType},
         #{businessInfo.remarks},
         NOW(),
         NOW()

@@ -14,7 +14,7 @@ public class BusinessInfoEntity {
 
     private String registerPhone;
 
-    private String name;
+    private String businessName;
 
     private String phone;
 
@@ -22,7 +22,7 @@ public class BusinessInfoEntity {
 
     private String introduce;
 
-    private Integer type;
+    private Integer businessType;
 
     private String remarks;
 

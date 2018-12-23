@@ -17,7 +17,7 @@ public class BusinessInfoDTO implements Serializable {
 
     private String registerPhone;
 
-    private String name;
+    private String businessName;
 
     private String phone;
 
@@ -25,7 +25,7 @@ public class BusinessInfoDTO implements Serializable {
 
     private String introduce;
 
-    private Integer type;
+    private Integer businessType;
 
     private String remarks;
 

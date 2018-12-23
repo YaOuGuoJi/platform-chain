@@ -68,7 +68,7 @@ public class BrandInfoEntity {
     /**
      * 业态
      */
-    private Integer type;
+    private Integer brandType;
 
     /**
      * 点赞数

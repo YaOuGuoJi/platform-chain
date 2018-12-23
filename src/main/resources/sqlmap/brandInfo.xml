@@ -11,7 +11,7 @@
         <result column="phoneNum" property="phoneNum"/>
         <result column="ShopPicture" property="shopPicture"/>
         <result column="Introduce" property="introduce"/>
-        <result column="type" property="type"/>
+        <result column="brandType" property="brandType"/>
         <result column="praiseNum" property="praiseNum"/>
         <result column="collectNum" property="collectNum"/>
         <result column="AddTime" property="addTime"/>
@@ -26,8 +26,8 @@
         <if test="brandName != null and brandName != ''">
             AND BrandName LIKE CONCAT(CONCAT('%',#{brandName}),'%')
         </if>
-        <if test="type != null and type != ''">
-            AND type = #{type}
+        <if test="brandType != null and brandType != ''">
+            AND brandType = #{type}
         </if>
         <if test="floor != null and floor != ''">
             AND Floor = #{floor}

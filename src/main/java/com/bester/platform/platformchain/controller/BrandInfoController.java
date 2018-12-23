@@ -98,7 +98,7 @@ public class BrandInfoController {
             return CommonResult.fail(403,"参数为空");
         }
         String brandIds = String.valueOf(brandId);
-        int STEP_NUM = 1;
+        int stepNUM = 1;
         int LIKE = 1;
         int COLLECT = 2;
         int userId = UserInfoUtil.getUserId();
@@ -118,7 +118,7 @@ public class BrandInfoController {
                     if (praiseNum == 0){
                         brandInfoService.updateNum(brandId,0,null);
                     } else {
-                        brandInfoService.updateNum(brandId, praiseNum - STEP_NUM, null);
+                        brandInfoService.updateNum(brandId, praiseNum - stepNUM, null);
                     }
                     brandLikeList.remove(i);
                     likeFlag = false;
@@ -126,7 +126,7 @@ public class BrandInfoController {
                 }
             }
             if(likeFlag){
-                brandInfoService.updateNum(brandId,praiseNum + STEP_NUM, null);
+                brandInfoService.updateNum(brandId,praiseNum + stepNUM, null);
                 brandLikeList.add(brandIds);
             }
             userInfoService.updateLikeOrCollect(userId,brandLikeList, null);
@@ -139,7 +139,7 @@ public class BrandInfoController {
                     if (collectNum == 0){
                         brandInfoService.updateNum(brandId,null,0);
                     } else {
-                        brandInfoService.updateNum(brandId, null, collectNum - STEP_NUM);
+                        brandInfoService.updateNum(brandId, null, collectNum - stepNUM);
                     }
                     brandCollectList.remove(i);
                     collectFlag = false;
@@ -147,7 +147,7 @@ public class BrandInfoController {
                 }
             }
             if (collectFlag) {
-                brandInfoService.updateNum(brandId,null,collectNum+ STEP_NUM);
+                brandInfoService.updateNum(brandId,null,collectNum + stepNUM);
                 brandCollectList.add(brandIds);
             }
             userInfoService.updateLikeOrCollect(userId,null, brandCollectList);

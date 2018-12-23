@@ -7,6 +7,11 @@ package com.bester.platform.platformchain.constant;
 public class RedisKeys {
 
     /**
+     * 百度云服务token
+     */
+    public static final String BAI_DU_TOKEN = "baiDuToken";
+
+    /**
      * 矿石总产量
      */
     public static final String TOTAL_ORE_NUMBER_KEY = "totalOreNumber";
@@ -24,4 +29,8 @@ public class RedisKeys {
      * 手机验证码
      */
     public static final String PHONE_VERIFY_CODE = "phoneVerifyCode_";
+    /**
+     * 公众号验证码
+     */
+    public static final String WECHAT_VERIFY_CODE = "weChatVerifyCode_";
 }

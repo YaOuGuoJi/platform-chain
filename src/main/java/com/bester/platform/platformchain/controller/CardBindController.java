@@ -10,14 +10,13 @@ import com.bester.platform.platformchain.service.BlackGoldCardService;
 import com.bester.platform.platformchain.service.UserInfoService;
 import com.bester.platform.platformchain.service.VoucherCardService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.regex.Pattern;
-import java.util.List;
 
 /**
  * @author liuwen
@@ -60,7 +59,8 @@ public class CardBindController {
         if (card == null || card.getStatus() != 0 || card.getUserId() != 0) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "卡号无效！");
         }
-        if (!card.getPassword().equalsIgnoreCase(password)) {
+        String pwdMD5 = DigestUtils.md5Hex(password);
+        if (!card.getPassword().equalsIgnoreCase(pwdMD5)) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "密码错误!");
         }
         int result = blackGoldCardService.bindCardToUser(cardId, userId);
@@ -81,10 +81,6 @@ public class CardBindController {
         int userId = UserInfoUtil.getUserId();
         if (userId <= 0) {
             return CommonResult.fail(HttpStatus.UNAUTHORIZED);
-        }
-        List<VoucherCardDTO> userBindVouchers = voucherCardService.findUserBindVouchers(userId);
-        if (!CollectionUtils.isEmpty(userBindVouchers) || userBindVouchers.size() >= 1) {
-            return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "您已经充值过代金券！");
         }
         VoucherCardDTO voucherCardDTO = voucherCardService.findVoucherCardById(cardId);
         if (voucherCardDTO == null || voucherCardDTO.getStatus() != 0 || voucherCardDTO.getUserId() != 0) {

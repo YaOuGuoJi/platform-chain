@@ -25,6 +25,11 @@ public class RedisClientServiceTest {
     private RedisClientService redisClientService;
 
     @Test
+    public void addTestCode() {
+        redisClientService.set(RedisKeys.PHONE_VERIFY_CODE + "18792863414", "666666");
+    }
+
+    @Test
     public void test() throws InterruptedException {
         String name = "testName";
         redisClientService.set(name, "hello, world", 1000L);

@@ -5,6 +5,7 @@
         <result column="UserId" property="userId"/>
         <result column="UserName" property="userName"/>
         <result column="Sex" property="sex"/>
+        <result column="Nationality" property="nationality"/>
         <result column="Birthday" property="birthday"/>
         <result column="Phone" property="phone"/>
         <result column="Email" property="email"/>
@@ -17,12 +18,14 @@
         <result column="BrandCollectList" property="BrandCollectList"/>
         <result column="AddTime" property="addTime"/>
         <result column="UpdateTime" property="updateTime"/>
+        <result column="BindPublicNum" property="bindPublicNum"/>
     </resultMap>
 
     <sql id="allFields">
         UserId,
         UserName,
         Sex,
+        Nationality,
         Birthday,
         Phone,
         Email,
@@ -32,7 +35,8 @@
         Vip,
         IdentityId,
         AddTime,
-        UpdateTime
+        UpdateTime,
+        BindPublicNum
     </sql>
 
     <select id="selectById" resultMap="userInfoEntity">
@@ -44,13 +48,27 @@
     <update id="updateUserInfo">
         update user_info
         set UserName=#{userInfoEntity.userName},
-            Sex     = #{userInfoEntity.sex},
+            Sex= #{userInfoEntity.sex},
+            Nationality=#{userInfoEntity.nationality},
             Birthday=#{userInfoEntity.birthday},
             Phone=#{userInfoEntity.phone},
             Email=#{userInfoEntity.email},
             Address=#{userInfoEntity.address},
-            Job=#{userInfoEntity.job}
+            Job=#{userInfoEntity.job},
+            BindPublicNum=#{userInfoEntity.bindPublicNum},
+            UpdateTime=NOW()
         where UserId = #{userInfoEntity.userId}
+    </update>
+
+    <update id="bindIdentityInfo">
+        UPDATE user_info SET
+            UserName=#{userInfoEntity.userName},
+            Sex= #{userInfoEntity.sex},
+            Nationality=#{userInfoEntity.nationality},
+            Birthday=#{userInfoEntity.birthday},
+            Address=#{userInfoEntity.address},
+            IdentityId=#{userInfoEntity.identityId}
+        WHERE UserId=#{userInfoEntity.userId}
     </update>
 
     <insert id="insertUserInfo" parameterType="com.bester.platform.platformchain.entity.UserInfoEntity">
@@ -64,6 +82,9 @@
             </if>
             <if test="userInfo.sex &gt; 0">
                 Sex,
+            </if>
+            <if test="userInfo.nationality != null and userInfo.nationality != ''">
+                Nationality,
             </if>
             <if test="userInfo.birthday != null">
                 Birthday,
@@ -101,6 +122,9 @@
             <if test="userInfo.sex &gt; 0">
                 #{userInfo.sex},
             </if>
+            <if test="userInfo.nationality != null and userInfo.nationality != ''">
+                #{userInfo.nationality},
+            </if>
             <if test="userInfo.birthday != null">
                 #{userInfo.birthday},
             </if>
@@ -131,8 +155,16 @@
 
     <update id="updateUserVipLevel" parameterType="map">
         UPDATE user_info
-        SET Vip=#{level}
+        SET Vip=#{level},
+            UpdateTime=NOW()
         WHERE UserId=#{userId}
+    </update>
+
+    <update id="updateUserBindPublicNum">
+        update user_info
+        set BindPublicNum=#{bindPublicNum},
+            UpdateTime=NOW()
+        where UserId=#{userId}
     </update>
 
     <select id="selectLikeOrCollect" parameterType="map" resultType="com.bester.platform.platformchain.entity.UserInfoEntity">

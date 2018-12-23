@@ -34,6 +34,14 @@ public interface UserInfoDao {
     int updateUserInfo(@Param("userInfoEntity") UserInfoEntity userInfoEntity);
 
     /**
+     * 绑定身份证信息
+     *
+     * @param userInfoEntity
+     * @return
+     */
+    int bindIdentityInfo(@Param("userInfoEntity") UserInfoEntity userInfoEntity);
+
+    /**
      * 升级会员等级
      *
      * @param userId
@@ -41,6 +49,14 @@ public interface UserInfoDao {
      * @return
      */
     int updateUserVipLevel(@Param("userId") int userId, @Param("level") int level);
+
+    /**
+     * 更新绑定公众号状态
+     * @param userId
+     * @param bindPublicNum
+     * @return
+     */
+    int updateUserBindPublicNum(@Param("userId") int userId,@Param("bindPublicNum") int bindPublicNum);
 
     /**
      * 根据用户id修改收藏与点赞

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -69,16 +70,13 @@ public class UserInfoController {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
         List<VoucherCardDTO> voucherCardDTOList = voucherCardService.findUserBindVouchers(userId);
+        BigDecimal amount = plusAmount(voucherCardDTOList);
         Membership membership = new Membership();
         membership.setUserName(userInfoDTO.getUserName());
         membership.setVipLevel(userInfoDTO.getVip());
         membership.setPhone(userInfoDTO.getPhone().replaceAll("(\\d{3})\\d{4}(\\d{4})","$1****$2"));
         membership.setIdentityId(userInfoDTO.getIdentityId());
-        if (CollectionUtils.isEmpty(voucherCardDTOList) || voucherCardDTOList.size() <= 0) {
-            membership.setVoucherAmount("");
-        } else {
-            membership.setVoucherAmount("2000.00");
-        }
+        membership.setVoucherAmount(amount);
         return CommonResult.success(membership);
     }
 
@@ -95,6 +93,13 @@ public class UserInfoController {
             return CommonResult.fail(403, "性别不合法");
         }
         return CommonResult.success();
+    }
+
+    private BigDecimal plusAmount(List<VoucherCardDTO> voucherCardDTOList) {
+        if (CollectionUtils.isEmpty(voucherCardDTOList)) {
+            return BigDecimal.ZERO;
+        }
+        return voucherCardDTOList.stream().map(VoucherCardDTO::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     @Data
@@ -161,7 +166,7 @@ public class UserInfoController {
         /**
          * 代金券余额
          */
-        private String voucherAmount;
+        private BigDecimal voucherAmount;
 
     }
 

@@ -6,6 +6,7 @@
         <result column="CardId" property="cardId"/>
         <result column="Status" property="status"/>
         <result column="UserId" property="userId"/>
+        <result column="Amount" property="amount" />
         <result column="AddTime" property="addTime"/>
         <result column="UpdateTime" property="updateTime"/>
     </resultMap>
@@ -15,6 +16,7 @@
         CardId,
         Status,
         UserId,
+        Amount,
         AddTime,
         UpdateTime
     </sql>
@@ -25,6 +27,7 @@
         CardId,
         Status,
         UserId,
+        Amount,
         AddTime,
         UpdateTime
         ) VALUES
@@ -33,6 +36,7 @@
             #{entity.cardId},
             '0',
             '0',
+            #{entity.amount},
             NOW(),
             NOW()
             )

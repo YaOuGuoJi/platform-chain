@@ -71,10 +71,10 @@ public class LoginController {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
         int result = smsClientService.sendVerifyCode(phoneNum);
-        if (result == 0) {
+        if (result <= 0) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "发送验证码失败，请稍后再试");
         }
-        return CommonResult.success(result);
+        return CommonResult.success();
     }
 
     @PostMapping("/user/verification")

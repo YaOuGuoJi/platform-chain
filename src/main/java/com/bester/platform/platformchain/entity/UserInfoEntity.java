@@ -27,6 +27,11 @@ public class UserInfoEntity {
     private Integer sex;
 
     /**
+     * 民族
+     */
+    private String nationality;
+
+    /**
      * 生日
      */
     private Date birthday;
@@ -57,7 +62,8 @@ public class UserInfoEntity {
     private Integer carId;
 
     /**
-     * 是否VIP用户 1-是 0-不是
+     * VIP级别
+     * @see com.bester.platform.platformchain.enums.UserVipLevel
      */
     private Integer vip;
 
@@ -86,5 +92,9 @@ public class UserInfoEntity {
      */
     private Date updateTime;
 
+    /**
+     * 是否绑定过公众号 1-是 0-否
+     */
+    private Integer bindPublicNum;
 }
 

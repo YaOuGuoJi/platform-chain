@@ -99,8 +99,8 @@ public class BrandInfoController {
         }
         String brandIds = String.valueOf(brandId);
         int stepNUM = 1;
-        int LIKE = 1;
-        int COLLECT = 2;
+        int like = 1;
+        int collect = 2;
         int userId = UserInfoUtil.getUserId();
         BrandInfoDTO brandInfoDTO = brandInfoService.selectBrandById(brandId);
         if (brandInfoDTO == null) {
@@ -109,7 +109,7 @@ public class BrandInfoController {
         int praiseNum = brandInfoDTO.getPraiseNum();
         int collectNum = brandInfoDTO.getCollectNum();
         UserInfoDTO userInfoDTO = userInfoService.selectLikeOrCollect(userId);
-        if (type == LIKE) {
+        if (type == like) {
             List<String> brandLikeList = userInfoDTO.getBrandLikeList();
             boolean likeFlag = true;
             for (int i = 0; i < brandLikeList.size(); i++) {
@@ -130,7 +130,7 @@ public class BrandInfoController {
                 brandLikeList.add(brandIds);
             }
             userInfoService.updateLikeOrCollect(userId,brandLikeList, null);
-        }else if (type == COLLECT) {
+        }else if (type == collect) {
             boolean collectFlag = true;
             List<String> brandCollectList = userInfoDTO.getBrandCollectList();
             for (int i = 0; i < brandCollectList.size(); i++) {

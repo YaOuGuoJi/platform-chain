@@ -72,7 +72,7 @@ public interface UserInfoService {
     int updateLikeOrCollect(Integer userId, List<String> brandLikeList, List<String> brandCollectList);
 
     /**
-     * 根据用户id查询用户信息
+     * 查找用户点赞和收藏列表
      *
      * @param userId
      * @return

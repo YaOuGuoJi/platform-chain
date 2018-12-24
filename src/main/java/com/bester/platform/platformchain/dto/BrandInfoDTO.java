@@ -11,6 +11,7 @@ import java.util.Date;
 @Data
 public class BrandInfoDTO implements Serializable {
 
+    private static final long serialVersionUID = 3853178276569764006L;
     /**
      * 品牌id
      */

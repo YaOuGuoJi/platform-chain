@@ -5,12 +5,11 @@ import com.bester.platform.platformchain.dto.UserInfoDTO;
 import com.bester.platform.platformchain.entity.UserInfoEntity;
 import com.bester.platform.platformchain.enums.UserVipLevel;
 import com.bester.platform.platformchain.service.UserInfoService;
+import com.google.common.collect.Lists;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -90,10 +89,13 @@ public class UserInfoServiceImpl implements UserInfoService {
             return null;
         }
         UserInfoEntity userInfoEntity = userInfoDao.selectLikeOrCollect(userId);
+        if (userInfoEntity == null) {
+            return null;
+        }
         String brandLike = userInfoEntity.getBrandLikeList();
-        List<String> likeList = new ArrayList<>(Arrays.asList(brandLike.split(",")));
+        List<String> likeList = Lists.newArrayList(brandLike.split(","));
         String brandCollect = userInfoEntity.getBrandCollectList();
-        List<String> collectList = new ArrayList<>(Arrays.asList(brandCollect.split(",")));
+        List<String> collectList = Lists.newArrayList(brandCollect.split(","));
         UserInfoDTO userInfoDTO = new UserInfoDTO();
         userInfoDTO.setBrandLikeList(likeList);
         userInfoDTO.setBrandCollectList(collectList);

@@ -67,6 +67,9 @@ public class BrandInfoController {
     @GetMapping("/brand/praiseNum")
     public CommonResult<List<UserLikeAndCollect>> getBrandInfoByNum() {
         List<BrandInfoDTO> brandInfoDTOList = brandInfoService.selectByPraiseNum();
+        if (CollectionUtils.isEmpty(brandInfoDTOList)) {
+            return CommonResult.fail(HttpStatus.NOT_FOUND);
+        }
         List<UserLikeAndCollect> userLikeAndCollectList = judgeLikeAndCollect(brandInfoDTOList);
         return CommonResult.success(userLikeAndCollectList);
     }
@@ -98,8 +101,8 @@ public class BrandInfoController {
      */
     @GetMapping("/brand/addNum")
     public CommonResult updateBrandInfoNum(Integer brandId, Integer type) {
-        if (brandId == 0 && type == 0) {
-            return CommonResult.fail(403, "参数为空");
+        if (brandId <= 0 || type <= 0) {
+            return CommonResult.fail(403, "参数错误");
         }
         String brandIds = String.valueOf(brandId);
         int stepNUM = 1;
@@ -173,17 +176,16 @@ public class BrandInfoController {
             userLikeAndCollect.setFloor(brandInfo.getFloor());
             userLikeAndCollect.setPraiseNum(brandInfo.getPraiseNum());
             userLikeAndCollect.setCollectNum(brandInfo.getCollectNum());
-            Integer brandId = brandInfo.getBrandId();
-            String brandIds = String.valueOf(brandId);
+            String  brandId = brandInfo.getBrandId() + "";
             for (String like : likeList) {
-                if (like.equals(brandIds)) {
+                if (like.equals(brandId)) {
                     userLikeAndCollect.setIsLike(1);
                 } else {
                     userLikeAndCollect.setIsLike(0);
                 }
             }
             for (String collect : collectList) {
-                if (collect.equals(brandIds)) {
+                if (collect.equals(brandId)) {
                     userLikeAndCollect.setIsCollect(1);
                 } else {
                     userLikeAndCollect.setIsCollect(0);

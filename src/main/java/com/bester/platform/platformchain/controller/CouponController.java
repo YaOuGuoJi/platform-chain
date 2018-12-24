@@ -3,7 +3,6 @@ package com.bester.platform.platformchain.controller;
 import com.bester.platform.platformchain.common.CommonResult;
 import com.bester.platform.platformchain.constant.Coupon;
 import com.bester.platform.platformchain.dto.CouponDTO;
-import com.bester.platform.platformchain.dto.UserCouponDTO;
 import com.bester.platform.platformchain.dto.UserInfoDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
 import com.bester.platform.platformchain.service.CouponService;
@@ -11,7 +10,6 @@ import com.bester.platform.platformchain.service.UserCouponService;
 import com.bester.platform.platformchain.service.UserInfoService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
 import com.google.common.collect.Maps;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -20,7 +18,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author zhangqiang
@@ -63,16 +64,9 @@ public class CouponController {
         if (couponDTO.getMargin() <= 0) {
             return CommonResult.fail(404, "优惠券已抢光");
         }
-        UserCouponDTO userCouponDTO = new UserCouponDTO();
-        userCouponDTO.setShopId(couponDTO.getShopId());
-        userCouponDTO.setUserId(userId);
-        userCouponDTO.setCouponId(couponId);
-        DateTime today = new DateTime();
-        Date failureTime = today.plusDays(couponDTO.getValidityPeriod()).toDate();
-        userCouponDTO.setFailureTime(failureTime);
-        int affectCount = userCouponService.receiveCoupon(userCouponDTO, couponDTO.getMargin());
+        int affectCount = userCouponService.receiveCoupon(userId, couponId);
         if (affectCount == 0) {
-            LOGGER.error("用户" + userInfo.getUserId() + "领取优惠券" + couponDTO.getId() + "失败");
+            LOGGER.error("领取优惠券失败！userId: [{}], couponId: [{}]", userId, couponId);
             return CommonResult.fail(500, "领取失败,服务器异常");
         }
         return CommonResult.success();

@@ -1,7 +1,5 @@
 package com.bester.platform.platformchain.service;
 
-import com.bester.platform.platformchain.dto.UserCouponDTO;
-
 import java.util.List;
 
 /**
@@ -30,11 +28,12 @@ public interface UserCouponService {
 
     /**
      * 用户领取优惠券
-     * @param userCouponDTO
-     * @param couponNum
+     *
+     * @param userId
+     * @param couponId
      * @return
      */
-    int receiveCoupon(UserCouponDTO userCouponDTO, int couponNum);
+    int receiveCoupon(Integer userId, Integer couponId);
 
     /**
      * 根据用户的id和优惠券id查询该用户领取该类型优惠券的数量

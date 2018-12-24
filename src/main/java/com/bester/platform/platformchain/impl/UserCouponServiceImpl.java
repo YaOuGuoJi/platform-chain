@@ -3,16 +3,17 @@ package com.bester.platform.platformchain.impl;
 import com.bester.platform.platformchain.constant.Coupon;
 import com.bester.platform.platformchain.dao.CouponDao;
 import com.bester.platform.platformchain.dao.UserCouponDao;
-import com.bester.platform.platformchain.dto.UserCouponDTO;
+import com.bester.platform.platformchain.entity.CouponEntity;
 import com.bester.platform.platformchain.entity.UserCouponEntity;
 import com.bester.platform.platformchain.service.UserCouponService;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
+import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,12 +22,12 @@ import java.util.List;
  */
 @Service
 public class UserCouponServiceImpl implements UserCouponService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserCouponServiceImpl.class);
 
     @Resource
     private UserCouponDao userCouponDao;
     @Resource
     private CouponDao couponDao;
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserCouponServiceImpl.class);
 
     @Override
     public List<Integer> findUnusedAndUsedCouponId(Integer userId, Integer status) {
@@ -39,20 +40,25 @@ public class UserCouponServiceImpl implements UserCouponService {
     }
 
     @Override
-    public int receiveCoupon(UserCouponDTO userCouponDTO, int couponNum) {
-        if (userCouponDTO == null) {
+    public int receiveCoupon(Integer userId, Integer couponId) {
+        Assert.isTrue(userId != null && userId > 0, "userId不合法！");
+        Assert.isTrue(couponId != null && couponId > 0, "couponId不合法！");
+        CouponEntity couponEntity = couponDao.inquireCouponById(couponId);
+        if (couponEntity == null || couponEntity.getMargin() <= 0) {
             return 0;
         }
-        int coupon = couponDao.updateCouponNum(userCouponDTO.getCouponId());
-        if (coupon == 0) {
-            LOGGER.error("用户" + userCouponDTO.getUserId() + "领取优惠券时，更新优惠券余量失败，此时优惠券剩余" + couponNum + "张");
-            return 0;
-        }
-        String shopId = CollectionUtils.isEmpty(userCouponDTO.getShopId()) ? "" : String.join(",", userCouponDTO.getShopId());
+        DateTime today = new DateTime();
+        Date failureTime = today.plusDays(couponEntity.getValidityPeriod()).toDate();
         UserCouponEntity userCouponEntity = new UserCouponEntity();
-        BeanUtils.copyProperties(userCouponDTO, userCouponEntity);
-        userCouponEntity.setShopId(shopId);
+        userCouponEntity.setUserId(userId);
+        userCouponEntity.setCouponId(couponId);
+        userCouponEntity.setFailureTime(failureTime);
         userCouponEntity.setStatus(Coupon.USED);
+        int couponResult = couponDao.updateCouponNum(couponId);
+        if (couponResult <= 0) {
+            LOGGER.error("优惠券数量减一失败！couponId: {}", couponId);
+            return couponResult;
+        }
         return userCouponDao.receiveCoupon(userCouponEntity);
     }
 

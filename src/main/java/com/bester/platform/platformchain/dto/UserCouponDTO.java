@@ -27,7 +27,7 @@ public class UserCouponDTO implements Serializable {
     /**
      * 商户ID
      */
-    private List<String> shopId;
+    private Integer shopId;
 
     /**
      * 优惠券ID

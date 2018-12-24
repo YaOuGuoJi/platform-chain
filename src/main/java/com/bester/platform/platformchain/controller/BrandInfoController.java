@@ -8,6 +8,7 @@ import com.bester.platform.platformchain.service.BrandInfoService;
 import com.bester.platform.platformchain.service.UserInfoService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
 import lombok.Data;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,6 +52,9 @@ public class BrandInfoController {
                                                                      @RequestParam(required = false, defaultValue = "") Integer type,
                                                                      @RequestParam(required = false, defaultValue = "") Integer floor) {
         List<BrandInfoDTO> brandInfoDTOList = brandInfoService.selectBrandInfo(brandName, type, floor);
+        if (CollectionUtils.isEmpty(brandInfoDTOList)) {
+            return CommonResult.fail(HttpStatus.NOT_FOUND);
+        }
         List<UserLikeAndCollect> userLikeAndCollectList = judgeLikeAndCollect(brandInfoDTOList);
         return CommonResult.success(userLikeAndCollectList);
     }
@@ -75,8 +79,8 @@ public class BrandInfoController {
      */
     @GetMapping("/brand/info")
     public CommonResult getBrandInfoById(Integer brandId) {
-        if (brandId == null) {
-            return CommonResult.fail(HttpStatus.NOT_FOUND);
+        if (brandId < 0) {
+            return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
         BrandInfoDTO brandInfoDTO = brandInfoService.selectBrandById(brandId);
         if (brandInfoDTO == null) {

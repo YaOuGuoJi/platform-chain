@@ -23,6 +23,9 @@ public class BrandInfoServiceImpl implements BrandInfoService {
     @Override
     public List<BrandInfoDTO> selectBrandInfo(String brandName, Integer type, Integer floor) {
         List<BrandInfoEntity> brandInfoEntities = brandInfoDao.selectBrandInfo(brandName, type, floor);
+        if (brandInfoEntities == null) {
+            return null;
+        }
         return BeansListUtils.copyListProperties(brandInfoEntities,BrandInfoDTO.class);
     }
 
@@ -40,6 +43,9 @@ public class BrandInfoServiceImpl implements BrandInfoService {
     @Override
     public List<BrandInfoDTO> selectByPraiseNum() {
         List<BrandInfoEntity> brandInfoEntityList = brandInfoDao.selectByPraiseNum();
+        if (brandInfoEntityList == null) {
+            return null;
+        }
         return BeansListUtils.copyListProperties(brandInfoEntityList,BrandInfoDTO.class);
     }
 

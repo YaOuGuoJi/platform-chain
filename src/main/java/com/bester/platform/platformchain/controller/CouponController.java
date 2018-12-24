@@ -119,11 +119,11 @@ public class CouponController {
         if (userId <= 0 || pageNum <= 0 || pageSize <= 0) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
-        PageInfo<CouponDTO> couponDTOPageInfo = couponService.queryAllCouponInfo(userId, pageNum, pageSize);
-        if (couponDTOPageInfo == null) {
+        Map<String,Object> couponData = couponService.queryAllCouponInfo(userId, pageNum, pageSize);
+        if (couponData == null) {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
-        return CommonResult.success(couponDTOPageInfo);
+        return CommonResult.success(couponData);
     }
 
 }

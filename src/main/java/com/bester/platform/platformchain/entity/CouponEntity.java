@@ -60,7 +60,7 @@ public class CouponEntity {
     private Integer vipLevel;
 
     /**
-     * 每人限领
+     * 是否限制领取 0--不限制 1--限制
      */
     private Integer limitNum;
 

@@ -31,11 +31,6 @@ public interface UserCouponDao {
      * @return
      */
     List<Integer> findExpiredCoupon(@Param("userId") Integer userId);
-    /**
-     *
-     * @return
-     */
-    int queryUserCouponCount();
 
     /**
      * 用户领取优惠券

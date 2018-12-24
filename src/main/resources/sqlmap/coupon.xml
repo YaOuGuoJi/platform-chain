@@ -40,7 +40,7 @@
         select
         <include refid="allFields"/>
         from coupon
-        where Margin &gt; 0;
+        where Margin > 0
     </select>
 
     <select id="inquireCouponById" resultMap="couponEntity">

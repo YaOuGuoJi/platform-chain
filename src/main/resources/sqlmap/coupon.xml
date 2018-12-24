@@ -56,7 +56,7 @@
             <if test="coupon.shopId != null and coupon.shopId !=''">
                 ShopId = #{coupon.shopId},
             </if>
-            <if test="coupon.couponName != null and coupon.couponName!=''">
+            <if test="coupon.couponName != null and coupon.couponName != ''">
                 CouponName = #{coupon.couponName},
             </if>
             <if test="coupon.margin != null and coupon.margin!=''">
@@ -65,22 +65,22 @@
             <if test="coupon.couponType != null and coupon.couponType != ''">
                 CouponType = #{coupon.couponType},
             </if>
-            <if test="coupon.offerDiscount != null and coupon.offerDiscount !=''">
+            <if test="coupon.offerDiscount != null and coupon.offerDiscount != ''">
                 OfferDiscount = #{coupon.offerDiscount},
             </if>
             <if test="coupon.offerCash != null and coupon.offerCash != ''">
                 OfferCash = #{coupon.offerCash},
             </if>
-            <if test="coupon.threshold != null and coupon.threshold !=''">
+            <if test="coupon.threshold != null and coupon.threshold != ''">
                 Threshold = #{coupon.threshold},
             </if>
-            <if test="coupon.vipLevel != null and coupon.vipLevel !=''">
+            <if test="coupon.vipLevel != null and coupon.vipLevel != ''">
                 VipLevel = #{coupon.vipLevel},
             </if>
-            <if test="coupon.limitNum != null and coupon.limitNum !=''">
+            <if test="coupon.limitNum != null and coupon.limitNum != ''">
                 LimitNum = #{coupon.limitNum},
             </if>
-            <if test="coupon.validityPeriod != null and coupon.validityPeriod !=''">
+            <if test="coupon.validityPeriod != null and coupon.validityPeriod != ''">
                 ValidityPeriod = #{coupon.validityPeriod},
             </if>
             <if test="coupon.available != null and coupon.available != ''">
@@ -94,9 +94,11 @@
         where Id = #{coupon.id}
     </update>
     <update id="updateCouponNum" parameterType="int">
-        update coupon
-        set Margin = #{couponNum}
-        where Id = #{id}
+        UPDATE coupon
+        SET Margin = Margin - 1,
+            UpdateTime = NOW()
+        WHERE Id = #{id}
+        AND (Margin - 1) >= 0
     </update>
     <insert id="addCoupon" parameterType="map">
         INSERT INTO coupon

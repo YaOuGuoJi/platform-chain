@@ -25,8 +25,8 @@
     <insert id="receiveCoupon" parameterType="com.bester.platform.platformchain.entity.UserCouponEntity"
             useGeneratedKeys="true" keyProperty="userCoupon.id">
         insert into user_coupon
-        (UserId,ShopId,CouponId,FailureTime,Status,AddTime,UpdateTime)values
-        (#{userCoupon.userId},#{userCoupon.shopId},#{userCoupon.couponId},#{userCoupon.failureTime},#{userCoupon.status},now(),now())
+        (UserId,CouponId,FailureTime,Status,AddTime,UpdateTime)values
+        (#{userCoupon.userId},#{userCoupon.couponId},#{userCoupon.failureTime},#{userCoupon.status},now(),now())
     </insert>
     <select id="findCouponCountById" resultType="int">
         select count(Id)

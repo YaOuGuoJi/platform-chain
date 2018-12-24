@@ -104,7 +104,7 @@ public class CouponServiceImpl implements CouponService {
     @Override
     public Map queryAllCouponInfo(int id, int pageNum, int pageSize) {
         Assert.isTrue(id > 0 && pageNum > 0 && pageSize > 0, "参数错误");
-        Map<String, Object> couponData = new HashMap<>(2);
+        Map<String, Object> couponData = new HashMap<>(10);
         List<Integer> ids = new ArrayList<>();
         List<CouponEntity> couponEntities = couponDao.queryAllCouponInfo();
         if (couponEntities == null) {

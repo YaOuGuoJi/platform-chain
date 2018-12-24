@@ -30,11 +30,11 @@ public class BrandInfoController {
     private UserInfoService userInfoService;
 
     @GetMapping("/brand/list")
-    public CommonResult getBrandInfo(@RequestParam(required = false, defaultValue = "")String brandName,
-                                     @RequestParam(required = false, defaultValue = "")Integer type,
-                                     @RequestParam(required = false, defaultValue = "")Integer floor){
-        List<BrandInfoDTO> brandInfoDTOList = brandInfoService.selectBrandInfo(brandName,type,floor);
-        Map<Integer,List<BrandInfoDTO>> floor2BrandList = brandInfoDTOList.stream().collect(Collectors.groupingBy(BrandInfoDTO::getFloor));
+    public CommonResult getBrandInfo(@RequestParam(required = false, defaultValue = "") String brandName,
+                                     @RequestParam(required = false, defaultValue = "") Integer type,
+                                     @RequestParam(required = false, defaultValue = "") Integer floor) {
+        List<BrandInfoDTO> brandInfoDTOList = brandInfoService.selectBrandInfo(brandName, type, floor);
+        Map<Integer, List<BrandInfoDTO>> floor2BrandList = brandInfoDTOList.stream().collect(Collectors.groupingBy(BrandInfoDTO::getFloor));
         return CommonResult.success(floor2BrandList);
     }
 
@@ -43,14 +43,14 @@ public class BrandInfoController {
      *
      * @param brandName
      * @param type
-     * @param Floor
+     * @param floor
      * @return
      */
     @GetMapping("/brand/like/collect")
-    public CommonResult<List<UserLikeAndCollect>> showLikeAndCollect(@RequestParam(required = false, defaultValue = "")String brandName,
-                                                                     @RequestParam(required = false, defaultValue = "")Integer type,
-                                                                     @RequestParam(required = false, defaultValue = "")Integer Floor){
-        List<BrandInfoDTO> brandInfoDTOList = brandInfoService.selectBrandInfo(brandName,type,Floor);
+    public CommonResult<List<UserLikeAndCollect>> showLikeAndCollect(@RequestParam(required = false, defaultValue = "") String brandName,
+                                                                     @RequestParam(required = false, defaultValue = "") Integer type,
+                                                                     @RequestParam(required = false, defaultValue = "") Integer floor) {
+        List<BrandInfoDTO> brandInfoDTOList = brandInfoService.selectBrandInfo(brandName, type, floor);
         List<UserLikeAndCollect> userLikeAndCollectList = judgeLikeAndCollect(brandInfoDTOList);
         return CommonResult.success(userLikeAndCollectList);
     }
@@ -61,7 +61,7 @@ public class BrandInfoController {
      * @return
      */
     @GetMapping("/brand/praiseNum")
-    public CommonResult<List<UserLikeAndCollect>> getBrandInfoByNum(){
+    public CommonResult<List<UserLikeAndCollect>> getBrandInfoByNum() {
         List<BrandInfoDTO> brandInfoDTOList = brandInfoService.selectByPraiseNum();
         List<UserLikeAndCollect> userLikeAndCollectList = judgeLikeAndCollect(brandInfoDTOList);
         return CommonResult.success(userLikeAndCollectList);
@@ -74,12 +74,12 @@ public class BrandInfoController {
      * @return
      */
     @GetMapping("/brand/info")
-    public CommonResult getBrandInfoById(Integer brandId){
-        if (brandId == null){
+    public CommonResult getBrandInfoById(Integer brandId) {
+        if (brandId == null) {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
         BrandInfoDTO brandInfoDTO = brandInfoService.selectBrandById(brandId);
-        if (brandInfoDTO == null){
+        if (brandInfoDTO == null) {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
         return CommonResult.success(brandInfoDTO);
@@ -93,9 +93,9 @@ public class BrandInfoController {
      * @return
      */
     @GetMapping("/brand/addNum")
-    public CommonResult updateBrandInfoNum(Integer brandId,Integer type){
+    public CommonResult updateBrandInfoNum(Integer brandId, Integer type) {
         if (brandId == 0 && type == 0) {
-            return CommonResult.fail(403,"参数为空");
+            return CommonResult.fail(403, "参数为空");
         }
         String brandIds = String.valueOf(brandId);
         int stepNUM = 1;
@@ -104,7 +104,7 @@ public class BrandInfoController {
         int userId = UserInfoUtil.getUserId();
         BrandInfoDTO brandInfoDTO = brandInfoService.selectBrandById(brandId);
         if (brandInfoDTO == null) {
-            return CommonResult.fail(404,"暂无该品牌资源");
+            return CommonResult.fail(404, "暂无该品牌资源");
         }
         int praiseNum = brandInfoDTO.getPraiseNum();
         int collectNum = brandInfoDTO.getCollectNum();
@@ -115,8 +115,8 @@ public class BrandInfoController {
             for (int i = 0; i < brandLikeList.size(); i++) {
                 String brandLike = brandLikeList.get(i);
                 if (brandLike.equals(brandIds)) {
-                    if (praiseNum == 0){
-                        brandInfoService.updateNum(brandId,0,null);
+                    if (praiseNum == 0) {
+                        brandInfoService.updateNum(brandId, 0, null);
                     } else {
                         brandInfoService.updateNum(brandId, praiseNum - stepNUM, null);
                     }
@@ -125,19 +125,19 @@ public class BrandInfoController {
                     break;
                 }
             }
-            if(likeFlag){
-                brandInfoService.updateNum(brandId,praiseNum + stepNUM, null);
+            if (likeFlag) {
+                brandInfoService.updateNum(brandId, praiseNum + stepNUM, null);
                 brandLikeList.add(brandIds);
             }
-            userInfoService.updateLikeOrCollect(userId,brandLikeList, null);
-        }else if (type == collect) {
+            userInfoService.updateLikeOrCollect(userId, brandLikeList, null);
+        } else if (type == collect) {
             boolean collectFlag = true;
             List<String> brandCollectList = userInfoDTO.getBrandCollectList();
             for (int i = 0; i < brandCollectList.size(); i++) {
                 String brandCollect = brandCollectList.get(i);
                 if (brandCollect.equals(brandIds)) {
-                    if (collectNum == 0){
-                        brandInfoService.updateNum(brandId,null,0);
+                    if (collectNum == 0) {
+                        brandInfoService.updateNum(brandId, null, 0);
                     } else {
                         brandInfoService.updateNum(brandId, null, collectNum - stepNUM);
                     }
@@ -147,21 +147,21 @@ public class BrandInfoController {
                 }
             }
             if (collectFlag) {
-                brandInfoService.updateNum(brandId,null,collectNum + stepNUM);
+                brandInfoService.updateNum(brandId, null, collectNum + stepNUM);
                 brandCollectList.add(brandIds);
             }
-            userInfoService.updateLikeOrCollect(userId,null, brandCollectList);
+            userInfoService.updateLikeOrCollect(userId, null, brandCollectList);
         }
         return CommonResult.success();
     }
 
-    private List<UserLikeAndCollect> judgeLikeAndCollect(List<BrandInfoDTO> brandInfoDTOList){
+    private List<UserLikeAndCollect> judgeLikeAndCollect(List<BrandInfoDTO> brandInfoDTOList) {
         int userId = UserInfoUtil.getUserId();
         UserInfoDTO userInfoDTO = userInfoService.selectLikeOrCollect(userId);
         List<String> likeList = userInfoDTO.getBrandLikeList();
         List<String> collectList = userInfoDTO.getBrandCollectList();
         List<UserLikeAndCollect> userLikeAndCollectList = new ArrayList<>();
-        for (BrandInfoDTO brandInfo: brandInfoDTOList) {
+        for (BrandInfoDTO brandInfo : brandInfoDTOList) {
             UserLikeAndCollect userLikeAndCollect = new UserLikeAndCollect();
             userLikeAndCollect.setBrandId(brandInfo.getBrandId());
             userLikeAndCollect.setBrandLogo(brandInfo.getBrandLogo());
@@ -174,7 +174,7 @@ public class BrandInfoController {
             for (String like : likeList) {
                 if (like.equals(brandIds)) {
                     userLikeAndCollect.setIsLike(1);
-                }else {
+                } else {
                     userLikeAndCollect.setIsLike(0);
                 }
             }
@@ -191,7 +191,7 @@ public class BrandInfoController {
     }
 
     @Data
-    private class UserLikeAndCollect{
+    private class UserLikeAndCollect {
 
         private int userId;
 

@@ -1,7 +1,6 @@
 package com.bester.platform.platformchain.impl;
 
 import com.bester.platform.platformchain.dao.CouponDao;
-import com.bester.platform.platformchain.dao.UserCouponDao;
 import com.bester.platform.platformchain.dto.CouponDTO;
 import com.bester.platform.platformchain.entity.CouponEntity;
 import com.bester.platform.platformchain.service.CouponService;
@@ -11,14 +10,10 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author zhangqiang
@@ -28,8 +23,6 @@ import java.util.Map;
 public class CouponServiceImpl implements CouponService {
     @Resource
     private CouponDao couponDao;
-    @Resource
-    private UserCouponDao userCouponDao;
 
     @Override
     public int addCoupon(CouponDTO couponDTO) {
@@ -102,27 +95,10 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
-    public Map queryAllCouponInfo(int id, int pageNum, int pageSize) {
-        Assert.isTrue(id > 0 && pageNum > 0 && pageSize > 0, "参数错误");
-        Map<String, Object> couponData = new HashMap<>(10);
-        List<Integer> ids = new ArrayList<>();
-        List<CouponEntity> couponEntities = couponDao.queryAllCouponInfo();
-        if (couponEntities == null) {
-            return null;
-        }
-        for (CouponEntity couponEntity : couponEntities) {
-            int couponNum = userCouponDao.findCouponCountById(id, couponEntity.getId());
-            int couponMax = couponEntity.getLimitNum();
-            if (couponNum >= couponMax) {
-                ids.add(couponEntity.getId());
-            }
-        }
+    public PageInfo<CouponDTO> queryAllCouponInfo(int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize, true);
         List<CouponEntity> coupons=couponDao.queryAllCouponInfo();
-        PageInfo<CouponDTO> pageInfo=BeansListUtils.copyListPageInfo(coupons, CouponDTO.class);
-        couponData.put("couponPageInfo",pageInfo);
-        couponData.put("disCouponIds",ids);
-        return couponData;
+        return BeansListUtils.copyListPageInfo(coupons, CouponDTO.class);
     }
 
 }

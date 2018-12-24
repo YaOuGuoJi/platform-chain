@@ -37,11 +37,10 @@ public interface CouponService {
 
     /**
      * 查询所有优惠卷
-     * @param id
      * @param pageNum
      * @param pageSize
      * @return
      */
-    Map queryAllCouponInfo(int id, int pageNum, int pageSize);
+    PageInfo<CouponDTO> queryAllCouponInfo(int pageNum, int pageSize);
 
 }

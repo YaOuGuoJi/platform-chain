@@ -1,10 +1,10 @@
 package com.bester.platform.platformchain.dao;
 
+import com.bester.platform.platformchain.entity.PageQueryToolEntity;
 import com.bester.platform.platformchain.entity.UserCouponEntity;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-
 
 
 /**
@@ -15,14 +15,14 @@ import java.util.List;
 public interface UserCouponDao {
 
     /**
-     * 查找用户已使用和未使用的优惠券ID
+     * 根据用户的id和优惠券id查询该用户领取该类型优惠券的数量
      *
      * @param userId
-     * @param status
+     * @param couponId
      * @return
      */
-    List<Integer> findUnusedAndUsedCouponId(@Param("userId") Integer userId,
-                                   @Param("status") Integer status);
+    int findCouponCountById(@Param("userId") Integer userId,
+                            @Param("couponId") Integer couponId);
 
     /**
      * 查找用户已过期的优惠券ID
@@ -33,6 +33,16 @@ public interface UserCouponDao {
     List<Integer> findExpiredCoupon(@Param("userId") Integer userId);
 
     /**
+     * 查找用户已使用和未使用的优惠券ID
+     *
+     * @param userId
+     * @param status
+     * @return
+     */
+    List<Integer> findUnusedAndUsedCouponId(@Param("userId") Integer userId,
+                                            @Param("status") Integer status);
+
+    /**
      * 用户领取优惠券
      *
      * @param userCoupon
@@ -41,11 +51,11 @@ public interface UserCouponDao {
     int receiveCoupon(@Param("userCoupon") UserCouponEntity userCoupon);
 
     /**
-     * 根据用户的id和优惠券id查询该用户领取该类型优惠券的数量
+     * 按分页结果查询不可领取优惠卷
+     *
      * @param userId
-     * @param couponId
+     * @param couponIds
      * @return
      */
-    int findCouponCountById(@Param("userId")Integer userId,
-                            @Param("couponId") Integer couponId);
+    List<PageQueryToolEntity> selectCouponCount(@Param("userId") Integer userId, @Param("couponIds") List couponIds);
 }

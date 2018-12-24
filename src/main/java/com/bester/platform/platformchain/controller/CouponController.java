@@ -3,12 +3,14 @@ package com.bester.platform.platformchain.controller;
 import com.bester.platform.platformchain.common.CommonResult;
 import com.bester.platform.platformchain.constant.Coupon;
 import com.bester.platform.platformchain.dto.CouponDTO;
+import com.bester.platform.platformchain.dto.PageQueryToolDTO;
 import com.bester.platform.platformchain.dto.UserInfoDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
 import com.bester.platform.platformchain.service.CouponService;
 import com.bester.platform.platformchain.service.UserCouponService;
 import com.bester.platform.platformchain.service.UserInfoService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
+import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,10 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author zhangqiang
@@ -43,11 +42,45 @@ public class CouponController {
         if (userId <= 0 || pageNum <= 0 || pageSize <= 0) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
-        Map<String, Object> couponData = couponService.queryAllCouponInfo(userId, pageNum, pageSize);
-        if (couponData == null) {
+        PageInfo<CouponDTO> couponDTOPageInfo = couponService.queryAllCouponInfo(pageNum, pageSize);
+        if (couponDTOPageInfo == null) {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
-        return CommonResult.success(couponData);
+        List<Integer> ids = new ArrayList<>(15);
+        Map<String, Object> data = new HashMap<>(5);
+        data.put("分页数据", couponDTOPageInfo);
+        List<CouponDTO> couponList = couponDTOPageInfo.getList();
+        for (CouponDTO coupon : couponList) {
+            ids.add(coupon.getId());
+        }
+        List<PageQueryToolDTO> pageQueryToolDTOS = userCouponService.selectCouponCount(userId, ids);
+        Map<Integer, Integer> couponIsDisInfo = new HashMap<>(20);
+        if ((pageQueryToolDTOS.size()) == 0) {
+            for (CouponDTO coupon : couponList) {
+                couponIsDisInfo.put(coupon.getId(), coupon.getLimitNum());
+            }
+            data.put("优惠卷剩余领取量", couponIsDisInfo);
+            return CommonResult.success(data);
+        }
+        for (CouponDTO coupon : couponList) {
+            int couponIde = coupon.getId();
+            int maxNum = coupon.getLimitNum();
+            for (PageQueryToolDTO pageQueryToolDTO : pageQueryToolDTOS) {
+                int couponId = pageQueryToolDTO.getCouponId();
+                int countNum = pageQueryToolDTO.getCount();
+
+                if (couponId == couponIde) {
+                    int getNum = maxNum - countNum;
+                    if (getNum > 0) {
+                        couponIsDisInfo.put(couponId, getNum);
+                    } else {
+                        couponIsDisInfo.put(couponId, 0);
+                    }
+                }
+            }
+        }
+        data.put("优惠卷剩余领取量", couponIsDisInfo);
+        return CommonResult.success(data);
     }
 
     /**

@@ -3,16 +3,21 @@ package com.bester.platform.platformchain.impl;
 import com.bester.platform.platformchain.constant.Coupon;
 import com.bester.platform.platformchain.dao.CouponDao;
 import com.bester.platform.platformchain.dao.UserCouponDao;
+import com.bester.platform.platformchain.dto.PageQueryToolDTO;
 import com.bester.platform.platformchain.entity.CouponEntity;
+import com.bester.platform.platformchain.entity.PageQueryToolEntity;
 import com.bester.platform.platformchain.entity.UserCouponEntity;
 import com.bester.platform.platformchain.service.UserCouponService;
+import com.bester.platform.platformchain.util.BeansListUtils;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -64,5 +69,14 @@ public class UserCouponServiceImpl implements UserCouponService {
             return couponResult;
         }
         return userCouponDao.receiveCoupon(userCouponEntity);
+    }
+
+    @Override
+    public List<PageQueryToolDTO> selectCouponCount(Integer userId, List<Integer> couponIds) {
+        List<PageQueryToolEntity> pageQueryToolEntities = userCouponDao.selectCouponCount(userId, couponIds);
+        if (CollectionUtils.isEmpty(pageQueryToolEntities)) {
+            return new ArrayList<>();
+        }
+        return BeansListUtils.copyListProperties(pageQueryToolEntities, PageQueryToolDTO.class);
     }
 }

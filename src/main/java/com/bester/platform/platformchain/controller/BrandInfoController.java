@@ -1,23 +1,25 @@
 package com.bester.platform.platformchain.controller;
 
 import com.bester.platform.platformchain.common.CommonResult;
+import com.bester.platform.platformchain.constant.BrandActionType;
 import com.bester.platform.platformchain.dto.BrandInfoDTO;
 import com.bester.platform.platformchain.dto.UserInfoDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
 import com.bester.platform.platformchain.service.BrandInfoService;
 import com.bester.platform.platformchain.service.UserInfoService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
+import com.google.common.collect.Lists;
 import lombok.Data;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author yanrui
@@ -30,48 +32,32 @@ public class BrandInfoController {
     @Resource
     private UserInfoService userInfoService;
 
+    /**
+     * 品牌列表查询
+     * @see com.bester.platform.platformchain.constant.BrandActionType
+     *
+     * @param brandName 模糊匹配品牌名称
+     * @param brandType 品牌类型
+     * @param floor 楼层
+     * @param orderType 排序类型
+     * @return
+     */
     @GetMapping("/brand/list")
-    public CommonResult getBrandInfo(@RequestParam(required = false, defaultValue = "") String brandName,
-                                     @RequestParam(required = false, defaultValue = "") Integer type,
-                                     @RequestParam(required = false, defaultValue = "") Integer floor) {
-        List<BrandInfoDTO> brandInfoDTOList = brandInfoService.selectBrandInfo(brandName, type, floor);
-        Map<Integer, List<BrandInfoDTO>> floor2BrandList = brandInfoDTOList.stream().collect(Collectors.groupingBy(BrandInfoDTO::getFloor));
-        return CommonResult.success(floor2BrandList);
-    }
-
-    /**
-     * 根据品牌名称（模糊查询），业态，及楼号查询品牌信息
-     *
-     * @param brandName
-     * @param type
-     * @param floor
-     * @return
-     */
-    @GetMapping("/brand/like/collect")
-    public CommonResult<List<UserLikeAndCollect>> showLikeAndCollect(@RequestParam(required = false, defaultValue = "") String brandName,
-                                                                     @RequestParam(required = false, defaultValue = "") Integer type,
-                                                                     @RequestParam(required = false, defaultValue = "") Integer floor) {
-        List<BrandInfoDTO> brandInfoDTOList = brandInfoService.selectBrandInfo(brandName, type, floor);
+    public CommonResult<List<BrandVO>> brandList(@RequestParam(required = false, defaultValue = "") String brandName,
+                                                 @RequestParam(required = false, defaultValue = "0") Integer brandType,
+                                                 @RequestParam(required = false, defaultValue = "0") Integer floor,
+                                                 @RequestParam(required = false, defaultValue = "0") Integer orderType) {
+        List<BrandInfoDTO> brandInfoDTOList = brandInfoService.selectBrandInfo(brandName, brandType, floor);
         if (CollectionUtils.isEmpty(brandInfoDTOList)) {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
-        List<UserLikeAndCollect> userLikeAndCollectList = judgeLikeAndCollect(brandInfoDTOList);
-        return CommonResult.success(userLikeAndCollectList);
-    }
-
-    /**
-     * 根据点赞数降序展示品牌信息
-     *
-     * @return
-     */
-    @GetMapping("/brand/praiseNum")
-    public CommonResult<List<UserLikeAndCollect>> getBrandInfoByNum() {
-        List<BrandInfoDTO> brandInfoDTOList = brandInfoService.selectByPraiseNum();
-        if (CollectionUtils.isEmpty(brandInfoDTOList)) {
-            return CommonResult.fail(HttpStatus.NOT_FOUND);
+        List<BrandVO> brandVOList = judgeBrandVOList(brandInfoDTOList);
+        if (orderType == BrandActionType.PRAISE) {
+            brandVOList.sort(Comparator.comparing(BrandVO::getPraiseNum).reversed());
+        } else if (orderType == BrandActionType.COLLECT) {
+            brandVOList.sort(Comparator.comparing(BrandVO::getCollectNum).reversed());
         }
-        List<UserLikeAndCollect> userLikeAndCollectList = judgeLikeAndCollect(brandInfoDTOList);
-        return CommonResult.success(userLikeAndCollectList);
+        return CommonResult.success(brandVOList);
     }
 
     /**
@@ -80,7 +66,7 @@ public class BrandInfoController {
      * @param brandId
      * @return
      */
-    @GetMapping("/brand/info")
+    @GetMapping("/brand/detail")
     public CommonResult getBrandInfoById(Integer brandId) {
         if (brandId < 0) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
@@ -93,129 +79,86 @@ public class BrandInfoController {
     }
 
     /**
-     * 判断是否点赞及收藏并最终给出+1、-1操作
+     * （取消）点赞/收藏
      *
      * @param brandId
      * @param type
      * @return
+     * @see com.bester.platform.platformchain.constant.BrandActionType
      */
     @GetMapping("/brand/addNum")
     public CommonResult updateBrandInfoNum(Integer brandId, Integer type) {
         if (brandId <= 0 || type <= 0) {
             return CommonResult.fail(403, "参数错误");
         }
-        String brandIds = String.valueOf(brandId);
-        int stepNUM = 1;
-        int like = 1;
-        int collect = 2;
-        int userId = UserInfoUtil.getUserId();
+        String brandIdStr = String.valueOf(brandId);
         BrandInfoDTO brandInfoDTO = brandInfoService.selectBrandById(brandId);
         if (brandInfoDTO == null) {
             return CommonResult.fail(404, "暂无该品牌资源");
         }
-        int praiseNum = brandInfoDTO.getPraiseNum();
-        int collectNum = brandInfoDTO.getCollectNum();
-        UserInfoDTO userInfoDTO = userInfoService.selectLikeOrCollect(userId);
-        if (type == like) {
-            List<String> brandLikeList = userInfoDTO.getBrandLikeList();
-            boolean likeFlag = true;
-            for (int i = 0; i < brandLikeList.size(); i++) {
-                String brandLike = brandLikeList.get(i);
-                if (brandLike.equals(brandIds)) {
-                    if (praiseNum == 0) {
-                        brandInfoService.updateNum(brandId, 0, null);
-                    } else {
-                        brandInfoService.updateNum(brandId, praiseNum - stepNUM, null);
-                    }
-                    brandLikeList.remove(i);
-                    likeFlag = false;
-                    break;
-                }
-            }
-            if (likeFlag) {
-                brandInfoService.updateNum(brandId, praiseNum + stepNUM, null);
-                brandLikeList.add(brandIds);
-            }
-            userInfoService.updateLikeOrCollect(userId, brandLikeList, null);
-        } else if (type == collect) {
-            boolean collectFlag = true;
-            List<String> brandCollectList = userInfoDTO.getBrandCollectList();
-            for (int i = 0; i < brandCollectList.size(); i++) {
-                String brandCollect = brandCollectList.get(i);
-                if (brandCollect.equals(brandIds)) {
-                    if (collectNum == 0) {
-                        brandInfoService.updateNum(brandId, null, 0);
-                    } else {
-                        brandInfoService.updateNum(brandId, null, collectNum - stepNUM);
-                    }
-                    brandCollectList.remove(i);
-                    collectFlag = false;
-                    break;
-                }
-            }
-            if (collectFlag) {
-                brandInfoService.updateNum(brandId, null, collectNum + stepNUM);
-                brandCollectList.add(brandIds);
-            }
-            userInfoService.updateLikeOrCollect(userId, null, brandCollectList);
+        int userId = UserInfoUtil.getUserId();
+        UserInfoDTO userInfoDTO = userInfoService.findUserInfoByUserId(userId);
+        int number = type == BrandActionType.PRAISE ? brandInfoDTO.getPraiseNum() : brandInfoDTO.getCollectNum();
+        String brands = type == BrandActionType.PRAISE ? userInfoDTO.getBrandLikeList() : userInfoDTO.getBrandCollectList();
+        List<String> brandIdList = this.split(brands);
+        if (brandIdList.contains(brandIdStr)) {
+            brandIdList.remove(brandIdStr);
+            number--;
+        } else {
+            brandIdList.add(brandIdStr);
+            number++;
         }
+        brandInfoService.updatePraiseOrCollectNum(brandId, type, number);
+        userInfoService.updateLikeOrCollect(userId, type, String.join(",", brandIdList));
         return CommonResult.success();
     }
 
-    private List<UserLikeAndCollect> judgeLikeAndCollect(List<BrandInfoDTO> brandInfoDTOList) {
+    private List<BrandVO> judgeBrandVOList(List<BrandInfoDTO> brandInfoDTOList) {
         int userId = UserInfoUtil.getUserId();
-        UserInfoDTO userInfoDTO = userInfoService.selectLikeOrCollect(userId);
-        List<String> likeList = userInfoDTO.getBrandLikeList();
-        List<String> collectList = userInfoDTO.getBrandCollectList();
-        List<UserLikeAndCollect> userLikeAndCollectList = new ArrayList<>();
+        UserInfoDTO userInfoDTO = userInfoService.findUserInfoByUserId(userId);
+        List<String> likeList = this.split(userInfoDTO.getBrandLikeList());
+        List<String> collectList = this.split(userInfoDTO.getBrandCollectList());
+        List<BrandVO> brandVOList = new ArrayList<>();
         for (BrandInfoDTO brandInfo : brandInfoDTOList) {
-            UserLikeAndCollect userLikeAndCollect = new UserLikeAndCollect();
-            userLikeAndCollect.setBrandId(brandInfo.getBrandId());
-            userLikeAndCollect.setBrandLogo(brandInfo.getBrandLogo());
-            userLikeAndCollect.setBrandName(brandInfo.getBrandName());
-            userLikeAndCollect.setFloor(brandInfo.getFloor());
-            userLikeAndCollect.setPraiseNum(brandInfo.getPraiseNum());
-            userLikeAndCollect.setCollectNum(brandInfo.getCollectNum());
-            String  brandId = brandInfo.getBrandId() + "";
-            for (String like : likeList) {
-                if (like.equals(brandId)) {
-                    userLikeAndCollect.setIsLike(1);
-                } else {
-                    userLikeAndCollect.setIsLike(0);
-                }
-            }
-            for (String collect : collectList) {
-                if (collect.equals(brandId)) {
-                    userLikeAndCollect.setIsCollect(1);
-                } else {
-                    userLikeAndCollect.setIsCollect(0);
-                }
-            }
-            userLikeAndCollectList.add(userLikeAndCollect);
+            BrandVO brandVO = new BrandVO();
+            brandVO.setBrandId(brandInfo.getBrandId());
+            brandVO.setBrandLogo(brandInfo.getBrandLogo());
+            brandVO.setBrandName(brandInfo.getBrandName());
+            brandVO.setFloor(brandInfo.getFloor());
+            brandVO.setPraiseNum(brandInfo.getPraiseNum());
+            brandVO.setCollectNum(brandInfo.getCollectNum());
+            brandVO.setLike(likeList.contains(brandInfo.getBrandId() + ""));
+            brandVO.setCollect(collectList.contains(brandInfo.getBrandId() + ""));
+            brandVOList.add(brandVO);
         }
-        return userLikeAndCollectList;
+        return brandVOList;
+    }
+
+    private List<String> split(String listStr) {
+        if (StringUtils.isEmpty(listStr)) {
+            return Lists.newArrayList();
+        }
+        return Lists.newArrayList(listStr.split(","));
     }
 
     @Data
-    private class UserLikeAndCollect {
+    private class BrandVO {
 
-        private int userId;
-
-        private int brandId;
+        private Integer brandId;
 
         private String brandLogo;
 
         private String brandName;
 
-        private int floor;
+        private Integer floor;
 
-        private int praiseNum;
+        private Integer praiseNum;
 
-        private int collectNum;
+        private Integer collectNum;
 
-        private int isLike;
+        private Boolean like;
 
-        private int isCollect;
+        private Boolean collect;
 
     }
 }

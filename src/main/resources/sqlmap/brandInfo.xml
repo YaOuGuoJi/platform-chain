@@ -20,47 +20,40 @@
 
     <select id="selectBrandInfo" parameterType="map" resultMap="BrandInfo">
         SELECT
-        BrandId, BrandLogo, BrandName, Floor, Address, PhoneNum, type, praiseNum, collectNum
+        BrandId, BrandLogo, BrandName, Floor, Address, PhoneNum, brandType, praiseNum, collectNum
         FROM brand_info
         WHERE 1=1
         <if test="brandName != null and brandName != ''">
             AND BrandName LIKE CONCAT(CONCAT('%',#{brandName}),'%')
         </if>
-        <if test="brandType != null and brandType != ''">
+        <if test="type != null and type &gt; 0">
             AND brandType = #{type}
         </if>
-        <if test="floor != null and floor != ''">
+        <if test="floor != null and floor &gt; 0">
             AND Floor = #{floor}
         </if>
     </select>
 
     <select id="selectBrandById" parameterType="map" resultType="com.bester.platform.platformchain.entity.BrandInfoEntity">
         SELECT
-        ShopPicture, BrandLogo, BrandName, Address, PhoneNum, Introduce, type, praiseNum, collectNum
+        ShopPicture, BrandLogo, BrandName, Address, PhoneNum, Introduce, brandType, praiseNum, collectNum
         FROM brand_info
         WHERE
         BrandId = #{brandId}
     </select>
 
-    <select id="selectByPraiseNum" parameterType="map" resultMap="BrandInfo">
-        SELECT
-        BrandId, BrandLogo, BrandName, Floor, Address, PhoneNum, type, praiseNum, collectNum
-        FROM
-        brand_info
-        WHERE
-        1=1
-        ORDER by praiseNum DESC
-    </select>
-
-    <update id="updateNum" parameterType="java.lang.Integer">
+    <update id="updatePraise" parameterType="map">
         UPDATE brand_info
         SET
-        <if test="praiseNum!=null">
-        praiseNum =#{praiseNum},
-        </if>
-        <if test="collectNum!=null">
-            collectNum=#{collectNum},
-        </if>
+        praiseNum = #{praiseNum},
+        UpdateTime=NOW()
+        WHERE BrandId=#{brandId}
+    </update>
+
+    <update id="updateCollect" parameterType="map">
+        UPDATE brand_info
+        SET
+        collectNum = #{collectNum},
         UpdateTime=NOW()
         WHERE BrandId=#{brandId}
     </update>

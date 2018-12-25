@@ -59,23 +59,21 @@ public interface UserInfoDao {
     int updateUserBindPublicNum(@Param("userId") int userId,@Param("bindPublicNum") int bindPublicNum);
 
     /**
-     * 根据用户id修改收藏与点赞
+     * 修改用户点赞列表
      *
      * @param userId
-     * @param brandCollectList
      * @param brandLikeList
      * @return
      */
-    int updateLikeOrCollect(@Param("userId") Integer userId,
-                            @Param("brandLikeList") String brandLikeList,
-                            @Param("brandCollectList") String brandCollectList);
+    int updateBrandLikes(@Param("userId") Integer userId, @Param("brandLikeList") String brandLikeList);
 
     /**
-     * 查找用户点赞和收藏列表
+     * 修改用户收藏列表
      *
      * @param userId
+     * @param brandCollectList
      * @return
      */
-    UserInfoEntity selectLikeOrCollect(@Param("userId") int userId);
+    int updateBrandCollects(@Param("userId") Integer userId, @Param("brandCollectList") String brandCollectList);
 
 }

@@ -1,16 +1,16 @@
 package com.bester.platform.platformchain.impl;
 
+import com.bester.platform.platformchain.constant.BrandActionType;
 import com.bester.platform.platformchain.dao.UserInfoDao;
 import com.bester.platform.platformchain.dto.UserInfoDTO;
 import com.bester.platform.platformchain.entity.UserInfoEntity;
 import com.bester.platform.platformchain.enums.UserVipLevel;
 import com.bester.platform.platformchain.service.UserInfoService;
-import com.google.common.collect.Lists;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * @author liuwen
@@ -69,36 +69,15 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public int updateLikeOrCollect(Integer userId, List<String> brandLikeList,List<String> brandCollectList) {
-        if (userId == null){
+    public int updateLikeOrCollect(Integer userId, int type, String brandIds) {
+        if (userId == null || type <= 0){
             return 0;
         }
-        if (brandLikeList != null && brandCollectList == null) {
-            String brandLike = String.join("," , brandLikeList);
-            return userInfoDao.updateLikeOrCollect(userId, brandLike,null);
-        }else if(brandCollectList != null && brandLikeList == null) {
-            String brandCollect = String.join(",", brandCollectList);
-            return userInfoDao.updateLikeOrCollect(userId,null, brandCollect);
+        if (type == BrandActionType.PRAISE) {
+            userInfoDao.updateBrandLikes(userId, StringUtils.isEmpty(brandIds) ? "" : brandIds);
+        } else if (type == BrandActionType.COLLECT) {
+            userInfoDao.updateBrandCollects(userId, StringUtils.isEmpty(brandIds) ? "" : brandIds);
         }
-        return userInfoDao.updateLikeOrCollect(userId,null,null);
-    }
-
-    @Override
-    public UserInfoDTO selectLikeOrCollect(int userId) {
-        if (userId == 0) {
-            return null;
-        }
-        UserInfoEntity userInfoEntity = userInfoDao.selectLikeOrCollect(userId);
-        if (userInfoEntity == null) {
-            return null;
-        }
-        String brandLike = userInfoEntity.getBrandLikeList();
-        List<String> likeList = Lists.newArrayList(brandLike.split(","));
-        String brandCollect = userInfoEntity.getBrandCollectList();
-        List<String> collectList = Lists.newArrayList(brandCollect.split(","));
-        UserInfoDTO userInfoDTO = new UserInfoDTO();
-        userInfoDTO.setBrandLikeList(likeList);
-        userInfoDTO.setBrandCollectList(collectList);
-        return userInfoDTO;
+        return 0;
     }
 }

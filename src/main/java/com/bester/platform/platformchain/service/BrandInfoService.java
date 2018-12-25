@@ -28,22 +28,14 @@ public interface BrandInfoService {
     BrandInfoDTO selectBrandById(Integer brandId);
 
     /**
-     * 根据点赞数降序排序
-     *
-     * @return
-     */
-    List<BrandInfoDTO> selectByPraiseNum();
-
-    /**
      * 修改点赞数与收藏数
+     * @see com.bester.platform.platformchain.constant.BrandActionType
      *
      * @param brandId
-     * @param praiseNum
-     * @param collectNum
+     * @param type
+     * @param number
      * @return
      */
-    int updateNum(Integer brandId,Integer praiseNum, Integer collectNum);
-
-
+    int updatePraiseOrCollectNum(Integer brandId, Integer type, Integer number);
 
 }

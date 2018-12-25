@@ -1,5 +1,6 @@
 package com.bester.platform.platformchain.impl;
 
+import com.bester.platform.platformchain.constant.BrandActionType;
 import com.bester.platform.platformchain.dao.BrandInfoDao;
 import com.bester.platform.platformchain.dto.BrandInfoDTO;
 import com.bester.platform.platformchain.entity.BrandInfoEntity;
@@ -41,19 +42,15 @@ public class BrandInfoServiceImpl implements BrandInfoService {
     }
 
     @Override
-    public List<BrandInfoDTO> selectByPraiseNum() {
-        List<BrandInfoEntity> brandInfoEntityList = brandInfoDao.selectByPraiseNum();
-        if (brandInfoEntityList == null) {
-            return null;
-        }
-        return BeansListUtils.copyListProperties(brandInfoEntityList,BrandInfoDTO.class);
-    }
-
-    @Override
-    public int updateNum(Integer brandId, Integer praiseNum, Integer collectNum) {
-        if (brandId == null) {
+    public int updatePraiseOrCollectNum(Integer brandId, Integer type, Integer number) {
+        if (brandId == null || type == null || number == null) {
             return 0;
         }
-        return brandInfoDao.updateNum(brandId, praiseNum, collectNum);
+        if (type == BrandActionType.PRAISE) {
+            return brandInfoDao.updatePraise(brandId, number);
+        } else if (type == BrandActionType.COLLECT) {
+            return brandInfoDao.updateCollect(brandId, number);
+        }
+        return 0;
     }
 }

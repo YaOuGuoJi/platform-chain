@@ -26,24 +26,23 @@ public interface BrandInfoDao {
      * @param brandId
      * @return
      */
-    BrandInfoEntity selectBrandById(@Param("brandId")int brandId);
+    BrandInfoEntity selectBrandById(@Param("brandId") int brandId);
 
     /**
-     * 根据点赞数降序查询品牌
-     *
-     * @return
-     */
-    List<BrandInfoEntity> selectByPraiseNum();
-
-    /**
-     * 修改点赞数与收藏数
+     * 修改点赞数
      *
      * @param brandId
      * @param praiseNum
+     * @return
+     */
+    int updatePraise(@Param("brandId") int brandId, @Param("praiseNum") int praiseNum);
+
+    /**
+     * 修改收藏数
+     *
+     * @param brandId
      * @param collectNum
      * @return
      */
-    int updateNum(@Param("brandId")Integer brandId,
-                              @Param("praiseNum")Integer praiseNum,
-                              @Param("collectNum")Integer collectNum);
+    int updateCollect(@Param("brandId") int brandId, @Param("collectNum") int collectNum);
 }

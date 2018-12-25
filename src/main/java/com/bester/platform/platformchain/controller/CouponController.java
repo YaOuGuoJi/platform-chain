@@ -37,6 +37,13 @@ public class CouponController {
     @Resource
     private UserInfoService userInfoService;
 
+    /**
+     * 优惠券分页列表
+     *
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
     @GetMapping("/user/getUserCouponInfo")
     public CommonResult getUserCouponInfo(int pageNum, int pageSize) {
         int userId = UserInfoUtil.getUserId();

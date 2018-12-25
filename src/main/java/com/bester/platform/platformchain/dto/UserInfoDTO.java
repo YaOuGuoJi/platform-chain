@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author liuwen
@@ -73,6 +74,16 @@ public class UserInfoDTO implements Serializable {
      * 身份证号码
      */
     private String identityId;
+
+    /**
+     * 点赞的品牌idList
+     */
+    private String brandLikeList;
+
+    /**
+     * 收藏的品牌idList
+     */
+    private String brandCollectList;
 
     /**
      * 添加时间

@@ -3,6 +3,7 @@ package com.bester.platform.platformchain.impl;
 import com.bester.platform.platformchain.constant.Coupon;
 import com.bester.platform.platformchain.dao.CouponDao;
 import com.bester.platform.platformchain.dao.UserCouponDao;
+import com.bester.platform.platformchain.entity.CountEntity;
 import com.bester.platform.platformchain.entity.CouponEntity;
 import com.bester.platform.platformchain.entity.UserCouponEntity;
 import com.bester.platform.platformchain.service.UserCouponService;
@@ -11,10 +12,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author zhangqiang
@@ -23,20 +28,24 @@ import java.util.List;
 @Service
 public class UserCouponServiceImpl implements UserCouponService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserCouponServiceImpl.class);
-
-    @Resource
-    private UserCouponDao userCouponDao;
     @Resource
     private CouponDao couponDao;
+    @Resource
+    private UserCouponDao userCouponDao;
 
     @Override
-    public List<Integer> findUnusedAndUsedCouponId(Integer userId, Integer status) {
-        return userCouponDao.findUnusedAndUsedCouponId(userId, status);
+    public int findCouponCountById(Integer userId, Integer couponId) {
+        return userCouponDao.findCouponCountById(userId, couponId);
     }
 
     @Override
     public List<Integer> findExpiredCoupon(Integer userId) {
         return userCouponDao.findExpiredCoupon(userId);
+    }
+
+    @Override
+    public List<Integer> findUnusedAndUsedCouponId(Integer userId, Integer status) {
+        return userCouponDao.findUnusedAndUsedCouponId(userId, status);
     }
 
     @Override
@@ -63,7 +72,11 @@ public class UserCouponServiceImpl implements UserCouponService {
     }
 
     @Override
-    public int findCouponCountById(Integer userId, Integer couponId) {
-        return userCouponDao.findCouponCountById(userId, couponId);
+    public Map<Integer, Integer> selectCouponCount(Integer userId, List<Integer> couponIds) {
+        List<CountEntity> entities = userCouponDao.selectCouponCount(userId, couponIds);
+        if (CollectionUtils.isEmpty(entities)) {
+            return Collections.emptyMap();
+        }
+        return entities.stream().collect(Collectors.toMap(CountEntity::getId, CountEntity::getResult));
     }
 }

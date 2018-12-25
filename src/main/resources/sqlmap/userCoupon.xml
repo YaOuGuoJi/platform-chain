@@ -43,12 +43,26 @@
 
     <select id="findExpiredCoupon" resultType="integer">
         <![CDATA[
+
         SELECT
         CouponId
         FROM user_coupon
         WHERE UserId = #{userId}
         AND NOW() > FailureTime
-            ]]>
+
+        ]]>
+    </select>
+
+    <select id="selectCouponCount" parameterType="map" resultType="com.bester.platform.platformchain.entity.CountEntity">
+        SELECT CouponId AS id, COUNT(Id) AS result
+        FROM user_coupon
+        WHERE UserId = #{userId}
+        AND CouponId
+        IN
+        <foreach collection="couponIds" index="index" item="couponId" open="(" separator="," close=")">
+            #{couponId}
+        </foreach>
+        GROUP BY CouponId;
     </select>
 
 </mapper>

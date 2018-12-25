@@ -28,6 +28,11 @@ public class CouponDTO implements Serializable {
     private List<String> shopId;
 
     /**
+     * 优惠券图片
+     */
+    private String imageUrl;
+
+    /**
      * 优惠券名称
      */
     private String couponName;

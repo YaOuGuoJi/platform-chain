@@ -11,6 +11,7 @@ import com.bester.platform.platformchain.service.UserCouponService;
 import com.bester.platform.platformchain.service.UserInfoService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author zhangqiang
@@ -46,20 +50,20 @@ public class CouponController {
         if (couponDTOPageInfo == null) {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
-        List<Integer> ids = new ArrayList<>(15);
-        Map<String, Object> data = new HashMap<>(5);
-        data.put("分页数据", couponDTOPageInfo);
+        List<Integer> ids = Lists.newArrayList();
+        Map<String, Object> data = Maps.newHashMap();
+        data.put("pageData", couponDTOPageInfo);
         List<CouponDTO> couponList = couponDTOPageInfo.getList();
         for (CouponDTO coupon : couponList) {
             ids.add(coupon.getId());
         }
         List<PageQueryToolDTO> pageQueryToolDTOS = userCouponService.selectCouponCount(userId, ids);
-        Map<Integer, Integer> couponIsDisInfo = new HashMap<>(20);
-        if ((pageQueryToolDTOS.size()) == 0) {
+        Map<Integer, Integer> couponIsDisInfo = Maps.newHashMap();
+        if (CollectionUtils.isEmpty(pageQueryToolDTOS)) {
             for (CouponDTO coupon : couponList) {
                 couponIsDisInfo.put(coupon.getId(), coupon.getLimitNum());
             }
-            data.put("优惠卷剩余领取量", couponIsDisInfo);
+            data.put("couponQuantity", couponIsDisInfo);
             return CommonResult.success(data);
         }
         for (CouponDTO coupon : couponList) {

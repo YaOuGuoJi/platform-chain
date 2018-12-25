@@ -27,11 +27,11 @@ public class BusinessInfoController {
         }
         BusinessInfoDTO businessInfoDTO = new BusinessInfoDTO();
         businessInfoDTO.setRegisterPhone(registerPhone);
-        businessInfoDTO.setName(name);
+        businessInfoDTO.setBusinessName(name);
         businessInfoDTO.setPhone(phone);
         businessInfoDTO.setWeChat(weChat);
         businessInfoDTO.setIntroduce(introduce);
-        businessInfoDTO.setType(type);
+        businessInfoDTO.setBusinessType(type);
         businessInfoDTO.setRemarks(remarks);
         businessInfoService.insertBusinessInfo(businessInfoDTO);
         return CommonResult.success();

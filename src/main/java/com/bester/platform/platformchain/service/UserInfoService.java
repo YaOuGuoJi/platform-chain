@@ -3,8 +3,6 @@ package com.bester.platform.platformchain.service;
 import com.bester.platform.platformchain.dto.UserInfoDTO;
 import com.bester.platform.platformchain.enums.UserVipLevel;
 
-import java.util.List;
-
 /**
  * @author liuwen
  * @date 2018/11/12
@@ -55,6 +53,7 @@ public interface UserInfoService {
 
     /**
      * 更新绑定公众号状态
+     *
      * @param userId
      * @param bindPublicNum
      * @return
@@ -62,20 +61,13 @@ public interface UserInfoService {
     int updateUserBindPublicNum(int userId, int bindPublicNum);
 
     /**
-     * 修改用户的点赞与收藏品牌
+     * 修改用户的点赞或收藏品牌
      *
      * @param userId
-     * @param brandCollectList
-     * @param brandLikeList
+     * @param type
+     * @param brandIds
      * @return
+     * @see com.bester.platform.platformchain.constant.BrandActionType
      */
-    int updateLikeOrCollect(Integer userId, List<String> brandLikeList, List<String> brandCollectList);
-
-    /**
-     * 根据用户id查询用户信息
-     *
-     * @param userId
-     * @return
-     */
-    UserInfoDTO selectLikeOrCollect(int userId);
+    int updateLikeOrCollect(Integer userId, int type, String brandIds);
 }

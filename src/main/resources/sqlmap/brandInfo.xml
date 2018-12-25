@@ -8,59 +8,52 @@
         <result column="Deleted" property="deleted"/>
         <result column="Floor" property="floor"/>
         <result column="Address" property="address"/>
-        <result column="PhoneNum" property="phoneNum"/>
+        <result column="phoneNum" property="phoneNum"/>
         <result column="ShopPicture" property="shopPicture"/>
         <result column="Introduce" property="introduce"/>
-        <result column="BrandType" property="brandType"/>
-        <result column="PraiseNum" property="praiseNum"/>
-        <result column="CollectNum" property="collectNum"/>
+        <result column="brandType" property="brandType"/>
+        <result column="praiseNum" property="praiseNum"/>
+        <result column="collectNum" property="collectNum"/>
         <result column="AddTime" property="addTime"/>
         <result column="UpdateTime" property="updateTime"/>
     </resultMap>
 
     <select id="selectBrandInfo" parameterType="map" resultMap="BrandInfo">
         SELECT
-        BrandId, BrandLogo, BrandName, Floor, Address, PhoneNum, BrandType, PraiseNum, CollectNum
+        BrandId, BrandLogo, BrandName, Floor, Address, PhoneNum, brandType, praiseNum, collectNum
         FROM brand_info
         WHERE 1=1
         <if test="brandName != null and brandName != ''">
             AND BrandName LIKE CONCAT(CONCAT('%',#{brandName}),'%')
         </if>
-        <if test="type != null and type != ''">
-            AND BrandType = #{type}
+        <if test="type != null and type &gt; 0">
+            AND brandType = #{type}
         </if>
-        <if test="floor != null and floor != ''">
+        <if test="floor != null and floor &gt; 0">
             AND Floor = #{floor}
         </if>
     </select>
 
     <select id="selectBrandById" parameterType="map" resultType="com.bester.platform.platformchain.entity.BrandInfoEntity">
         SELECT
-        ShopPicture, BrandLogo, BrandName, Address, PhoneNum, Introduce, BrandType, PraiseNum, CollectNum
+        ShopPicture, BrandLogo, BrandName, Address, PhoneNum, Introduce, brandType, praiseNum, collectNum
         FROM brand_info
         WHERE
         BrandId = #{brandId}
     </select>
 
-    <select id="selectByPraiseNum" parameterType="map" resultMap="BrandInfo">
-        SELECT
-        BrandId, BrandLogo, BrandName, Floor, Address, PhoneNum, BrandType, PraiseNum, CollectNum
-        FROM
-        brand_info
-        WHERE
-        1=1
-        ORDER by PraiseNum DESC
-    </select>
-
-    <update id="updateNum" parameterType="java.lang.Integer">
+    <update id="updatePraise" parameterType="map">
         UPDATE brand_info
         SET
-        <if test="praiseNum!=null">
-        PraiseNum =#{praiseNum},
-        </if>
-        <if test="collectNum!=null">
-            CollectNum=#{collectNum},
-        </if>
+        praiseNum = #{praiseNum},
+        UpdateTime=NOW()
+        WHERE BrandId=#{brandId}
+    </update>
+
+    <update id="updateCollect" parameterType="map">
+        UPDATE brand_info
+        SET
+        collectNum = #{collectNum},
         UpdateTime=NOW()
         WHERE BrandId=#{brandId}
     </update>

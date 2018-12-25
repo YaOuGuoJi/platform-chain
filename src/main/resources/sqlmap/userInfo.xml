@@ -34,6 +34,8 @@
         CarId,
         Vip,
         IdentityId,
+        BrandLikeList,
+        BrandCollectList,
         AddTime,
         UpdateTime,
         BindPublicNum
@@ -161,23 +163,18 @@
         where UserId=#{userId}
     </update>
 
-    <select id="selectLikeOrCollect" parameterType="map" resultType="com.bester.platform.platformchain.entity.UserInfoEntity">
-        SELECT
-        BrandLikeList, BrandCollectList
-        FROM
-        user_info
-        WHERE UserId = #{userId}
-    </select>
-
-    <update id="updateLikeOrCollect">
+    <update id="updateBrandLikes" parameterType="map">
         UPDATE user_info
         SET
-        <if test="brandLikeList!=null">
         BrandLikeList=#{brandLikeList},
-        </if>
-        <if test="brandCollectList!=null">
+        UpdateTime=NOW()
+        WHERE UserId=#{userId}
+    </update>
+
+    <update id="updateBrandCollects" parameterType="map">
+        UPDATE user_info
+        SET
         BrandCollectList=#{brandCollectList},
-        </if>
         UpdateTime=NOW()
         WHERE UserId=#{userId}
     </update>

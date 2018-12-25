@@ -36,7 +36,7 @@ public interface CouponService {
     int updateCouponInfo(CouponDTO coupon);
 
     /**
-     * 查询所有优惠卷
+     * 查询所有优惠券
      * @param pageNum
      * @param pageSize
      * @return

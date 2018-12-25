@@ -29,7 +29,7 @@ public interface CouponDao {
     CouponEntity inquireCouponById(@Param("id") Integer couponId);
 
     /**
-     * 查询可领取优惠卷
+     * 查询可领取优惠券
      *
      * @return
      */

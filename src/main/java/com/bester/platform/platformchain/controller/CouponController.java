@@ -21,10 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author zhangqiang
@@ -72,7 +69,6 @@ public class CouponController {
             for (PageQueryToolDTO pageQueryToolDTO : pageQueryToolDTOS) {
                 int couponId = pageQueryToolDTO.getCouponId();
                 int countNum = pageQueryToolDTO.getCount();
-
                 if (couponId == couponIde) {
                     int getNum = maxNum - countNum;
                     if (getNum > 0) {
@@ -83,7 +79,7 @@ public class CouponController {
                 }
             }
         }
-        data.put("优惠卷剩余领取量", couponIsDisInfo);
+        data.put("couponQuantity", couponIsDisInfo);
         return CommonResult.success(data);
     }
 

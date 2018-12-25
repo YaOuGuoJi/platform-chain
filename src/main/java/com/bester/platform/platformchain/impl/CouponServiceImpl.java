@@ -97,7 +97,7 @@ public class CouponServiceImpl implements CouponService {
     @Override
     public PageInfo<CouponDTO> queryAllCouponInfo(int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize, true);
-        List<CouponEntity> coupons=couponDao.queryAllCouponInfo();
+        List<CouponEntity> coupons = couponDao.queryAllCouponInfo();
         return BeansListUtils.copyListPageInfo(coupons, CouponDTO.class);
     }
 

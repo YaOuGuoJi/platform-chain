@@ -1,9 +1,7 @@
 package com.bester.platform.platformchain.service;
 
-import com.bester.platform.platformchain.dto.PageQueryToolDTO;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author zhangqiang
@@ -48,11 +46,11 @@ public interface UserCouponService {
     int receiveCoupon(Integer userId, Integer couponId);
 
     /**
-     * 按分页结果查询不可领取优惠卷
+     * 批量查询优惠券用户领取数量
      *
      * @param userId
      * @param couponIds
      * @return
      */
-    List<PageQueryToolDTO> selectCouponCount(Integer userId,List<Integer> couponIds);
+    Map<Integer, Integer> selectCouponCount(Integer userId, List<Integer> couponIds);
 }

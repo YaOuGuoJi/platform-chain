@@ -3,12 +3,10 @@ package com.bester.platform.platformchain.impl;
 import com.bester.platform.platformchain.constant.Coupon;
 import com.bester.platform.platformchain.dao.CouponDao;
 import com.bester.platform.platformchain.dao.UserCouponDao;
-import com.bester.platform.platformchain.dto.PageQueryToolDTO;
+import com.bester.platform.platformchain.entity.CountEntity;
 import com.bester.platform.platformchain.entity.CouponEntity;
-import com.bester.platform.platformchain.entity.PageQueryToolEntity;
 import com.bester.platform.platformchain.entity.UserCouponEntity;
 import com.bester.platform.platformchain.service.UserCouponService;
-import com.bester.platform.platformchain.util.BeansListUtils;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +15,11 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author zhangqiang
@@ -72,11 +72,11 @@ public class UserCouponServiceImpl implements UserCouponService {
     }
 
     @Override
-    public List<PageQueryToolDTO> selectCouponCount(Integer userId, List<Integer> couponIds) {
-        List<PageQueryToolEntity> pageQueryToolEntities = userCouponDao.selectCouponCount(userId, couponIds);
-        if (CollectionUtils.isEmpty(pageQueryToolEntities)) {
-            return new ArrayList<>();
+    public Map<Integer, Integer> selectCouponCount(Integer userId, List<Integer> couponIds) {
+        List<CountEntity> entities = userCouponDao.selectCouponCount(userId, couponIds);
+        if (CollectionUtils.isEmpty(entities)) {
+            return Collections.emptyMap();
         }
-        return BeansListUtils.copyListProperties(pageQueryToolEntities, PageQueryToolDTO.class);
+        return entities.stream().collect(Collectors.toMap(CountEntity::getId, CountEntity::getResult));
     }
 }

@@ -53,8 +53,8 @@
         ]]>
     </select>
 
-    <select id="selectCouponCount" parameterType="map" resultType="com.bester.platform.platformchain.entity.PageQueryToolEntity">
-        SELECT CouponId,count(Id)
+    <select id="selectCouponCount" parameterType="map" resultType="com.bester.platform.platformchain.entity.CountEntity">
+        SELECT CouponId AS id, COUNT(Id) AS result
         FROM user_coupon
         WHERE UserId = #{userId}
         AND CouponId

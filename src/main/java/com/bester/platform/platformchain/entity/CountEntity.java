@@ -6,14 +6,14 @@ import lombok.Data;
  * @date 2018-12-24
  */
 @Data
-public class PageQueryToolEntity {
+public class CountEntity {
 
     /**
-     * 优惠卷ID
+     * ID
      */
-    private Integer couponId;
+    private Integer id;
     /**
-     * 优惠卷领取个数
+     * 结果
      */
-    private Integer count;
+    private Integer result;
 }

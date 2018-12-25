@@ -1,9 +1,9 @@
 package com.bester.platform.platformchain.controller;
 
 import com.bester.platform.platformchain.common.CommonResult;
+import com.bester.platform.platformchain.common.CommonResultBuilder;
 import com.bester.platform.platformchain.constant.Coupon;
 import com.bester.platform.platformchain.dto.CouponDTO;
-import com.bester.platform.platformchain.dto.PageQueryToolDTO;
 import com.bester.platform.platformchain.dto.UserInfoDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
 import com.bester.platform.platformchain.service.CouponService;
@@ -11,7 +11,6 @@ import com.bester.platform.platformchain.service.UserCouponService;
 import com.bester.platform.platformchain.service.UserInfoService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
 import com.github.pagehelper.PageInfo;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +20,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author zhangqiang
@@ -44,7 +47,7 @@ public class CouponController {
      * @param pageSize
      * @return
      */
-    @GetMapping("/user/getUserCouponInfo")
+    @GetMapping("/coupon/list")
     public CommonResult getUserCouponInfo(int pageNum, int pageSize) {
         int userId = UserInfoUtil.getUserId();
         if (userId <= 0 || pageNum <= 0 || pageSize <= 0) {
@@ -54,40 +57,17 @@ public class CouponController {
         if (couponDTOPageInfo == null) {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
-        List<Integer> ids = Lists.newArrayList();
-        Map<String, Object> data = Maps.newHashMap();
-        data.put("pageData", couponDTOPageInfo);
         List<CouponDTO> couponList = couponDTOPageInfo.getList();
-        for (CouponDTO coupon : couponList) {
-            ids.add(coupon.getId());
-        }
-        List<PageQueryToolDTO> pageQueryToolDTOS = userCouponService.selectCouponCount(userId, ids);
-        Map<Integer, Integer> couponIsDisInfo = Maps.newHashMap();
-        if (CollectionUtils.isEmpty(pageQueryToolDTOS)) {
-            for (CouponDTO coupon : couponList) {
-                couponIsDisInfo.put(coupon.getId(), coupon.getLimitNum());
-            }
-            data.put("couponQuantity", couponIsDisInfo);
-            return CommonResult.success(data);
-        }
-        for (CouponDTO coupon : couponList) {
-            int couponIde = coupon.getId();
-            int maxNum = coupon.getLimitNum();
-            for (PageQueryToolDTO pageQueryToolDTO : pageQueryToolDTOS) {
-                int couponId = pageQueryToolDTO.getCouponId();
-                int countNum = pageQueryToolDTO.getCount();
-                if (couponId == couponIde) {
-                    int getNum = maxNum - countNum;
-                    if (getNum > 0) {
-                        couponIsDisInfo.put(couponId, getNum);
-                    } else {
-                        couponIsDisInfo.put(couponId, 0);
-                    }
-                }
-            }
-        }
-        data.put("couponQuantity", couponIsDisInfo);
-        return CommonResult.success(data);
+        List<Integer> couponIdList = couponList.stream().map(CouponDTO::getId).collect(Collectors.toList());
+        Map<Integer, Integer> couponUserCount = userCouponService.selectCouponCount(userId, couponIdList);
+        Map<Integer, Integer> userRemain = Maps.newHashMap();
+        couponList.forEach(couponDTO -> {
+            int remainNum = couponDTO.getLimitNum() - couponUserCount.getOrDefault(couponDTO.getId(), 0);
+            userRemain.put(couponDTO.getId(), remainNum > 0 ? remainNum : 0);
+        });
+        return new CommonResultBuilder().code(200).message("查询成功！")
+                .data("pageData", couponDTOPageInfo)
+                .data("userRemain", userRemain).build();
     }
 
     /**

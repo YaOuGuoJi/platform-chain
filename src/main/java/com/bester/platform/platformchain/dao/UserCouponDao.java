@@ -1,6 +1,6 @@
 package com.bester.platform.platformchain.dao;
 
-import com.bester.platform.platformchain.entity.PageQueryToolEntity;
+import com.bester.platform.platformchain.entity.CountEntity;
 import com.bester.platform.platformchain.entity.UserCouponEntity;
 import org.apache.ibatis.annotations.Param;
 
@@ -57,5 +57,5 @@ public interface UserCouponDao {
      * @param couponIds
      * @return
      */
-    List<PageQueryToolEntity> selectCouponCount(@Param("userId") Integer userId, @Param("couponIds") List couponIds);
+    List<CountEntity> selectCouponCount(@Param("userId") Integer userId, @Param("couponIds") List<Integer> couponIds);
 }

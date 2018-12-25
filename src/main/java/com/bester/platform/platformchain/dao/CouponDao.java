@@ -3,6 +3,8 @@ package com.bester.platform.platformchain.dao;
 import com.bester.platform.platformchain.entity.CouponEntity;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * @author zhangqiang
  * @date 2018-12-18
@@ -27,6 +29,13 @@ public interface CouponDao {
     CouponEntity inquireCouponById(@Param("id") Integer couponId);
 
     /**
+     * 查询可领取优惠券
+     *
+     * @return
+     */
+    List<CouponEntity> queryAllCouponInfo();
+
+    /**
      * 更新优惠券信息
      *
      * @param coupon
@@ -41,5 +50,6 @@ public interface CouponDao {
      * @return
      */
     int updateCouponNum(@Param("id") int id);
+
 
 }

@@ -36,6 +36,12 @@
       AddTime,
       UpdateTime
     </sql>
+    <select id="queryAllCouponInfo" resultMap="couponEntity">
+        select
+        <include refid="allFields"/>
+        from coupon
+        where Margin > 0
+    </select>
 
     <select id="inquireCouponById" resultMap="couponEntity">
         SELECT

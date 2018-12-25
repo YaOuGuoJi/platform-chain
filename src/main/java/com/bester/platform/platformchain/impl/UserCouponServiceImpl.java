@@ -62,7 +62,7 @@ public class UserCouponServiceImpl implements UserCouponService {
         userCouponEntity.setUserId(userId);
         userCouponEntity.setCouponId(couponId);
         userCouponEntity.setFailureTime(failureTime);
-        userCouponEntity.setStatus(Coupon.USED);
+        userCouponEntity.setStatus(Coupon.UNUSED);
         int couponResult = couponDao.updateCouponNum(couponId);
         if (couponResult <= 0) {
             LOGGER.error("优惠券数量减一失败！couponId: {}", couponId);

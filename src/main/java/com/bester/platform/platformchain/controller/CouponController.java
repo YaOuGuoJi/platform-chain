@@ -3,13 +3,13 @@ package com.bester.platform.platformchain.controller;
 import com.bester.platform.platformchain.common.CommonResult;
 import com.bester.platform.platformchain.constant.Coupon;
 import com.bester.platform.platformchain.dto.CouponDTO;
+import com.bester.platform.platformchain.dto.UserCouponDTO;
 import com.bester.platform.platformchain.dto.UserInfoDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
 import com.bester.platform.platformchain.service.CouponService;
 import com.bester.platform.platformchain.service.UserCouponService;
 import com.bester.platform.platformchain.service.UserInfoService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
-import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author zhangqiang
@@ -87,25 +84,28 @@ public class CouponController {
         if (status < 0) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
-        List<Integer> couponIdList;
+        List<UserCouponDTO> UserCouponList;
         if (Objects.equals(status, Coupon.EXPIRED)) {
-            couponIdList = userCouponService.findExpiredCoupon(userId);
+            UserCouponList = userCouponService.findExpiredCoupon(userId);
         } else {
-            couponIdList = userCouponService.findUnusedAndUsedCouponId(userId, status);
+            UserCouponList = userCouponService.findUnusedAndUsedCouponId(userId, status);
         }
-        if (CollectionUtils.isEmpty(couponIdList)) {
+        if (CollectionUtils.isEmpty(UserCouponList)) {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
-        List<CouponDTO> couponList = new ArrayList<>();
-        couponIdList.forEach(couponId -> {
-            CouponDTO couponDTO = couponService.inquireCouponById(couponId);
-            if (couponDTO != null) {
-                couponList.add(couponDTO);
+        List<Map<String, Object>> couponList = new ArrayList<>();
+        UserCouponList.forEach(userCoupon -> {
+            if (userCoupon.getCouponId() != null) {
+                CouponDTO couponDTO = couponService.inquireCouponById(userCoupon.getCouponId());
+                if (couponDTO != null) {
+                    Map<String, Object> myCoupon = new HashMap<>(2);
+                    myCoupon.put("userCoupon", userCoupon);
+                    myCoupon.put("couponInfo", couponDTO);
+                    couponList.add(myCoupon);
+                }
             }
         });
-        Map<String, List<CouponDTO>> data = Maps.newHashMap();
-        data.put("couponInfoList", couponList);
-        return CommonResult.success(data);
+        return CommonResult.success(couponList);
     }
 
 }

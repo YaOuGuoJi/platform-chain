@@ -3,9 +3,11 @@ package com.bester.platform.platformchain.impl;
 import com.bester.platform.platformchain.constant.Coupon;
 import com.bester.platform.platformchain.dao.CouponDao;
 import com.bester.platform.platformchain.dao.UserCouponDao;
+import com.bester.platform.platformchain.dto.UserCouponDTO;
 import com.bester.platform.platformchain.entity.CouponEntity;
 import com.bester.platform.platformchain.entity.UserCouponEntity;
 import com.bester.platform.platformchain.service.UserCouponService;
+import com.bester.platform.platformchain.util.BeansListUtils;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,13 +32,17 @@ public class UserCouponServiceImpl implements UserCouponService {
     private CouponDao couponDao;
 
     @Override
-    public List<Integer> findUnusedAndUsedCouponId(Integer userId, Integer status) {
-        return userCouponDao.findUnusedAndUsedCouponId(userId, status);
+    public List<UserCouponDTO> findUnusedAndUsedCouponId(Integer userId, Integer status) {
+        List<UserCouponEntity> couponEntities = userCouponDao.findUnusedAndUsedCoupon(userId, status);
+        List<UserCouponDTO> userCouponDTOs = BeansListUtils.copyListProperties(couponEntities, UserCouponDTO.class);
+        return userCouponDTOs;
     }
 
     @Override
-    public List<Integer> findExpiredCoupon(Integer userId) {
-        return userCouponDao.findExpiredCoupon(userId);
+    public List<UserCouponDTO> findExpiredCoupon(Integer userId) {
+        List<UserCouponEntity> expiredCoupon = userCouponDao.findExpiredCoupon(userId);
+        List<UserCouponDTO> userCouponDTOs = BeansListUtils.copyListProperties(expiredCoupon, UserCouponDTO.class);
+        return userCouponDTOs;
     }
 
     @Override
@@ -53,7 +59,7 @@ public class UserCouponServiceImpl implements UserCouponService {
         userCouponEntity.setUserId(userId);
         userCouponEntity.setCouponId(couponId);
         userCouponEntity.setFailureTime(failureTime);
-        userCouponEntity.setStatus(Coupon.USED);
+        userCouponEntity.setStatus(Coupon.UNUSED);
         int couponResult = couponDao.updateCouponNum(couponId);
         if (couponResult <= 0) {
             LOGGER.error("优惠券数量减一失败！couponId: {}", couponId);

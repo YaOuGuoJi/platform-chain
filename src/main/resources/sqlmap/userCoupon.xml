@@ -33,18 +33,18 @@
         from user_coupon
         where UserId=#{userId} and CouponId=#{couponId}
     </select>
-    <select id="findUnusedAndUsedCouponId" resultType="integer">
+    <select id="findUnusedAndUsedCoupon" resultType="com.bester.platform.platformchain.entity.UserCouponEntity">
         SELECT
-        CouponId
+        <include refid="allFields"></include>
         FROM user_coupon
         WHERE UserId = #{userId}
         AND Status = #{status}
     </select>
 
-    <select id="findExpiredCoupon" resultType="integer">
+    <select id="findExpiredCoupon" resultType="com.bester.platform.platformchain.entity.UserCouponEntity">
         <![CDATA[
         SELECT
-        CouponId
+        CouponId,AddTime,FailureTime
         FROM user_coupon
         WHERE UserId = #{userId}
         AND NOW() > FailureTime

@@ -4,6 +4,7 @@ import com.bester.platform.platformchain.entity.UserCouponEntity;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author zhangqiang
@@ -19,8 +20,8 @@ public interface UserCouponDao {
      * @param status
      * @return
      */
-    List<Integer> findUnusedAndUsedCouponId(@Param("userId") Integer userId,
-                                   @Param("status") Integer status);
+    List<UserCouponEntity> findUnusedAndUsedCoupon(@Param("userId") Integer userId,
+                                  @Param("status") Integer status);
 
     /**
      * 查找用户已过期的优惠券ID
@@ -28,7 +29,7 @@ public interface UserCouponDao {
      * @param userId
      * @return
      */
-    List<Integer> findExpiredCoupon(@Param("userId") Integer userId);
+    List<UserCouponEntity> findExpiredCoupon(@Param("userId") Integer userId);
 
     /**
      * 用户领取优惠券

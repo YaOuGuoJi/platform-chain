@@ -60,14 +60,12 @@ public class CouponController {
         List<CouponDTO> couponList = couponDTOPageInfo.getList();
         List<Integer> couponIdList = couponList.stream().map(CouponDTO::getId).collect(Collectors.toList());
         Map<Integer, Integer> couponUserCount = userCouponService.selectCouponCount(userId, couponIdList);
-        Map<Integer, Integer> userRemain = Maps.newHashMap();
         couponList.forEach(couponDTO -> {
             int remainNum = couponDTO.getLimitNum() - couponUserCount.getOrDefault(couponDTO.getId(), 0);
-            userRemain.put(couponDTO.getId(), remainNum > 0 ? remainNum : 0);
+            couponDTO.setLimitNum(remainNum);
         });
         return new CommonResultBuilder().code(200).message("查询成功！")
-                .data("pageData", couponDTOPageInfo)
-                .data("userRemain", userRemain).build();
+                .data("pageData", couponDTOPageInfo).build();
     }
 
     /**

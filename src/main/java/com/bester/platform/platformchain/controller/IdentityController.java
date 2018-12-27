@@ -57,8 +57,8 @@ public class IdentityController {
         userIdentityDTO.setSex(userInfoDTO.getSex() == 1 ? "男" : "女");
         userIdentityDTO.setNationality(userInfoDTO.getNationality());
         userIdentityDTO.setBirthday(sdf.format(userInfoDTO.getBirthday()));
-        userIdentityDTO.setAddress(userInfoDTO.getAddress());
-        userIdentityDTO.setIdentityId(userInfoDTO.getIdentityId());
+        userIdentityDTO.setAddress(userInfoDTO.getAddress().substring(0, 6) + "******");
+        userIdentityDTO.setIdentityId(userInfoDTO.getIdentityId().replaceAll("(\\d)\\d{16}(\\d)","$1****************$2"));
         return new CommonResultBuilder().code(200).message("查询成功")
                 .data("verified", true)
                 .data("identityInfo", userIdentityDTO).build();

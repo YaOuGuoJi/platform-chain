@@ -1,6 +1,7 @@
 package com.bester.platform.platformchain.controller;
 
 import com.bester.platform.platformchain.common.CommonResult;
+import com.bester.platform.platformchain.common.CommonResultBuilder;
 import com.bester.platform.platformchain.dto.UserIdentityDTO;
 import com.bester.platform.platformchain.dto.UserInfoDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
@@ -11,6 +12,7 @@ import com.google.common.collect.Sets;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,6 +40,29 @@ public class IdentityController {
     private IdentityCardService identityCardService;
     @Resource
     private UserInfoService userInfoService;
+
+    @GetMapping("/user/identity")
+    public CommonResult userIdentity() {
+        int userId = UserInfoUtil.getUserId();
+        if (userId <= 0) {
+            return CommonResult.fail(HttpStatus.UNAUTHORIZED);
+        }
+        UserInfoDTO userInfoDTO = userInfoService.findUserInfoByUserId(userId);
+        if (StringUtils.isEmpty(userInfoDTO.getIdentityId())) {
+            return new CommonResultBuilder().code(200).message("查询成功").data("verified", false).build();
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        UserIdentityDTO userIdentityDTO = new UserIdentityDTO();
+        userIdentityDTO.setName(userInfoDTO.getUserName());
+        userIdentityDTO.setSex(userInfoDTO.getSex() == 1 ? "男" : "女");
+        userIdentityDTO.setNationality(userInfoDTO.getNationality());
+        userIdentityDTO.setBirthday(sdf.format(userInfoDTO.getBirthday()));
+        userIdentityDTO.setAddress(userInfoDTO.getAddress());
+        userIdentityDTO.setIdentityId(userInfoDTO.getIdentityId());
+        return new CommonResultBuilder().code(200).message("查询成功")
+                .data("verified", true)
+                .data("identityInfo", userIdentityDTO).build();
+    }
 
     @PostMapping("/user/identityCard")
     public CommonResult uploadIdentityCard(MultipartFile image) {

@@ -22,16 +22,26 @@ public class BlackGoldCardServiceImpl implements BlackGoldCardService {
     @Override
     public BlackGoldCardDTO findBlackGoldCardByCardId(String cardId) {
         BlackGoldCardEntity entity = blackGoldCardDao.findCardByCardId(cardId);
-        if (entity == null) {
-            return null;
-        }
-        BlackGoldCardDTO blackGoldCardDTO = new BlackGoldCardDTO();
-        BeanUtils.copyProperties(entity, blackGoldCardDTO);
-        return blackGoldCardDTO;
+        return getBlackGoldCardDTO(entity);
     }
 
     @Override
     public int bindCardToUser(String cardId, int userId) {
         return blackGoldCardDao.bindCard2User(cardId, userId);
+    }
+
+    @Override
+    public BlackGoldCardDTO findBlackGoldCardInfoByUserId(int userId) {
+        BlackGoldCardEntity blackGoldCardEntity = blackGoldCardDao.findCardInfoByUserId(userId);
+        return getBlackGoldCardDTO(blackGoldCardEntity);
+    }
+
+    private BlackGoldCardDTO getBlackGoldCardDTO(BlackGoldCardEntity blackGoldCardEntity) {
+        if (blackGoldCardEntity == null) {
+            return null;
+        }
+        BlackGoldCardDTO blackGoldCardDTO = new BlackGoldCardDTO();
+        BeanUtils.copyProperties(blackGoldCardEntity, blackGoldCardDTO);
+        return blackGoldCardDTO;
     }
 }

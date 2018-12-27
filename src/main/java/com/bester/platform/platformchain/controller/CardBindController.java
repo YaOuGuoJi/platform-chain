@@ -10,12 +10,15 @@ import com.bester.platform.platformchain.service.BlackGoldCardService;
 import com.bester.platform.platformchain.service.UserInfoService;
 import com.bester.platform.platformchain.service.VoucherCardService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
+import com.google.common.collect.Maps;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -32,6 +35,13 @@ public class CardBindController {
     @Resource
     private VoucherCardService voucherCardService;
 
+    /**
+     * 绑定黑金会籍
+     *
+     * @param cardId
+     * @param password
+     * @return
+     */
     @PostMapping("/blackGold/bind")
     public CommonResult bindCard(String cardId, String password) {
         int userId = UserInfoUtil.getUserId();
@@ -75,6 +85,12 @@ public class CardBindController {
         return StringUtils.isNotEmpty(cardId) && StringUtils.isNotEmpty(password);
     }
 
+    /**
+     * 绑定优惠凭证
+     *
+     * @param cardId
+     * @return
+     */
     @PostMapping("/voucher/bind")
     public CommonResult bindVoucherCard(String cardId) {
         cardId = cardId.toUpperCase();
@@ -92,4 +108,25 @@ public class CardBindController {
         }
         return CommonResult.success();
     }
+
+    /**
+     * 查询用户黑金卡ID
+     *
+     * @return
+     */
+    @GetMapping("/blackGold/cardId")
+    public CommonResult getBlackGoldId() {
+        int userId = UserInfoUtil.getUserId();
+        if (userId < 0) {
+            return CommonResult.fail(HttpStatus.UNAUTHORIZED);
+        }
+        BlackGoldCardDTO blackGoldCardInfo = blackGoldCardService.findBlackGoldCardInfoByUserId(userId);
+        if (blackGoldCardInfo == null) {
+            return CommonResult.fail(HttpStatus.NOT_FOUND);
+        }
+        Map<String, String> map = Maps.newHashMap();
+        map.put("cardId", blackGoldCardInfo.getCardId());
+        return CommonResult.success(map);
+    }
+
 }

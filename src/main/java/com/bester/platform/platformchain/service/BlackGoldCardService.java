@@ -24,4 +24,13 @@ public interface BlackGoldCardService {
      * @return
      */
     int bindCardToUser(String cardId, int userId);
+
+    /**
+     * 根据userId查询黑金卡信息
+     *
+     * @param userId
+     * @return
+     */
+    BlackGoldCardDTO findBlackGoldCardInfoByUserId(int userId);
+
 }

@@ -36,4 +36,11 @@ public interface BlackGoldCardDao {
      */
     int bindCard2User(@Param("cardId") String cardId, @Param("userId") int userId);
 
+    /**
+     * 根据userId查询黑金卡信息
+     * @param userId
+     * @return
+     */
+    BlackGoldCardEntity findCardInfoByUserId(@Param("userId") int userId);
+
 }

@@ -1,6 +1,7 @@
 package com.bester.platform.platformchain.dao;
 
 import com.bester.platform.platformchain.entity.UserInfoEntity;
+import org.apache.catalina.User;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -56,5 +57,23 @@ public interface UserInfoDao {
      * @return
      */
     int updateUserBindPublicNum(@Param("userId") int userId,@Param("bindPublicNum") int bindPublicNum);
+
+    /**
+     * 修改用户点赞列表
+     *
+     * @param userId
+     * @param brandLikeList
+     * @return
+     */
+    int updateBrandLikes(@Param("userId") Integer userId, @Param("brandLikeList") String brandLikeList);
+
+    /**
+     * 修改用户收藏列表
+     *
+     * @param userId
+     * @param brandCollectList
+     * @return
+     */
+    int updateBrandCollects(@Param("userId") Integer userId, @Param("brandCollectList") String brandCollectList);
 
 }

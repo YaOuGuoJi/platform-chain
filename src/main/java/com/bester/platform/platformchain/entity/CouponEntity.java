@@ -25,6 +25,11 @@ public class CouponEntity {
     private String  shopId;
 
     /**
+     * 优惠券图片
+     */
+    private String imageUrl;
+
+    /**
      * 优惠券名称
      */
     private String couponName;
@@ -60,7 +65,7 @@ public class CouponEntity {
     private Integer vipLevel;
 
     /**
-     * 每人限领
+     * 是否限制领取 0--不限制 1--限制
      */
     private Integer limitNum;
 

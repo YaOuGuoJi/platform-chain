@@ -34,11 +34,15 @@
         where UserId=#{userId} and CouponId=#{couponId}
     </select>
     <select id="findUnusedAndUsedCoupon" resultType="com.bester.platform.platformchain.entity.UserCouponEntity">
-        SELECT
-        <include refid="allFields"></include>
+
+        SELECT <include refid="allFields"></include>
         FROM user_coupon
         WHERE UserId = #{userId}
         AND Status = #{status}
+       <if test="status == 1">
+            AND now() &lt; FailureTime
+        </if>
+
     </select>
 
     <select id="findExpiredCoupon" resultType="com.bester.platform.platformchain.entity.UserCouponEntity">
@@ -47,8 +51,21 @@
         CouponId,AddTime,FailureTime
         FROM user_coupon
         WHERE UserId = #{userId}
-        AND NOW() > FailureTime
-            ]]>
+        AND NOW() > FailureTime and Status = 1
+
+        ]]>
+    </select>
+
+    <select id="selectCouponCount" parameterType="map" resultType="com.bester.platform.platformchain.entity.CountEntity">
+        SELECT CouponId AS id, COUNT(Id) AS result
+        FROM user_coupon
+        WHERE UserId = #{userId}
+        AND CouponId
+        IN
+        <foreach collection="couponIds" index="index" item="couponId" open="(" separator="," close=")">
+            #{couponId}
+        </foreach>
+        GROUP BY CouponId;
     </select>
 
 </mapper>

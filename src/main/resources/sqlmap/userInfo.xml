@@ -14,6 +14,8 @@
         <result column="CarId" property="carId"/>
         <result column="Vip" property="vip"/>
         <result column="IdentityId" property="identityId"/>
+        <result column="BrandLikeList" property="brandLikeList"/>
+        <result column="BrandCollectList" property="brandCollectList"/>
         <result column="AddTime" property="addTime"/>
         <result column="UpdateTime" property="updateTime"/>
         <result column="BindPublicNum" property="bindPublicNum"/>
@@ -32,6 +34,8 @@
         CarId,
         Vip,
         IdentityId,
+        BrandLikeList,
+        BrandCollectList,
         AddTime,
         UpdateTime,
         BindPublicNum
@@ -157,6 +161,22 @@
         set BindPublicNum=#{bindPublicNum},
             UpdateTime=NOW()
         where UserId=#{userId}
+    </update>
+
+    <update id="updateBrandLikes" parameterType="map">
+        UPDATE user_info
+        SET
+        BrandLikeList=#{brandLikeList},
+        UpdateTime=NOW()
+        WHERE UserId=#{userId}
+    </update>
+
+    <update id="updateBrandCollects" parameterType="map">
+        UPDATE user_info
+        SET
+        BrandCollectList=#{brandCollectList},
+        UpdateTime=NOW()
+        WHERE UserId=#{userId}
     </update>
 
 </mapper>

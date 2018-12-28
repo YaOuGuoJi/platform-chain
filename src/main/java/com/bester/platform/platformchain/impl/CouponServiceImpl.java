@@ -4,6 +4,9 @@ import com.bester.platform.platformchain.dao.CouponDao;
 import com.bester.platform.platformchain.dto.CouponDTO;
 import com.bester.platform.platformchain.entity.CouponEntity;
 import com.bester.platform.platformchain.service.CouponService;
+import com.bester.platform.platformchain.util.BeansListUtils;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -18,7 +21,6 @@ import java.util.List;
  */
 @Service
 public class CouponServiceImpl implements CouponService {
-
     @Resource
     private CouponDao couponDao;
 
@@ -91,4 +93,12 @@ public class CouponServiceImpl implements CouponService {
         couponEntity.setShopId(shopId);
         return couponDao.updateCouponInfo(couponEntity);
     }
+
+    @Override
+    public PageInfo<CouponDTO> queryAllCouponInfo(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize, true);
+        List<CouponEntity> coupons = couponDao.queryAllCouponInfo();
+        return BeansListUtils.copyListPageInfo(coupons, CouponDTO.class);
+    }
+
 }

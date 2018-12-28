@@ -1,5 +1,6 @@
 package com.bester.platform.platformchain.impl;
 
+import com.bester.platform.platformchain.constant.BrandActionType;
 import com.bester.platform.platformchain.dao.UserInfoDao;
 import com.bester.platform.platformchain.dto.UserInfoDTO;
 import com.bester.platform.platformchain.entity.UserInfoEntity;
@@ -7,6 +8,7 @@ import com.bester.platform.platformchain.enums.UserVipLevel;
 import com.bester.platform.platformchain.service.UserInfoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 
@@ -63,6 +65,19 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public int updateUserBindPublicNum(int userId, int bindPublicNum) {
-        return userInfoDao.updateUserBindPublicNum(userId,bindPublicNum);
+        return userInfoDao.updateUserBindPublicNum(userId, bindPublicNum);
+    }
+
+    @Override
+    public int updateLikeOrCollect(Integer userId, int type, String brandIds) {
+        if (userId == null || type <= 0) {
+            return 0;
+        }
+        if (type == BrandActionType.PRAISE) {
+            userInfoDao.updateBrandLikes(userId, StringUtils.isEmpty(brandIds) ? "" : brandIds);
+        } else if (type == BrandActionType.COLLECT) {
+            userInfoDao.updateBrandCollects(userId, StringUtils.isEmpty(brandIds) ? "" : brandIds);
+        }
+        return 0;
     }
 }

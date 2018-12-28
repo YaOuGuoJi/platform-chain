@@ -53,9 +53,21 @@ public interface UserInfoService {
 
     /**
      * 更新绑定公众号状态
+     *
      * @param userId
      * @param bindPublicNum
      * @return
      */
     int updateUserBindPublicNum(int userId, int bindPublicNum);
+
+    /**
+     * 修改用户的点赞或收藏品牌
+     *
+     * @param userId
+     * @param type
+     * @param brandIds
+     * @return
+     * @see com.bester.platform.platformchain.constant.BrandActionType
+     */
+    int updateLikeOrCollect(Integer userId, int type, String brandIds);
 }

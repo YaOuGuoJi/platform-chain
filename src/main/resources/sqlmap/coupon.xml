@@ -4,6 +4,7 @@
     <resultMap id="couponEntity" type="com.bester.platform.platformchain.entity.CouponEntity">
         <result column="Id" property="id"/>
         <result column="ShopId" property="shopId"/>
+        <result column="ImageUrl" property="imageUrl"/>
         <result column="CouponName" property="couponName"/>
         <result column="Margin" property="margin"/>
         <result column="CouponType" property="couponType"/>
@@ -23,6 +24,7 @@
       Id,
       CouponName,
       ShopId,
+      ImageUrl,
       Margin,
       CouponType,
       OfferDiscount,
@@ -36,6 +38,12 @@
       AddTime,
       UpdateTime
     </sql>
+    <select id="queryAllCouponInfo" resultMap="couponEntity">
+        select
+        <include refid="allFields"/>
+        from coupon
+        where Margin > 0
+    </select>
 
     <select id="inquireCouponById" resultMap="couponEntity">
         SELECT

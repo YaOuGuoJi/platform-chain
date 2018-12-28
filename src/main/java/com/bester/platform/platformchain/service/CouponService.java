@@ -1,6 +1,9 @@
 package com.bester.platform.platformchain.service;
 
 import com.bester.platform.platformchain.dto.CouponDTO;
+import com.github.pagehelper.PageInfo;
+
+import java.util.Map;
 
 /**
  * @author zhangqiang
@@ -31,5 +34,13 @@ public interface CouponService {
      * @return
      */
     int updateCouponInfo(CouponDTO coupon);
+
+    /**
+     * 查询所有优惠券
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    PageInfo<CouponDTO> queryAllCouponInfo(int pageNum, int pageSize);
 
 }

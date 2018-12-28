@@ -15,16 +15,6 @@ import java.util.List;
 public interface UserCouponDao {
 
     /**
-     * 查找用户已使用和未使用的优惠券ID
-     *
-     * @param userId
-     * @param status
-     * @return
-     */
-    List<UserCouponEntity> findUnusedAndUsedCoupon(@Param("userId") Integer userId,
-                                                   @Param("status") Integer status);
-
-    /**
      * 根据用户的id和优惠券id查询该用户领取该类型优惠券的数量
      *
      * @param userId
@@ -41,6 +31,16 @@ public interface UserCouponDao {
      * @return
      */
     List<UserCouponEntity> findExpiredCoupon(@Param("userId") Integer userId);
+
+    /**
+     * 查找用户已使用和未使用的优惠券ID
+     *
+     * @param userId
+     * @param status
+     * @return
+     */
+    List<UserCouponEntity> findUnusedAndUsedCoupon(@Param("userId") Integer userId,
+                                                   @Param("status") Integer status);
 
     /**
      * 用户领取优惠券

@@ -36,16 +36,21 @@ public class UserCouponServiceImpl implements UserCouponService {
     private UserCouponDao userCouponDao;
 
     @Override
-    public List<UserCouponDTO> findUnusedAndUsedCoupon(Integer userId, Integer status) {
-        List<UserCouponEntity> couponEntities = userCouponDao.findUnusedAndUsedCoupon(userId, status);
-        List<UserCouponDTO> userCouponDTOs = BeansListUtils.copyListProperties(couponEntities, UserCouponDTO.class);
-        return userCouponDTOs;
+    public int findCouponCountById(Integer userId, Integer couponId) {
+        return userCouponDao.findCouponCountById(userId, couponId);
     }
 
     @Override
     public List<UserCouponDTO> findExpiredCoupon(Integer userId) {
         List<UserCouponEntity> expiredCoupon = userCouponDao.findExpiredCoupon(userId);
         List<UserCouponDTO> userCouponDTOs = BeansListUtils.copyListProperties(expiredCoupon, UserCouponDTO.class);
+        return userCouponDTOs;
+    }
+
+    @Override
+    public List<UserCouponDTO> findUnusedAndUsedCoupon(Integer userId, Integer status) {
+        List<UserCouponEntity> couponEntities = userCouponDao.findUnusedAndUsedCoupon(userId, status);
+        List<UserCouponDTO> userCouponDTOs = BeansListUtils.copyListProperties(couponEntities, UserCouponDTO.class);
         return userCouponDTOs;
     }
 
@@ -72,10 +77,6 @@ public class UserCouponServiceImpl implements UserCouponService {
         return userCouponDao.receiveCoupon(userCouponEntity);
     }
 
-    @Override
-    public int findCouponCountById(Integer userId, Integer couponId) {
-        return userCouponDao.findCouponCountById(userId, couponId);
-    }
     @Override
     public Map<Integer, Integer> selectCouponCount(Integer userId, List<Integer> couponIds) {
         List<CountEntity> entities = userCouponDao.selectCouponCount(userId, couponIds);

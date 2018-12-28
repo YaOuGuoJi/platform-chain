@@ -65,12 +65,12 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public int updateUserBindPublicNum(int userId, int bindPublicNum) {
-        return userInfoDao.updateUserBindPublicNum(userId, bindPublicNum);
+        return userInfoDao.updateUserBindPublicNum(userId,bindPublicNum);
     }
 
     @Override
     public int updateLikeOrCollect(Integer userId, int type, String brandIds) {
-        if (userId == null || type <= 0) {
+        if (userId == null || type <= 0){
             return 0;
         }
         if (type == BrandActionType.PRAISE) {

@@ -34,7 +34,6 @@
         where UserId=#{userId} and CouponId=#{couponId}
     </select>
     <select id="findUnusedAndUsedCoupon" resultType="com.bester.platform.platformchain.entity.UserCouponEntity">
-
         SELECT <include refid="allFields"></include>
         FROM user_coupon
         WHERE UserId = #{userId}
@@ -47,6 +46,7 @@
 
     <select id="findExpiredCoupon" resultType="com.bester.platform.platformchain.entity.UserCouponEntity">
         <![CDATA[
+
         SELECT
         CouponId,AddTime,FailureTime
         FROM user_coupon

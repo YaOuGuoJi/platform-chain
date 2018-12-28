@@ -11,14 +11,17 @@ import com.bester.platform.platformchain.service.UserCouponService;
 import com.bester.platform.platformchain.service.UserInfoService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
 import com.github.pagehelper.PageInfo;
+import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -87,19 +90,25 @@ public class CouponController {
         if (CollectionUtils.isEmpty(UserCouponList)) {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
-        List<Map<String, Object>> couponList = new ArrayList<>();
+        List<UserCouponInfo> userCouponList = new ArrayList<>();
         UserCouponList.forEach(userCoupon -> {
             if (userCoupon.getCouponId() != null) {
                 CouponDTO couponDTO = couponService.inquireCouponById(userCoupon.getCouponId());
                 if (couponDTO != null) {
-                    Map<String, Object> myCoupon = new HashMap<>(2);
-                    myCoupon.put("userCoupon", userCoupon);
-                    myCoupon.put("couponInfo", couponDTO);
-                    couponList.add(myCoupon);
+                    UserCouponInfo userCouponInfo = new UserCouponInfo();
+                    BeanUtils.copyProperties(couponDTO, userCouponInfo);
+                    BeanUtils.copyProperties(userCoupon, userCouponInfo);
+                    if(status.equals(Coupon.USED)){
+                        ArrayList<String> shopId = new ArrayList<>();
+                        shopId.add(userCoupon.getShopId().toString());
+                        userCouponInfo.setShopId(shopId);
+                        System.out.println(userCouponInfo);
+                    }
+                    userCouponList.add(userCouponInfo);
                 }
             }
         });
-        return CommonResult.success(couponList);
+        return CommonResult.success(userCouponList);
     }
 
     /**
@@ -135,6 +144,50 @@ public class CouponController {
             return CommonResult.fail(500, "领取失败,服务器异常");
         }
         return CommonResult.success();
+    }
+
+    @Data
+    public class UserCouponInfo {
+        /**
+         * 用户领取到的优惠券在userCoupon中的id
+         */
+        private Integer id;
+        /**
+         * 优惠券类型
+         */
+        private Integer couponType;
+        /**
+         * 商铺id(已用：在哪家店铺使用，未用：可以在哪家店铺使用)
+         */
+        private List<String> shopId;
+        /**
+         * 优惠券名字
+         */
+        private String couponName;
+        /**
+         * 折扣金额
+         */
+        private BigDecimal offerCash;
+        /**
+         * 折扣比例
+         */
+        private BigDecimal offerDiscount;
+        /**
+         * 使用说明
+         */
+        private String description;
+        /**
+         * 使用门槛（满XX元可用，为零则代表使用条件为无限制）
+         */
+        private BigDecimal threshold;
+        /**
+         * 失效时间
+         */
+        private Date failureTime;
+        /**
+         * 使用时间
+         */
+        private Date updateTime;
     }
 
 }

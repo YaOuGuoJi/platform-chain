@@ -45,15 +45,11 @@
     </select>
 
     <select id="findExpiredCoupon" resultType="com.bester.platform.platformchain.entity.UserCouponEntity">
-        <![CDATA[
 
-        SELECT
-        CouponId,AddTime,FailureTime
+        SELECT <include refid="allFields"></include>
         FROM user_coupon
         WHERE UserId = #{userId}
-        AND NOW() > FailureTime and Status = 1
-
-        ]]>
+        AND NOW() &gt;= FailureTime and Status = 1
     </select>
 
     <select id="selectCouponCount" parameterType="map" resultType="com.bester.platform.platformchain.entity.CountEntity">

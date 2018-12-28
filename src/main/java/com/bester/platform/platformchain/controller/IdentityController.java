@@ -94,7 +94,7 @@ public class IdentityController {
         }
         UserIdentityDTO userIdentityDTO = identityCardService.idCardOCR(bytes);
         if (!validFields(userIdentityDTO)) {
-            return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "识别信息不完整，请重新上传照片！");
+            return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "识别信息有误，请上传清晰图片！");
         }
         return bindIdentityCard2User(userInfoDTO, userIdentityDTO);
     }

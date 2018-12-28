@@ -59,4 +59,11 @@
         WHERE CardId=#{cardId}
     </update>
 
+    <select id="findCardInfoByUserId" parameterType="map" resultMap="blackGoldCardEntity">
+        SELECT
+        <include refid="allFields"/>
+        FROM black_gold_card
+        WHERE UserId = #{userId}
+    </select>
+
 </mapper>

@@ -4,6 +4,9 @@ server:
     context-path: /
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 2MB
   datasource:
     url: jdbc:mysql://39.106.38.77:3306/yaouguoji?useSSL=false
     username: yaouguoji

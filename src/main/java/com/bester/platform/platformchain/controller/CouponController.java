@@ -1,7 +1,6 @@
 package com.bester.platform.platformchain.controller;
 
 import com.bester.platform.platformchain.common.CommonResult;
-import com.bester.platform.platformchain.common.CommonResultBuilder;
 import com.bester.platform.platformchain.constant.Coupon;
 import com.bester.platform.platformchain.dto.CouponDTO;
 import com.bester.platform.platformchain.dto.UserCouponDTO;
@@ -61,8 +60,7 @@ public class CouponController {
             int remainNum = couponDTO.getLimitNum() - couponUserCount.getOrDefault(couponDTO.getId(), 0);
             couponDTO.setLimitNum(remainNum);
         });
-        return new CommonResultBuilder().code(200).message("查询成功！")
-                .data("pageData", couponDTOPageInfo).build();
+        return CommonResult.success(couponDTOPageInfo);
     }
 
     /**

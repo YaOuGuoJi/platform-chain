@@ -2,10 +2,12 @@ package com.bester.platform.platformchain.controller;
 
 import com.bester.platform.platformchain.common.CommonResult;
 import com.bester.platform.platformchain.constant.Coupon;
+import com.bester.platform.platformchain.dto.BrandInfoDTO;
 import com.bester.platform.platformchain.dto.CouponDTO;
 import com.bester.platform.platformchain.dto.UserCouponDTO;
 import com.bester.platform.platformchain.dto.UserInfoDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
+import com.bester.platform.platformchain.service.BrandInfoService;
 import com.bester.platform.platformchain.service.CouponService;
 import com.bester.platform.platformchain.service.UserCouponService;
 import com.bester.platform.platformchain.service.UserInfoService;
@@ -38,6 +40,8 @@ public class CouponController {
     private UserCouponService userCouponService;
     @Resource
     private UserInfoService userInfoService;
+    @Resource
+    private BrandInfoService brandInfoService;
 
     /**
      * 优惠券分页列表
@@ -98,11 +102,14 @@ public class CouponController {
                     UserCouponInfo userCouponInfo = new UserCouponInfo();
                     BeanUtils.copyProperties(couponDTO, userCouponInfo);
                     BeanUtils.copyProperties(userCoupon, userCouponInfo);
-                    if(status.equals(Coupon.USED)){
+                    if (status.equals(Coupon.USED)) {
                         ArrayList<String> shopId = new ArrayList<>();
                         shopId.add(userCoupon.getShopId().toString());
                         userCouponInfo.setShopId(shopId);
-                        System.out.println(userCouponInfo);
+                        if (userCoupon.getShopId() != null) {
+                            BrandInfoDTO brandInfoDTO = brandInfoService.selectBrandById(userCoupon.getShopId());
+                            userCouponInfo.setShopName(brandInfoDTO.getBrandName());
+                        }
                     }
                     userCouponList.add(userCouponInfo);
                 }
@@ -160,6 +167,10 @@ public class CouponController {
          * 商铺id(已用：在哪家店铺使用，未用：可以在哪家店铺使用)
          */
         private List<String> shopId;
+        /**
+         * 已用的优惠券展示使用的店铺名称
+         */
+        private String shopName;
         /**
          * 优惠券名字
          */

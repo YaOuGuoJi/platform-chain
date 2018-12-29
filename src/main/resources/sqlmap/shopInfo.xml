@@ -44,7 +44,7 @@
         <include refid="allFields" />
         FROM shop_info
         WHERE ShopId IN
-        <foreach collection="shopIdList" index="index" separator="," open="(" close=")" item="shopId">
+        <foreach collection="shopIds" index="index" separator="," open="(" close=")" item="shopId">
             #{shopId}
         </foreach>
         AND Deleted=0

@@ -95,8 +95,8 @@ public class CouponController {
         List<UserCouponVO> userCouponList = Lists.newArrayListWithExpectedSize(couponIds.size());
         userCouponDTOs.forEach(userCoupon -> {
             UserCouponVO userCouponVO = new UserCouponVO();
-            BeanUtils.copyProperties(userCoupon, userCouponVO);
             BeanUtils.copyProperties(couponId2CouponDTOMap.get(userCoupon.getCouponId()), userCouponVO);
+            BeanUtils.copyProperties(userCoupon, userCouponVO);
             if (Coupon.USED.equals(status)) {
                 ShopInfoDTO shopInfoDTO = shopId2ShopInfoMap.get(userCoupon.getShopId());
                 userCouponVO.setShopId(Lists.newArrayList(String.valueOf(userCoupon.getShopId())));

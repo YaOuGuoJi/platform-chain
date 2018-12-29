@@ -17,7 +17,6 @@ import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author zhangqiang
@@ -85,12 +84,23 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public Map<Integer, CouponDTO> batchFindByCouponIds(Collection<Integer> couponIds) {
+        Map<Integer, CouponDTO> result = Maps.newHashMap();
         if (CollectionUtils.isEmpty(couponIds)) {
-            return Maps.newHashMap();
+            return result;
         }
         List<CouponEntity> couponEntities = couponDao.batchSelect(couponIds);
-        List<CouponDTO> couponDTOList = BeansListUtils.copyListProperties(couponEntities, CouponDTO.class);
-        return couponDTOList.stream().collect(Collectors.toMap(CouponDTO::getId, couponDTO -> couponDTO));
+        if (!CollectionUtils.isEmpty(couponEntities)) {
+            for (CouponEntity entity : couponEntities) {
+                CouponDTO dto = new CouponDTO();
+                BeanUtils.copyProperties(entity, dto);
+                List<String> shopId = Lists.newArrayList(entity.getShopId().split(","));
+                List<String> list = Lists.newArrayList(entity.getAvailable().split(","));
+                dto.setShopId(shopId);
+                dto.setAvailable(list);
+                result.put(entity.getId(), dto);
+            }
+        }
+        return result;
     }
 
     @Override

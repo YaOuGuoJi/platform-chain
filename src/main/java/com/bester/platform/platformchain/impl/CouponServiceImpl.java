@@ -8,12 +8,16 @@ import com.bester.platform.platformchain.util.BeansListUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author zhangqiang
@@ -77,6 +81,16 @@ public class CouponServiceImpl implements CouponService {
             dto.setUpdateTime(couponEntity.getUpdateTime());
         }
         return dto;
+    }
+
+    @Override
+    public Map<Integer, CouponDTO> batchFindByCouponIds(Collection<Integer> couponIds) {
+        if (CollectionUtils.isEmpty(couponIds)) {
+            return Maps.newHashMap();
+        }
+        List<CouponEntity> couponEntities = couponDao.batchSelect(couponIds);
+        List<CouponDTO> couponDTOList = BeansListUtils.copyListProperties(couponEntities, CouponDTO.class);
+        return couponDTOList.stream().collect(Collectors.toMap(CouponDTO::getId, couponDTO -> couponDTO));
     }
 
     @Override

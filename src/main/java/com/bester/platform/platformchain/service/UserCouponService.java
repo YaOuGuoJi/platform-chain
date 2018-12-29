@@ -22,21 +22,14 @@ public interface UserCouponService {
     int findCouponCountById(Integer userId, Integer couponId);
 
     /**
-     * 查找用户已过期的优惠券ID
-     *
-     * @param userId
-     * @return
-     */
-    List<UserCouponDTO> findExpiredCoupon(Integer userId);
-
-    /**
-     * 查找用户已使用和未使用的优惠券ID
+     * 根据优惠劵状态查找用户优惠券
+     * @see com.bester.platform.platformchain.constant.Coupon
      *
      * @param userId
      * @param status
      * @return
      */
-    List<UserCouponDTO> findUnusedAndUsedCoupon(Integer userId, Integer status);
+    List<UserCouponDTO> findUserCouponByStatus(Integer userId, Integer status);
 
 
     /**

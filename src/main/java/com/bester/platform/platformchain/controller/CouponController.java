@@ -2,17 +2,13 @@ package com.bester.platform.platformchain.controller;
 
 import com.bester.platform.platformchain.common.CommonResult;
 import com.bester.platform.platformchain.constant.Coupon;
-import com.bester.platform.platformchain.dto.BrandInfoDTO;
-import com.bester.platform.platformchain.dto.CouponDTO;
-import com.bester.platform.platformchain.dto.UserCouponDTO;
-import com.bester.platform.platformchain.dto.UserInfoDTO;
+import com.bester.platform.platformchain.dto.*;
 import com.bester.platform.platformchain.enums.HttpStatus;
-import com.bester.platform.platformchain.service.BrandInfoService;
-import com.bester.platform.platformchain.service.CouponService;
-import com.bester.platform.platformchain.service.UserCouponService;
-import com.bester.platform.platformchain.service.UserInfoService;
+import com.bester.platform.platformchain.service.*;
 import com.bester.platform.platformchain.util.UserInfoUtil;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +37,7 @@ public class CouponController {
     @Resource
     private UserInfoService userInfoService;
     @Resource
-    private BrandInfoService brandInfoService;
+    private ShopInfoService shopInfoService;
 
     /**
      * 优惠券分页列表
@@ -85,35 +81,28 @@ public class CouponController {
         if (status < 0) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
-        List<UserCouponDTO> UserCouponList;
-        if (Objects.equals(status, Coupon.EXPIRED)) {
-            UserCouponList = userCouponService.findExpiredCoupon(userId);
-        } else {
-            UserCouponList = userCouponService.findUnusedAndUsedCoupon(userId, status);
-        }
-        if (CollectionUtils.isEmpty(UserCouponList)) {
+        List<UserCouponDTO> userCouponDTOs = userCouponService.findUserCouponByStatus(userId, status);
+        if (CollectionUtils.isEmpty(userCouponDTOs)) {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
-        List<UserCouponInfo> userCouponList = new ArrayList<>();
-        UserCouponList.forEach(userCoupon -> {
-            if (userCoupon.getCouponId() != null) {
-                CouponDTO couponDTO = couponService.inquireCouponById(userCoupon.getCouponId());
-                if (couponDTO != null) {
-                    UserCouponInfo userCouponInfo = new UserCouponInfo();
-                    BeanUtils.copyProperties(couponDTO, userCouponInfo);
-                    BeanUtils.copyProperties(userCoupon, userCouponInfo);
-                    if (status.equals(Coupon.USED)) {
-                        ArrayList<String> shopId = new ArrayList<>();
-                        shopId.add(userCoupon.getShopId().toString());
-                        userCouponInfo.setShopId(shopId);
-                        if (userCoupon.getShopId() != null) {
-                            BrandInfoDTO brandInfoDTO = brandInfoService.selectBrandById(userCoupon.getShopId());
-                            userCouponInfo.setShopName(brandInfoDTO.getBrandName());
-                        }
-                    }
-                    userCouponList.add(userCouponInfo);
-                }
+        Set<Integer> couponIds = userCouponDTOs.stream().map(UserCouponDTO::getCouponId).collect(Collectors.toSet());
+        Map<Integer, CouponDTO> couponId2CouponDTOMap = couponService.batchFindByCouponIds(couponIds);
+        Map<Integer, ShopInfoDTO> shopId2ShopInfoMap = Maps.newHashMap();
+        if (Coupon.USED.equals(status)) {
+            Set<Integer> shopIds = userCouponDTOs.stream().map(UserCouponDTO::getShopId).collect(Collectors.toSet());
+            shopId2ShopInfoMap.putAll(shopInfoService.batchFindByShopIds(shopIds));
+        }
+        List<UserCouponVO> userCouponList = Lists.newArrayListWithExpectedSize(couponIds.size());
+        userCouponDTOs.forEach(userCoupon -> {
+            UserCouponVO userCouponVO = new UserCouponVO();
+            BeanUtils.copyProperties(userCoupon, userCouponVO);
+            BeanUtils.copyProperties(couponId2CouponDTOMap.get(userCoupon.getCouponId()), userCouponVO);
+            if (Coupon.USED.equals(status)) {
+                ShopInfoDTO shopInfoDTO = shopId2ShopInfoMap.get(userCoupon.getShopId());
+                userCouponVO.setShopId(Lists.newArrayList(String.valueOf(userCoupon.getShopId())));
+                userCouponVO.setShopName(shopInfoDTO.getShopName());
             }
+            userCouponList.add(userCouponVO);
         });
         return CommonResult.success(userCouponList);
     }
@@ -154,7 +143,7 @@ public class CouponController {
     }
 
     @Data
-    public class UserCouponInfo {
+    public class UserCouponVO {
         /**
          * 用户领取到的优惠券在userCoupon中的id
          */

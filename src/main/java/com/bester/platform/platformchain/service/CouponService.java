@@ -3,6 +3,7 @@ package com.bester.platform.platformchain.service;
 import com.bester.platform.platformchain.dto.CouponDTO;
 import com.github.pagehelper.PageInfo;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -27,6 +28,14 @@ public interface CouponService {
      * @return
      */
     CouponDTO inquireCouponById(Integer couponId);
+
+    /**
+     * 根据CouponId批量查询
+     *
+     * @param couponIds
+     * @return
+     */
+    Map<Integer, CouponDTO> batchFindByCouponIds(Collection<Integer> couponIds);
 
     /**
      * 更新优惠券信息

@@ -41,17 +41,14 @@ public class UserCouponServiceImpl implements UserCouponService {
     }
 
     @Override
-    public List<UserCouponDTO> findExpiredCoupon(Integer userId) {
-        List<UserCouponEntity> expiredCoupon = userCouponDao.findExpiredCoupon(userId);
-        List<UserCouponDTO> userCouponDTOs = BeansListUtils.copyListProperties(expiredCoupon, UserCouponDTO.class);
-        return userCouponDTOs;
-    }
-
-    @Override
-    public List<UserCouponDTO> findUnusedAndUsedCoupon(Integer userId, Integer status) {
-        List<UserCouponEntity> couponEntities = userCouponDao.findUnusedAndUsedCoupon(userId, status);
-        List<UserCouponDTO> userCouponDTOs = BeansListUtils.copyListProperties(couponEntities, UserCouponDTO.class);
-        return userCouponDTOs;
+    public List<UserCouponDTO> findUserCouponByStatus(Integer userId, Integer status) {
+        List<UserCouponEntity> couponEntities;
+        if (Coupon.EXPIRED.equals(status)) {
+            couponEntities = userCouponDao.findExpiredCoupon(userId);
+        } else {
+            couponEntities = userCouponDao.findUnusedAndUsedCoupon(userId, status);
+        }
+        return BeansListUtils.copyListProperties(couponEntities, UserCouponDTO.class);
     }
 
     @Override

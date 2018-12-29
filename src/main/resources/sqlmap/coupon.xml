@@ -52,6 +52,16 @@
         WHERE Id = #{id}
     </select>
 
+    <select id="batchSelect" resultMap="couponEntity">
+        SELECT
+        <include refid="allFields"/>
+        FROM coupon
+        WHERE Id IN
+        <foreach collection="couponIds" separator="," open="(" close=")" item="couponId" index="index">
+            #{couponId}
+        </foreach>
+    </select>
+
     <update id="updateCouponInfo" parameterType="com.bester.platform.platformchain.entity.CouponEntity">
         update coupon
         <set>

@@ -3,6 +3,7 @@ package com.bester.platform.platformchain.dao;
 import com.bester.platform.platformchain.entity.CouponEntity;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -27,6 +28,14 @@ public interface CouponDao {
      * @return
      */
     CouponEntity inquireCouponById(@Param("id") Integer couponId);
+
+    /**
+     * 批量查询
+     *
+     * @param couponIds
+     * @return
+     */
+    List<CouponEntity> batchSelect(@Param("couponIds") Collection<Integer> couponIds);
 
     /**
      * 查询可领取优惠券

@@ -29,8 +29,22 @@ public class RedisKeys {
      * 手机验证码
      */
     public static final String PHONE_VERIFY_CODE = "phoneVerifyCode_";
+
     /**
      * 公众号验证码
      */
     public static final String WECHAT_VERIFY_CODE = "weChatVerifyCode_";
+
+    /**
+     * 微信access_token
+     */
+    public static final String WECHAT_ACCESS_TOKEN = "WeChatAccessToken_";
+
+    /**
+     * 微信openid
+     */
+    public static final String WECHAT_OPENID = "WeChatOpenId_";
+
+
+
 }

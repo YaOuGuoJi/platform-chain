@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bester.platform.platformchain.dao.ShopInfoDao">
+    <resultMap id="shopInfoEntity" type="com.bester.platform.platformchain.entity.ShopInfoEntity">
+        <result column="ShopId" property="shopId"/>
+        <result column="ShopUuid" property="shopUuid"/>
+        <result column="ShopName" property="shopName"/>
+        <result column="BranchName" property="branchName"/>
+        <result column="RegionId" property="regionId"/>
+        <result column="BrandId" property="brandId"/>
+        <result column="ShopType" property="shopType"/>
+        <result column="Address" property="address"/>
+        <result column="ShopLogo" property="shopLogo"/>
+        <result column="ShopOwner" property="shopOwner"/>
+        <result column="PhoneNo" property="phoneNo"/>
+        <result column="PhoneNo2" property="phoneNo2"/>
+        <result column="AvgPrice" property="avgPrice"/>
+        <result column="Deleted" property="deleted"/>
+        <result column="AddTime" property="addTime"/>
+        <result column="UpdateTime" property="updateTime"/>
+    </resultMap>
+
+    <sql id="allFields">
+        ShopId,
+        ShopUuid,
+        ShopName,
+        BranchName,
+        RegionId,
+        BrandId,
+        ShopType,
+        Address,
+        ShopLogo,
+        ShopOwner,
+        PhoneNo,
+        PhoneNo2,
+        AvgPrice,
+        Deleted,
+        AddTime,
+        UpdateTime
+    </sql>
+
+    <select id="batchSelect" resultMap="shopInfoEntity">
+        SELECT
+        <include refid="allFields" />
+        FROM shop_info
+        WHERE ShopId IN
+        <foreach collection="shopIds" index="index" separator="," open="(" close=")" item="shopId">
+            #{shopId}
+        </foreach>
+        AND Deleted=0
+    </select>
+
+</mapper>

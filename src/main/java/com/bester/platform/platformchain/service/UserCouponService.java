@@ -1,5 +1,7 @@
 package com.bester.platform.platformchain.service;
 
+import com.bester.platform.platformchain.dto.UserCouponDTO;
+
 import java.util.List;
 import java.util.Map;
 
@@ -20,21 +22,15 @@ public interface UserCouponService {
     int findCouponCountById(Integer userId, Integer couponId);
 
     /**
-     * 查找用户已过期的优惠券ID
-     *
-     * @param userId
-     * @return
-     */
-    List<Integer> findExpiredCoupon(Integer userId);
-
-    /**
-     * 查找用户已使用和未使用的优惠券ID
+     * 根据优惠劵状态查找用户优惠券
+     * @see com.bester.platform.platformchain.constant.Coupon
      *
      * @param userId
      * @param status
      * @return
      */
-    List<Integer> findUnusedAndUsedCouponId(Integer userId, Integer status);
+    List<UserCouponDTO> findUserCouponByStatus(Integer userId, Integer status);
+
 
     /**
      * 用户领取优惠券

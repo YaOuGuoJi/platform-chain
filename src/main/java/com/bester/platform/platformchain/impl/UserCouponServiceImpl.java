@@ -3,10 +3,12 @@ package com.bester.platform.platformchain.impl;
 import com.bester.platform.platformchain.constant.Coupon;
 import com.bester.platform.platformchain.dao.CouponDao;
 import com.bester.platform.platformchain.dao.UserCouponDao;
+import com.bester.platform.platformchain.dto.UserCouponDTO;
 import com.bester.platform.platformchain.entity.CountEntity;
 import com.bester.platform.platformchain.entity.CouponEntity;
 import com.bester.platform.platformchain.entity.UserCouponEntity;
 import com.bester.platform.platformchain.service.UserCouponService;
+import com.bester.platform.platformchain.util.BeansListUtils;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,13 +41,14 @@ public class UserCouponServiceImpl implements UserCouponService {
     }
 
     @Override
-    public List<Integer> findExpiredCoupon(Integer userId) {
-        return userCouponDao.findExpiredCoupon(userId);
-    }
-
-    @Override
-    public List<Integer> findUnusedAndUsedCouponId(Integer userId, Integer status) {
-        return userCouponDao.findUnusedAndUsedCouponId(userId, status);
+    public List<UserCouponDTO> findUserCouponByStatus(Integer userId, Integer status) {
+        List<UserCouponEntity> couponEntities;
+        if (Coupon.EXPIRED.equals(status)) {
+            couponEntities = userCouponDao.findExpiredCoupon(userId);
+        } else {
+            couponEntities = userCouponDao.findUnusedAndUsedCoupon(userId, status);
+        }
+        return BeansListUtils.copyListProperties(couponEntities, UserCouponDTO.class);
     }
 
     @Override

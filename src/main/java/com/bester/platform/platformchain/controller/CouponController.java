@@ -1,16 +1,17 @@
 package com.bester.platform.platformchain.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.bester.platform.platformchain.common.CommonResult;
-import com.bester.platform.platformchain.constant.Coupon;
-import com.bester.platform.platformchain.dto.CouponDTO;
-import com.bester.platform.platformchain.dto.UserInfoDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
-import com.bester.platform.platformchain.service.CouponService;
-import com.bester.platform.platformchain.service.UserCouponService;
-import com.bester.platform.platformchain.service.UserInfoService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Maps;
+import com.xianbester.api.constant.Coupon;
+import com.xianbester.api.dto.CouponDTO;
+import com.xianbester.api.dto.UserInfoDTO;
+import com.xianbester.api.service.CouponService;
+import com.xianbester.api.service.UserCouponService;
+import com.xianbester.api.service.UserInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,11 +32,12 @@ import java.util.stream.Collectors;
 @RestController
 public class CouponController {
     private static final Logger LOGGER = LoggerFactory.getLogger(CouponController.class);
-    @Resource
+
+    @Reference
     private CouponService couponService;
-    @Resource
+    @Reference
     private UserCouponService userCouponService;
-    @Resource
+    @Reference
     private UserInfoService userInfoService;
 
     /**
@@ -81,7 +82,7 @@ public class CouponController {
         if (status < 0) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
-        List<Integer> couponIdList;
+        List<Integer> couponIdList = new ArrayList<>();
         if (Objects.equals(status, Coupon.EXPIRED)) {
             couponIdList = userCouponService.findExpiredCoupon(userId);
         } else {

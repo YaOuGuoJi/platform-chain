@@ -1,14 +1,14 @@
 package com.bester.platform.platformchain.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.bester.platform.platformchain.common.CommonResult;
-import com.bester.platform.platformchain.constant.OreRecordStatus;
-import com.bester.platform.platformchain.dto.OreRecordDTO;
-import com.bester.platform.platformchain.service.OreRecordService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
+import com.xianbester.api.constant.OreRecordStatus;
+import com.xianbester.api.dto.OreRecordDTO;
+import com.xianbester.api.service.OreRecordService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -17,7 +17,7 @@ import java.util.List;
  */
 @RestController
 public class UserReceiveOreController {
-    @Resource
+    @Reference
     private OreRecordService oreRecordService;
 
     @GetMapping("user/unreceived/ore")

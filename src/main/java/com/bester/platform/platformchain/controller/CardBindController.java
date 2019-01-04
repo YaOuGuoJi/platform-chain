@@ -1,16 +1,17 @@
 package com.bester.platform.platformchain.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.bester.platform.platformchain.common.CommonResult;
-import com.bester.platform.platformchain.dto.BlackGoldCardDTO;
-import com.bester.platform.platformchain.dto.UserInfoDTO;
-import com.bester.platform.platformchain.dto.VoucherCardDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
-import com.bester.platform.platformchain.enums.UserVipLevel;
-import com.bester.platform.platformchain.service.BlackGoldCardService;
-import com.bester.platform.platformchain.service.UserInfoService;
-import com.bester.platform.platformchain.service.VoucherCardService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
 import com.google.common.collect.Maps;
+import com.xianbester.api.dto.BlackGoldCardDTO;
+import com.xianbester.api.dto.UserInfoDTO;
+import com.xianbester.api.dto.VoucherCardDTO;
+import com.xianbester.api.enums.UserVipLevel;
+import com.xianbester.api.service.BlackGoldCardService;
+import com.xianbester.api.service.UserInfoService;
+import com.xianbester.api.service.VoucherCardService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -29,11 +29,11 @@ import java.util.regex.Pattern;
 @RestController
 public class CardBindController {
 
-    @Resource
+    @Reference
     private BlackGoldCardService blackGoldCardService;
-    @Resource
+    @Reference
     private UserInfoService userInfoService;
-    @Resource
+    @Reference
     private VoucherCardService voucherCardService;
 
     /**

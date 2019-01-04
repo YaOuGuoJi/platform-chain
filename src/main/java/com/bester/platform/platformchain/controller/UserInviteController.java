@@ -1,16 +1,15 @@
 package com.bester.platform.platformchain.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.bester.platform.platformchain.common.CommonResult;
-import com.bester.platform.platformchain.constant.UserInviteConstant;
-import com.bester.platform.platformchain.dto.UserAccountDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
-import com.bester.platform.platformchain.service.UserAccountService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
+import com.xianbester.api.constant.UserInviteConstant;
+import com.xianbester.api.dto.UserAccountDTO;
+import com.xianbester.api.service.UserAccountService;
 import lombok.Data;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
 
 /**
  * @author liuwen
@@ -19,7 +18,7 @@ import javax.annotation.Resource;
 @RestController
 public class UserInviteController {
 
-    @Resource
+    @Reference
     private UserAccountService userAccountService;
 
     @GetMapping("/user/inviteCode")

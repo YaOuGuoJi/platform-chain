@@ -1,12 +1,13 @@
 package com.bester.platform.platformchain.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.bester.platform.platformchain.common.CommonResult;
-import com.bester.platform.platformchain.dto.UserInfoDTO;
-import com.bester.platform.platformchain.dto.VoucherCardDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
-import com.bester.platform.platformchain.service.UserInfoService;
-import com.bester.platform.platformchain.service.VoucherCardService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
+import com.xianbester.api.dto.UserInfoDTO;
+import com.xianbester.api.dto.VoucherCardDTO;
+import com.xianbester.api.service.UserInfoService;
+import com.xianbester.api.service.VoucherCardService;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -26,10 +26,10 @@ import java.util.regex.Pattern;
 @RestController
 public class UserInfoController {
 
-    @Resource
+    @Reference
     private UserInfoService userInfoService;
 
-    @Resource
+    @Reference
     private VoucherCardService voucherCardService;
 
     /**

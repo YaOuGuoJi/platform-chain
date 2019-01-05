@@ -6,20 +6,14 @@ import com.bester.platform.platformchain.common.CommonResult;
 import com.bester.platform.platformchain.constant.RedisKeys;
 import com.bester.platform.platformchain.enums.HttpStatus;
 import com.bester.platform.platformchain.service.RedisClientService;
-import com.bester.platform.platformchain.util.auth.HttpUtil;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.common.collect.Maps;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -27,9 +21,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -55,7 +47,7 @@ public class WeChatController {
      * @throws UnsupportedEncodingException
      */
     @GetMapping("/wechat/authorization")
-    public ModelAndView getCode() throws UnsupportedEncodingException {
+    public String getCode() throws UnsupportedEncodingException {
         String redirectUrl = "http://dis.ngrok.xiaomiqiu.cn/home";
         String url = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
                 "appid=" + APP_ID +
@@ -63,7 +55,7 @@ public class WeChatController {
                 "&response_type=code" +
                 "&scope=" + SCOPE +
                 "&state=STATE#wechat_redirect";
-        return new ModelAndView(new RedirectView(url));
+        return url;
     }
 
     /**
@@ -89,7 +81,7 @@ public class WeChatController {
         if (userInfoJson == null) {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
-        String nickname = userInfoJson.getString("nickname");
+        String nickname = new String(userInfoJson.getString("nickname").getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
         String sex = userInfoJson.getString("sex");
         String headImgUrl = userInfoJson.getString("headimgurl");
         redisClientService.set("nickname_" + code + "_", nickname);

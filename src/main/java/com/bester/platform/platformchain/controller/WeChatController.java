@@ -100,6 +100,9 @@ public class WeChatController {
      */
     @GetMapping("/wechat/userInfo")
     public CommonResult userInfo(String code) {
+        if (StringUtils.isEmpty(code)) {
+            return CommonResult.fail(HttpStatus.NOT_FOUND);
+        }
         String nickname = (String) redisClientService.get("nickname_" + code + "_");
         String sex = (String) redisClientService.get("sex_" + code + "_");
         String headImgUrl = (String) redisClientService.get("headimgurl_" + code + "_");

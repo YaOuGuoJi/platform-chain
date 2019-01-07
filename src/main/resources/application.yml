@@ -14,4 +14,4 @@ spring:
     application:
       name: block-chain-web
       registry:
-        address: zookeeper://47.92.154.234:2181
+        address: zookeeper://39.106.38.77:2181

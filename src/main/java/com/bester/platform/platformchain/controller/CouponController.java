@@ -63,7 +63,7 @@ public class CouponController {
         }
         PageInfo<CouponDTO> couponDTOPageInfo = couponService.queryAllCouponInfo(pageNum, pageSize);
         if (couponDTOPageInfo == null) {
-            return CommonResult.fail(HttpStatus.NOT_FOUND);
+            return CommonResult.fail(404,"暂无优惠券信息");
         }
         List<CouponDTO> couponList = couponDTOPageInfo.getList();
         List<Integer> couponIdList = couponList.stream().map(CouponDTO::getId).collect(Collectors.toList());

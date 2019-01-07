@@ -1,5 +1,6 @@
 package com.bester.platform.platformchain.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.bester.platform.platformchain.common.CommonResult;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -37,7 +37,7 @@ public class WeChatController {
     private static final String TOKEN = "bester";
     private static final String SCOPE = "snsapi_userinfo";
 
-    @Resource
+    @Reference
     private RedisClientService redisClientService;
 
     /**

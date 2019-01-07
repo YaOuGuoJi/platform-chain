@@ -6,28 +6,15 @@ server:
 spring:
   servlet:
     multipart:
-      max-file-size: 2MB
-  datasource:
-    url: jdbc:mysql://39.106.38.77:3306/yaouguoji?useSSL=false
-    username: yaouguoji
-    password: liuwen
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
+      max-file-size: 10MB
+      max-request-size: 10MB
   jmx:
     default-domain: blockChain
-  redis:
-    database: 0
-    host: 47.92.154.234
-    port: 6379
-    password: yaouguoji
-
-mybatis:
-  mapper-locations: classpath:sqlmap/*.xml
-  type-aliases-package: com.bester.platform.platformchain.entity
-
-logging:
-  level:
-    com:
-      bester:
-        platform:
-          platformchain: DEBUG
+  dubbo:
+    application:
+      name: block-chain-web
+      registry:
+        address: zookeeper://39.106.38.77:2181
+    protocol:
+      name: dubbo
+      port: 20881

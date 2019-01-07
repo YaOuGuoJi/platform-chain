@@ -1,33 +1,32 @@
 package com.bester.platform.platformchain.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.bester.platform.platformchain.common.CommonResult;
-import com.bester.platform.platformchain.constant.PowerSource;
-import com.bester.platform.platformchain.constant.PowerStatus;
-import com.bester.platform.platformchain.constant.RedisKeys;
-import com.bester.platform.platformchain.dto.UserInfoDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
-import com.bester.platform.platformchain.service.PowerRecordService;
-import com.bester.platform.platformchain.service.RedisClientService;
-import com.bester.platform.platformchain.service.UserInfoService;
 import com.bester.platform.platformchain.util.RandomUtil;
 import com.bester.platform.platformchain.util.UserInfoUtil;
+import com.xianbester.api.constant.PowerSource;
+import com.xianbester.api.constant.PowerStatus;
+import com.xianbester.api.constant.RedisKeys;
+import com.xianbester.api.dto.UserInfoDTO;
+import com.xianbester.api.service.PowerRecordService;
+import com.xianbester.api.service.RedisClientService;
+import com.xianbester.api.service.UserInfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
 
 /**
  * @author lizhi
  */
 @RestController
 public class BindPublicNumController {
-    @Resource
+    @Reference
     private PowerRecordService powerRecordService;
-    @Resource
+    @Reference
     private RedisClientService redisClientService;
-    @Resource
+    @Reference
     private UserInfoService userInfoService;
 
     /**

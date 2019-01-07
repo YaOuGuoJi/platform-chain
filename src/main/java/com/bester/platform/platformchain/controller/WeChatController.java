@@ -47,7 +47,7 @@ public class WeChatController {
      * @throws UnsupportedEncodingException
      */
     @GetMapping("/wechat/authorization")
-    public String getCode() throws UnsupportedEncodingException {
+    public CommonResult<Map<String, String>> getCode() throws UnsupportedEncodingException {
         String redirectUrl = "http://dis.ngrok.xiaomiqiu.cn/home";
         String url = "https://open.weixin.qq.com/connect/oauth2/authorize?" +
                 "appid=" + APP_ID +
@@ -55,7 +55,9 @@ public class WeChatController {
                 "&response_type=code" +
                 "&scope=" + SCOPE +
                 "&state=STATE#wechat_redirect";
-        return url;
+        Map<String, String> map = Maps.newHashMap();
+        map.put("redirectUrl", url);
+        return CommonResult.success(map);
     }
 
     /**

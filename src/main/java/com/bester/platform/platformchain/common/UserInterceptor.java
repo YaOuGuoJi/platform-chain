@@ -43,7 +43,7 @@ public class UserInterceptor implements HandlerInterceptor {
                 request.setAttribute("userId", userId);
                 addLoginRecord(userId, response);
                 return true;
-            } catch (Exception e) {
+            } catch (UnsupportedEncodingException e) {
                 LOGGER.error("token验证失败！", e);
             }
         }

@@ -12,7 +12,6 @@ import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -220,7 +219,7 @@ public class WeChatController {
      * @param request
      * @return
      */
-    @RequestMapping("/wechat/check")
+    @GetMapping("/wechat/check")
     public String checkSignature(HttpServletRequest request) {
         String echostr = request.getParameter("echostr");
         if (isSignature(request)) {

@@ -1,13 +1,12 @@
 package com.bester.platform.platformchain.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.bester.platform.platformchain.common.CommonResult;
-import com.bester.platform.platformchain.dto.BusinessInfoDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
-import com.bester.platform.platformchain.service.BusinessInfoService;
+import com.xianbester.api.dto.BusinessInfoDTO;
+import com.xianbester.api.service.BusinessInfoService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
 
 /**
  * @author yanrui
@@ -15,7 +14,7 @@ import javax.annotation.Resource;
 @RestController
 public class BusinessInfoController {
 
-    @Resource
+    @Reference
     private BusinessInfoService businessInfoService;
 
     @GetMapping("/businessInfo")

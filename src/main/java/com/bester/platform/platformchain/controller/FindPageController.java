@@ -1,14 +1,14 @@
 package com.bester.platform.platformchain.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.bester.platform.platformchain.common.CommonResult;
-import com.bester.platform.platformchain.constant.RedisKeys;
 import com.bester.platform.platformchain.enums.HttpStatus;
-import com.bester.platform.platformchain.service.RedisClientService;
+import com.xianbester.api.constant.RedisKeys;
+import com.xianbester.api.service.RedisClientService;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 public class FindPageController {
 
-    @Resource
+    @Reference
     private RedisClientService redisClientService;
 
     /**

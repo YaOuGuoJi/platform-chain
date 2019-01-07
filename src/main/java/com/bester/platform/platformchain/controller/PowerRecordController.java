@@ -1,17 +1,17 @@
 package com.bester.platform.platformchain.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.bester.platform.platformchain.common.CommonResult;
-import com.bester.platform.platformchain.constant.PowerSource;
-import com.bester.platform.platformchain.constant.PowerStatus;
-import com.bester.platform.platformchain.dto.PowerRecordDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
-import com.bester.platform.platformchain.service.PowerRecordService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
 import com.github.pagehelper.PageInfo;
+import com.xianbester.api.constant.PowerSource;
+import com.xianbester.api.constant.PowerStatus;
+import com.xianbester.api.dto.PowerRecordDTO;
+import com.xianbester.api.service.PowerRecordService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +23,7 @@ import java.util.Map;
 @RestController
 public class PowerRecordController {
 
-    @Resource
+    @Reference
     private PowerRecordService powerRecordService;
 
     @GetMapping("/user/power/valid")
@@ -81,7 +81,7 @@ public class PowerRecordController {
         int userId = UserInfoUtil.getUserId();
         Date signInTime = powerRecordService.selectPowerBySource(userId);
         if (signInTime == null){
-            powerRecordService.addUserPower(userId, PowerSource.LIGNIN,PowerSource.LIGNIN_POWER,PowerStatus.TEMPORARY);
+            powerRecordService.addUserPower(userId, PowerSource.LIGNIN, PowerSource.LIGNIN_POWER,PowerStatus.TEMPORARY);
         }
         return CommonResult.success();
     }

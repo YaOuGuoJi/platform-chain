@@ -1,10 +1,11 @@
 package com.bester.platform.platformchain.common;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.auth0.jwt.interfaces.Claim;
-import com.bester.platform.platformchain.service.UserAccountService;
 import com.bester.platform.platformchain.util.TokenUtil;
 import com.google.common.collect.Maps;
+import com.xianbester.api.service.UserAccountService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
@@ -30,7 +30,7 @@ public class UserInterceptor implements HandlerInterceptor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserInterceptor.class);
 
-    @Resource
+    @Reference
     private UserAccountService userAccountService;
 
     @Override

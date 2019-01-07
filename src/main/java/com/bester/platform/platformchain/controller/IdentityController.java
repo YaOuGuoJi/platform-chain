@@ -1,21 +1,23 @@
 package com.bester.platform.platformchain.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.bester.platform.platformchain.common.CommonResult;
-import com.bester.platform.platformchain.dto.UserIdentityDTO;
-import com.bester.platform.platformchain.dto.UserInfoDTO;
+import com.bester.platform.platformchain.common.CommonResultBuilder;
 import com.bester.platform.platformchain.enums.HttpStatus;
-import com.bester.platform.platformchain.service.IdentityCardService;
-import com.bester.platform.platformchain.service.UserInfoService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
 import com.google.common.collect.Sets;
+import com.xianbester.api.dto.UserIdentityDTO;
+import com.xianbester.api.dto.UserInfoDTO;
+import com.xianbester.api.service.IdentityCardService;
+import com.xianbester.api.service.UserInfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.text.ParseException;
@@ -34,10 +36,33 @@ public class IdentityController {
 
     private static final Set<String> IMAGE_TYPES = Sets.newHashSet("PNG", "JPG", "JPEG", "BMP");
 
-    @Resource
+    @Reference
     private IdentityCardService identityCardService;
-    @Resource
+    @Reference
     private UserInfoService userInfoService;
+
+    @GetMapping("/user/identity")
+    public CommonResult userIdentity() {
+        int userId = UserInfoUtil.getUserId();
+        if (userId <= 0) {
+            return CommonResult.fail(HttpStatus.UNAUTHORIZED);
+        }
+        UserInfoDTO userInfoDTO = userInfoService.findUserInfoByUserId(userId);
+        if (StringUtils.isEmpty(userInfoDTO.getIdentityId())) {
+            return new CommonResultBuilder().code(200).message("查询成功").data("verified", false).build();
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        UserIdentityDTO userIdentityDTO = new UserIdentityDTO();
+        userIdentityDTO.setName(userInfoDTO.getUserName());
+        userIdentityDTO.setSex(userInfoDTO.getSex() == 1 ? "男" : "女");
+        userIdentityDTO.setNationality(userInfoDTO.getNationality());
+        userIdentityDTO.setBirthday(sdf.format(userInfoDTO.getBirthday()));
+        userIdentityDTO.setAddress(userInfoDTO.getAddress().substring(0, 6) + "******");
+        userIdentityDTO.setIdentityId(userInfoDTO.getIdentityId().replaceAll("(\\d)\\d{16}(\\d)","$1****************$2"));
+        return new CommonResultBuilder().code(200).message("查询成功")
+                .data("verified", true)
+                .data("identityInfo", userIdentityDTO).build();
+    }
 
     @PostMapping("/user/identityCard")
     public CommonResult uploadIdentityCard(MultipartFile image) {
@@ -69,7 +94,7 @@ public class IdentityController {
         }
         UserIdentityDTO userIdentityDTO = identityCardService.idCardOCR(bytes);
         if (!validFields(userIdentityDTO)) {
-            return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "识别信息不完整，请重新上传照片！");
+            return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "识别信息有误，请上传清晰图片！");
         }
         return bindIdentityCard2User(userInfoDTO, userIdentityDTO);
     }

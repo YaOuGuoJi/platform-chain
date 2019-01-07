@@ -1,26 +1,26 @@
 package com.bester.platform.platformchain.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.bester.platform.platformchain.common.CommonResult;
 import com.bester.platform.platformchain.common.CommonResultBuilder;
-import com.bester.platform.platformchain.dto.OreRecordDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
-import com.bester.platform.platformchain.service.OreProduceService;
-import com.bester.platform.platformchain.service.OreRecordService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
 import com.github.pagehelper.PageInfo;
+import com.xianbester.api.dto.OreRecordDTO;
+import com.xianbester.api.service.OreProduceService;
+import com.xianbester.api.service.OreRecordService;
 import org.joda.time.DateTime;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import java.math.BigDecimal;
 
 @RestController
 public class OreRecordController {
 
-    @Resource
+    @Reference
     private OreRecordService oreRecordService;
-    @Resource
+    @Reference
     private OreProduceService oreProduceService;
 
     /**

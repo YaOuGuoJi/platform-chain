@@ -1,14 +1,15 @@
 package com.bester.platform.platformchain.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.bester.platform.platformchain.common.CommonResult;
-import com.bester.platform.platformchain.constant.BrandActionType;
-import com.bester.platform.platformchain.dto.BrandInfoDTO;
-import com.bester.platform.platformchain.dto.UserInfoDTO;
 import com.bester.platform.platformchain.enums.HttpStatus;
-import com.bester.platform.platformchain.service.BrandInfoService;
-import com.bester.platform.platformchain.service.UserInfoService;
 import com.bester.platform.platformchain.util.UserInfoUtil;
 import com.google.common.collect.Lists;
+import com.xianbester.api.constant.BrandActionType;
+import com.xianbester.api.dto.BrandInfoDTO;
+import com.xianbester.api.dto.UserInfoDTO;
+import com.xianbester.api.service.BrandInfoService;
+import com.xianbester.api.service.UserInfoService;
 import lombok.Data;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -27,20 +27,20 @@ import java.util.List;
 @RestController
 public class BrandInfoController {
 
-    @Resource
+    @Reference
     private BrandInfoService brandInfoService;
-    @Resource
+    @Reference
     private UserInfoService userInfoService;
 
     /**
      * 品牌列表查询
-     * @see com.bester.platform.platformchain.constant.BrandActionType
      *
      * @param brandName 模糊匹配品牌名称
      * @param brandType 品牌类型
-     * @param floor 楼层
+     * @param floor     楼层
      * @param orderType 排序类型
      * @return
+     * @see com.xianbester.api.constant.BrandActionType
      */
     @GetMapping("/brand/list")
     public CommonResult<List<BrandVO>> brandList(@RequestParam(required = false, defaultValue = "") String brandName,
@@ -84,7 +84,7 @@ public class BrandInfoController {
      * @param brandId
      * @param type
      * @return
-     * @see com.bester.platform.platformchain.constant.BrandActionType
+     * @see com.xianbester.api.constant.BrandActionType
      */
     @GetMapping("/brand/addNum")
     public CommonResult updateBrandInfoNum(Integer brandId, Integer type) {

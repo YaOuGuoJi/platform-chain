@@ -220,7 +220,7 @@ public class WeChatController {
      * @param request
      * @return
      */
-    @RequestMapping("/check")
+    @RequestMapping("/wechat/check")
     public String checkSignature(HttpServletRequest request) {
         String echostr = request.getParameter("echostr");
         if (isSignature(request)) {

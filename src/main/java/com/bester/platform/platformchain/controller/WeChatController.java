@@ -172,7 +172,7 @@ public class WeChatController {
         if (jsonObject == null) {
             return false;
         }
-        String errMsg = jsonObject.getString("errMsg");
+        String errMsg = jsonObject.getString("errmsg");
         return "ok".equals(errMsg);
     }
 

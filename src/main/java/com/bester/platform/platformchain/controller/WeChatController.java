@@ -47,7 +47,7 @@ public class WeChatController {
      * @throws UnsupportedEncodingException
      */
     @GetMapping("/wechat/authorization")
-    public String  getCode() throws UnsupportedEncodingException {
+    public String getCode() throws UnsupportedEncodingException {
         String redirectUrl = "https://wechat.xianbester.com/home";
         return "https://open.weixin.qq.com/connect/oauth2/authorize?" +
                 "appid=" + APP_ID +
@@ -61,20 +61,21 @@ public class WeChatController {
      * 用户授权之后添加用户信息
      *
      * @param code
+     * @param userOpenId
      * @return
      */
     @GetMapping("/wechat/addUserInfo")
-    public CommonResult addUserInfo(String code) {
-        if (StringUtils.isEmpty(code)) {
+    public CommonResult addUserInfo(String code, String userOpenId) {
+        if (StringUtils.isEmpty(code) && StringUtils.isEmpty(userOpenId)) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
         String accessToken = (String) redisClientService.get(RedisKeys.WECHAT_ACCESS_TOKEN);
-        String openId = (String) redisClientService.get(RedisKeys.WECHAT_OPENID + code + "_");
-        boolean valid = judgingAccessToken(accessToken, openId, code);
-        if (!valid) {
+        String openId = (String) redisClientService.get(RedisKeys.WECHAT_OPENID + userOpenId + "_");
+        boolean valid = judgingAccessToken(accessToken, openId);
+        if (!valid && StringUtils.isNotEmpty(code)) {
             refreshAccessToken(code);
             accessToken = (String) redisClientService.get(RedisKeys.WECHAT_ACCESS_TOKEN);
-            openId = (String) redisClientService.get(RedisKeys.WECHAT_OPENID + code + "_");
+            openId = (String) redisClientService.get(RedisKeys.WECHAT_OPENID + openId + "_");
         }
         JSONObject userInfoJson = getUserInfoJson(accessToken, openId);
         if (userInfoJson == null) {
@@ -83,28 +84,28 @@ public class WeChatController {
         String nickname = new String(userInfoJson.getString("nickname").getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
         String sex = userInfoJson.getString("sex");
         String headImgUrl = userInfoJson.getString("headimgurl");
-        redisClientService.set("nickname_" + code + "_", nickname);
-        redisClientService.set("sex_" + code + "_", sex);
-        redisClientService.set("headimgurl_" + code + "_", headImgUrl);
+        redisClientService.set("nickname_" + openId + "_", nickname);
+        redisClientService.set("sex_" + openId + "_", sex);
+        redisClientService.set("headimgurl_" + openId + "_", headImgUrl);
         Map<String, String> map = Maps.newHashMap();
-        map.put("code", code);
+        map.put("openId", openId);
         return CommonResult.success(map);
     }
 
     /**
      * 获取微信用户信息
      *
-     * @param code
+     * @param openId
      * @return
      */
     @GetMapping("/wechat/userInfo")
-    public CommonResult userInfo(String code) {
-        if (StringUtils.isEmpty(code)) {
+    public CommonResult userInfo(String openId) {
+        if (StringUtils.isEmpty(openId)) {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
-        String nickname = (String) redisClientService.get("nickname_" + code + "_");
-        String sex = (String) redisClientService.get("sex_" + code + "_");
-        String headImgUrl = (String) redisClientService.get("headimgurl_" + code + "_");
+        String nickname = (String) redisClientService.get("nickname_" + openId + "_");
+        String sex = (String) redisClientService.get("sex_" + openId + "_");
+        String headImgUrl = (String) redisClientService.get("headimgurl_" + openId + "_");
         UserInfo userInfo = new UserInfo();
         userInfo.setNickname(nickname);
         userInfo.setSex(sex);
@@ -150,7 +151,7 @@ public class WeChatController {
         String expireIn = jsonObject.getString("expires_in");
         Long expireTime = Long.valueOf(expireIn) * 1000L;
         redisClientService.set(RedisKeys.WECHAT_ACCESS_TOKEN, accessToken, expireTime);
-        redisClientService.set(RedisKeys.WECHAT_OPENID + code + "_", openId);
+        redisClientService.set(RedisKeys.WECHAT_OPENID + openId + "_", openId, expireTime);
     }
 
     /**
@@ -160,8 +161,8 @@ public class WeChatController {
      * @param openId
      * @return
      */
-    private boolean judgingAccessToken(String accessToken, String openId, String code) {
-        if (StringUtils.isEmpty(accessToken) || StringUtils.isEmpty(openId) || StringUtils.isEmpty(code)) {
+    private boolean judgingAccessToken(String accessToken, String openId) {
+        if (StringUtils.isEmpty(accessToken) || StringUtils.isEmpty(openId)) {
             return false;
         }
         String url = "https://api.weixin.qq.com/sns/auth?" +
@@ -173,10 +174,10 @@ public class WeChatController {
         }
         String errmsg = jsonObject.getString("errmsg");
         if (!"ok".equals(errmsg)) {
-            redisClientService.remove(RedisKeys.WECHAT_OPENID + code + "_");
-            redisClientService.remove("nickname_" + code + "_");
-            redisClientService.remove("sex_" + code + "_");
-            redisClientService.remove("headimgurl_" + code + "_");
+            redisClientService.remove(RedisKeys.WECHAT_OPENID + openId + "_");
+            redisClientService.remove("nickname_" + openId + "_");
+            redisClientService.remove("sex_" + openId + "_");
+            redisClientService.remove("headimgurl_" + openId + "_");
             return false;
         }
         return true;

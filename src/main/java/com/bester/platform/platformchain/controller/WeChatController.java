@@ -148,6 +148,7 @@ public class WeChatController {
                 "&code=" + code +
                 "&grant_type=authorization_code";
         JSONObject jsonObject = getJsonObject(getAccessTokenAndOpenIdUrl);
+        System.out.println("【json】" + jsonObject);
         if (jsonObject == null) {
             return "";
         }

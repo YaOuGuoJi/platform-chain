@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -31,6 +33,7 @@ import java.util.Map;
 @RestController
 public class WeChatController {
 
+    private static final String COOKIE_KEY = "cookie";
     private static final String APP_ID = "wx1f67f5bad1eb9ebb";
     private static final String APP_SECRET = "ee51f467fdb53ec6da449db05e733cc1";
     private static final String TOKEN = "bester";
@@ -64,7 +67,7 @@ public class WeChatController {
      * @return
      */
     @GetMapping("/wechat/openId")
-    public CommonResult addUserInfo(String code) {
+    public CommonResult addUserInfo(String code, HttpServletResponse response) {
         if (StringUtils.isEmpty(code)) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
@@ -72,7 +75,11 @@ public class WeChatController {
         if (StringUtils.isEmpty(openId)) {
             return CommonResult.fail(HttpStatus.ERROR);
         }
-        return CommonResult.success(openId);
+        Cookie cookie = new Cookie(COOKIE_KEY, openId);
+        cookie.setPath("/");
+        cookie.setMaxAge(30 * 24 * 3600);
+        response.addCookie(cookie);
+        return CommonResult.success();
     }
 
     /**

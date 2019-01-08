@@ -154,9 +154,9 @@ public class WeChatController {
         }
         String accessToken = jsonObject.getString("access_token");
         String openId = jsonObject.getString("openid");
-        String expireIn = jsonObject.getString("expires_in");
+        Long expireIn = jsonObject.getLongValue("expires_in");
         String refreshToken = jsonObject.getString("refresh_token");
-        Long expireTime = (Long.valueOf(expireIn) - 5 * 60) * 1000L;
+        Long expireTime = (expireIn - 5 * 60) * 1000L;
         redisClientService.set(RedisKeys.WECHAT_ACCESS_TOKEN, accessToken, expireTime);
         redisClientService.set(RedisKeys.WECHAT_REFRESH_TOKEN, refreshToken, 30 * 24 * 3600 * 1000L);
         return openId;

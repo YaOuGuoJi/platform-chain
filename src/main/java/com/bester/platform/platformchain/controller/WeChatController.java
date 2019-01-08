@@ -31,10 +31,11 @@ import java.util.Map;
 @RestController
 public class WeChatController {
 
-    private static final String APP_ID = "wxc7ae94c9cbefa2a3";
-    private static final String APP_SECRET = "5b28674ee794263abce83da7a67ed875";
+    private static final String APP_ID = "wx1f67f5bad1eb9ebb";
+    private static final String APP_SECRET = "ee51f467fdb53ec6da449db05e733cc1";
     private static final String TOKEN = "bester";
     private static final String SCOPE = "snsapi_userinfo";
+    private static final String ENCODING_AES_KEY = "lnuH1Yeea8STf7cmnEVUQxUae4URLcNEWzjekO0AYpr";
 
     @Reference
     private RedisClientService redisClientService;

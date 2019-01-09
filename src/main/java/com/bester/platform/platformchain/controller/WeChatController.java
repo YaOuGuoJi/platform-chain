@@ -73,6 +73,7 @@ public class WeChatController {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
         String openId = getTokenAndOpenId(code);
+        System.out.println("【/wechat/openId】--------------------------->" + openId);
         if (StringUtils.isEmpty(openId)) {
             return CommonResult.fail(HttpStatus.ERROR);
         }
@@ -102,6 +103,7 @@ public class WeChatController {
         if (StringUtils.isEmpty(openId)) {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
+        System.out.println("【/wechat/userInfo】------------------------->" + openId);
         String accessToken = (String) redisClientService.get(RedisKeys.WECHAT_ACCESS_TOKEN);
         if (StringUtils.isEmpty(accessToken) || judgingAccessToken(accessToken, openId)) {
             String refreshToken = (String) redisClientService.get(RedisKeys.WECHAT_REFRESH_TOKEN);

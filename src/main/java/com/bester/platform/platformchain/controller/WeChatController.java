@@ -4,9 +4,9 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.bester.platform.platformchain.common.CommonResult;
+import com.bester.platform.platformchain.common.RedisKeys;
 import com.bester.platform.platformchain.enums.HttpStatus;
 import com.google.common.collect.Maps;
-import com.xianbester.api.constant.RedisKeys;
 import com.xianbester.api.service.RedisClientService;
 import lombok.Data;
 import org.apache.commons.lang3.ArrayUtils;
@@ -102,13 +102,13 @@ public class WeChatController {
         if (StringUtils.isEmpty(openId)) {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
-        String accessToken = (String) redisClientService.get(RedisKeys.WECHAT_ACCESS_TOKEN);
+        String accessToken = (String) redisClientService.get(RedisKeys.WECHAT_ACCESS_TOKEN + openId);
         if (StringUtils.isEmpty(accessToken) || judgingAccessToken(accessToken, openId)) {
-            String refreshToken = (String) redisClientService.get(RedisKeys.WECHAT_REFRESH_TOKEN);
+            String refreshToken = (String) redisClientService.get(RedisKeys.WECHAT_REFRESH_TOKEN + openId);
             if (StringUtils.isEmpty(refreshToken)) {
                 return CommonResult.fail(HttpStatus.NOT_FOUND);
             }
-            accessToken = refreshAccessToken(refreshToken);
+            accessToken = refreshAccessToken(refreshToken, openId);
         }
         if (StringUtils.isEmpty(accessToken)) {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
@@ -166,8 +166,8 @@ public class WeChatController {
         Long expireIn = jsonObject.getLongValue("expires_in");
         String refreshToken = jsonObject.getString("refresh_token");
         Long expireTime = (expireIn - 5 * 60) * 1000L;
-        redisClientService.set(RedisKeys.WECHAT_ACCESS_TOKEN, accessToken, expireTime);
-        redisClientService.set(RedisKeys.WECHAT_REFRESH_TOKEN, refreshToken, 30 * 24 * 3600 * 1000L);
+        redisClientService.set(RedisKeys.WECHAT_ACCESS_TOKEN + openId, accessToken, expireTime);
+        redisClientService.set(RedisKeys.WECHAT_REFRESH_TOKEN  + openId, refreshToken, 30 * 24 * 3600 * 1000L);
         return openId;
     }
 
@@ -197,9 +197,10 @@ public class WeChatController {
      * access_token失效之后使用refresh_token刷新
      *
      * @param refreshToken
+     * @param openId
      * @return
      */
-    private String refreshAccessToken(String refreshToken) {
+    private String refreshAccessToken(String refreshToken, String openId) {
         String url = "https://api.weixin.qq.com/sns/oauth2/refresh_token?appid="
                 + APP_ID + "&grant_type=refresh_token&refresh_token=" + refreshToken;
         JSONObject jsonObject = getJsonObject(url);
@@ -210,8 +211,8 @@ public class WeChatController {
         String expireIn = jsonObject.getString("expires_in");
         refreshToken = jsonObject.getString("refresh_token");
         Long expireTime = (Long.valueOf(expireIn) - 5 * 60) * 1000L;
-        redisClientService.set(RedisKeys.WECHAT_ACCESS_TOKEN, accessToken, expireTime);
-        redisClientService.set(RedisKeys.WECHAT_REFRESH_TOKEN, refreshToken, 30 * 24 * 3600 * 1000L);
+        redisClientService.set(RedisKeys.WECHAT_ACCESS_TOKEN + openId, accessToken, expireTime);
+        redisClientService.set(RedisKeys.WECHAT_REFRESH_TOKEN + openId, refreshToken, 30 * 24 * 3600 * 1000L);
         return accessToken;
     }
 

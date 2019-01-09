@@ -9,6 +9,7 @@ import com.google.common.collect.Maps;
 import com.xianbester.api.constant.RedisKeys;
 import com.xianbester.api.service.RedisClientService;
 import lombok.Data;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -85,11 +86,19 @@ public class WeChatController {
     /**
      * 根据用户openId获取微信用户信息
      *
-     * @param openId
      * @return
      */
     @GetMapping("/wechat/userInfo")
-    public CommonResult userInfo(String openId) {
+    public CommonResult userInfo(HttpServletRequest request) {
+        String openId = "";
+        Cookie[] cookies = request.getCookies();
+        if (ArrayUtils.isNotEmpty(cookies)) {
+            for (Cookie cookie : cookies) {
+                if (COOKIE_KEY.equals(cookie.getName())) {
+                    openId = cookie.getValue();
+                }
+            }
+        }
         if (StringUtils.isEmpty(openId)) {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }

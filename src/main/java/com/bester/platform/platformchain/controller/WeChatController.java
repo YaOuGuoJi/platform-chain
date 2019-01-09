@@ -103,7 +103,6 @@ public class WeChatController {
         if (StringUtils.isEmpty(openId)) {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
-        System.out.println("【/wechat/userInfo】------------------------->" + openId);
         String accessToken = (String) redisClientService.get(RedisKeys.WECHAT_ACCESS_TOKEN);
         if (StringUtils.isEmpty(accessToken) || judgingAccessToken(accessToken, openId)) {
             String refreshToken = (String) redisClientService.get(RedisKeys.WECHAT_REFRESH_TOKEN);
@@ -115,10 +114,12 @@ public class WeChatController {
         if (StringUtils.isEmpty(accessToken)) {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
+        System.out.println("【/wechat/userInfo】------------------------->" + openId);
         JSONObject userInfoJson = getUserInfoJson(accessToken, openId);
         if (userInfoJson == null) {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
+        System.out.println("【userInfoJson】------------------------------>" + userInfoJson);
         String nickname = new String(userInfoJson.getString("nickname").getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
         String sex = userInfoJson.getString("sex");
         String headImgUrl = userInfoJson.getString("headimgurl");

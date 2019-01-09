@@ -73,6 +73,7 @@ public class WeChatController {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
         String openId = getTokenAndOpenId(code);
+        System.out.println("【/wechat/openId】--------------------------->" + openId);
         if (StringUtils.isEmpty(openId)) {
             return CommonResult.fail(HttpStatus.ERROR);
         }
@@ -113,10 +114,12 @@ public class WeChatController {
         if (StringUtils.isEmpty(accessToken)) {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
+        System.out.println("【/wechat/userInfo】------------------------->" + openId);
         JSONObject userInfoJson = getUserInfoJson(accessToken, openId);
         if (userInfoJson == null) {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }
+        System.out.println("【userInfoJson】------------------------------>" + userInfoJson);
         String nickname = new String(userInfoJson.getString("nickname").getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
         String sex = userInfoJson.getString("sex");
         String headImgUrl = userInfoJson.getString("headimgurl");

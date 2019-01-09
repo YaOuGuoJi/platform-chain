@@ -34,7 +34,7 @@ import java.util.Map;
 @RestController
 public class WeChatController {
 
-    private static final String COOKIE_KEY = "cookie";
+    private static final String COOKIE_KEY = "cookie_openId";
     private static final String APP_ID = "wx1f67f5bad1eb9ebb";
     private static final String APP_SECRET = "ee51f467fdb53ec6da449db05e733cc1";
     private static final String TOKEN = "bester";
@@ -158,7 +158,7 @@ public class WeChatController {
                 "&grant_type=authorization_code";
         JSONObject jsonObject = getJsonObject(getAccessTokenAndOpenIdUrl);
         System.out.println("【json】" + jsonObject);
-        if (jsonObject == null) {
+        if (jsonObject == null || StringUtils.isNotBlank(jsonObject.getString("errcode"))) {
             return "";
         }
         String accessToken = jsonObject.getString("access_token");

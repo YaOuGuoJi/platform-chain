@@ -17,10 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author yanrui
@@ -121,11 +118,15 @@ public class BrandInfoController {
      * @return
      */
     @GetMapping("/brand/idList")
-    public CommonResult selectByIdList(List<Integer> brandIdList) {
-        if (CollectionUtils.isEmpty(brandIdList)) {
+    public CommonResult selectByIdList(Integer[] brandIdList) {
+        if (brandIdList == null) {
+            return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
+        }
+        ArrayList<Integer> list = new ArrayList<>(Arrays.asList(brandIdList));
+        if (CollectionUtils.isEmpty(list)) {
             return CommonResult.fail(403,"参数错误");
         }
-        List<BrandInfoDTO> brandInfoDTOList = brandInfoService.selectByIdList(brandIdList);
+        List<BrandInfoDTO> brandInfoDTOList = brandInfoService.selectByIdList(list);
         if (CollectionUtils.isEmpty(brandInfoDTOList)) {
             return CommonResult.fail(HttpStatus.NOT_FOUND);
         }

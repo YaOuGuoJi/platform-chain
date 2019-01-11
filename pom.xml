@@ -55,7 +55,7 @@
         <dependency>
             <groupId>com.xianbester</groupId>
             <artifactId>bester-api</artifactId>
-            <version>0.0.1-RELEASE</version>
+            <version>0.0.5-RELEASE</version>
         </dependency>
 
         <dependency>

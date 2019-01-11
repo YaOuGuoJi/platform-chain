@@ -17,9 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author yanrui
@@ -111,6 +109,28 @@ public class BrandInfoController {
         brandInfoService.updatePraiseOrCollectNum(brandId, type, number);
         userInfoService.updateLikeOrCollect(userId, type, String.join(",", brandIdList));
         return CommonResult.success();
+    }
+
+    /**
+     * 根据brandIdList查询brandInfoList
+     *
+     * @param brandIdList
+     * @return
+     */
+    @GetMapping("/brand/idList")
+    public CommonResult selectByIdList(Integer[] brandIdList) {
+        if (brandIdList == null) {
+            return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
+        }
+        ArrayList<Integer> list = new ArrayList<>(Arrays.asList(brandIdList));
+        if (CollectionUtils.isEmpty(list)) {
+            return CommonResult.fail(403,"参数错误");
+        }
+        List<BrandInfoDTO> brandInfoDTOList = brandInfoService.selectByIdList(list);
+        if (CollectionUtils.isEmpty(brandInfoDTOList)) {
+            return CommonResult.fail(HttpStatus.NOT_FOUND);
+        }
+        return CommonResult.success(brandInfoDTOList);
     }
 
     private List<BrandVO> judgeBrandVOList(List<BrandInfoDTO> brandInfoDTOList) {

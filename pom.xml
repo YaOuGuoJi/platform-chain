@@ -100,5 +100,11 @@
         <finalName>blockChain</finalName>
     </build>
 
+    <repositories>
+        <repository>
+            <id>github-maven-repo</id>
+            <url>https://raw.githubusercontent.com/YaOuGuoJi/maven/master</url>
+        </repository>
+    </repositories>
 
 </project>

@@ -15,7 +15,7 @@ public class CharactersController {
     private static final String TEST_PRIVATE_KEY = "5K9veg5tG7fhsPepfvg8y8eRwMTLPwMTsJURDMUa52ZpZPBCCKc";
     private static final String TEST_ACCOUNT_NAME = "morse1113";
     private static final String TEST_POINT = "https://testnet.gxchain.org";
-    private static final String TEST_CONTRACT = "genesis-4";
+    private static final String TEST_CONTRACT = "genesis-5";
 
     private static GXChainClient gxChainClient = new GXChainClient(TEST_PRIVATE_KEY, TEST_ACCOUNT_NAME, TEST_POINT);
 

@@ -6,7 +6,7 @@ import com.bester.platform.platformchain.common.CommonResultBuilder;
 import com.bester.platform.platformchain.enums.HttpStatus;
 import com.bester.platform.platformchain.util.TokenUtil;
 import com.google.common.collect.Maps;
-import com.xianbester.api.dto.ChainUserinfoDTO;
+import com.xianbester.api.dto.ChainUserInfoDTO;
 import com.xianbester.api.service.ChainUserInfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,14 +42,14 @@ public class IdeLoginController {
     }
 
     @PostMapping("/ide/login")
-    public CommonResult login(ChainUserinfoDTO dto, HttpServletResponse response) {
+    public CommonResult login(ChainUserInfoDTO dto, HttpServletResponse response) {
         if (dto == null) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
         if (StringUtils.isBlank(dto.getUsername()) || StringUtils.isBlank(dto.getPassword())) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
-        ChainUserinfoDTO userInfoByUsername = userInfoService.findUserInfoByUsername(dto.getUsername());
+        ChainUserInfoDTO userInfoByUsername = userInfoService.findUserInfoByUsername(dto.getUsername());
         if (userInfoByUsername != null) {
             Map<String, String> data = Maps.newHashMap();
             try {
@@ -59,15 +59,12 @@ public class IdeLoginController {
                 return CommonResult.fail(HttpStatus.ERROR);
             }
         } else {
-            ChainUserinfoDTO chainUserinfoDTO = new ChainUserinfoDTO();
+            ChainUserInfoDTO ChainUserInfoDTO = new ChainUserInfoDTO();
             String id = UUID.randomUUID().toString();
-            chainUserinfoDTO.setId(id);
-            chainUserinfoDTO.setUsername(dto.getUsername());
-            chainUserinfoDTO.setPassword(dto.getPassword());
-            chainUserinfoDTO.setEmail(dto.getEmail());
-            chainUserinfoDTO.setMode(dto.getMode());
-            chainUserinfoDTO.setAvatar(dto.getAvatar());
-            int i = userInfoService.addUser(chainUserinfoDTO);
+            ChainUserInfoDTO.setId(id);
+            ChainUserInfoDTO.setUsername(dto.getUsername());
+            ChainUserInfoDTO.setPassword(dto.getPassword());
+            int i = userInfoService.addUser(ChainUserInfoDTO);
             if (i < 0) {
                 return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "注册失败");
             }
@@ -95,7 +92,7 @@ public class IdeLoginController {
         if (StringUtils.isBlank(username)) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
-        ChainUserinfoDTO userInfoByUsername = userInfoService.findUserInfoByUsername(username);
+        ChainUserInfoDTO userInfoByUsername = userInfoService.findUserInfoByUsername(username);
         if (userInfoByUsername == null) {
             return CommonResult.success(true);
         }

@@ -7,7 +7,9 @@ import com.bester.platform.platformchain.enums.HttpStatus;
 import com.bester.platform.platformchain.util.TokenUtil;
 import com.google.common.collect.Maps;
 import com.xianbester.api.dto.ChainUserInfoDTO;
+import com.xianbester.api.dto.ChainUserLoginRecordDTO;
 import com.xianbester.api.service.ChainUserInfoService;
+import com.xianbester.api.service.ChainUserLoginRecordService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +32,9 @@ public class IdeLoginController {
     @Reference
     private ChainUserInfoService userInfoService;
 
+    @Reference
+    private ChainUserLoginRecordService chainUserLoginRecordService;
+
     @GetMapping("/ide/isLogin")
     public CommonResult isLogin(HttpServletRequest request) {
         String token = TokenUtil.getToken(request);
@@ -49,11 +54,11 @@ public class IdeLoginController {
         if (StringUtils.isBlank(dto.getUsername()) || StringUtils.isBlank(dto.getPassword())) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
-        ChainUserInfoDTO userInfoByUsername = userInfoService.findUserInfoByUsername(dto.getUsername());
-        if (userInfoByUsername != null) {
+        String userId = userInfoService.loginWithUsernameAndPassword(dto.getUsername(), dto.getPassword());
+        if (!StringUtils.isBlank(userId)) {
             Map<String, String> data = Maps.newHashMap();
             try {
-                data.put("userId", userInfoByUsername.getId() + "");
+                data.put("userId", userId);
                 TokenUtil.updateToken2Cookie(response, data);
             } catch (UnsupportedEncodingException e) {
                 return CommonResult.fail(HttpStatus.ERROR);
@@ -69,12 +74,13 @@ public class IdeLoginController {
                 return CommonResult.fail(HttpStatus.PARAMETER_ERROR.value, "注册失败");
             }
             Map<String, String> data = Maps.newHashMap();
-            data.put("userId", id + "");
+            data.put("userId", id);
             try {
                 TokenUtil.updateToken2Cookie(response, data);
             } catch (UnsupportedEncodingException e) {
                 return CommonResult.fail(HttpStatus.ERROR);
             }
+            return CommonResult.success("注册成功");
         }
         return CommonResult.success();
     }
@@ -87,7 +93,7 @@ public class IdeLoginController {
         return new CommonResultBuilder().code(200).message("退出成功").build();
     }
 
-    @GetMapping("/user/ide/check")
+    @GetMapping("/ide/check")
     public CommonResult checkUsername(String username) {
         if (StringUtils.isBlank(username)) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
@@ -97,6 +103,23 @@ public class IdeLoginController {
             return CommonResult.success(true);
         }
         return CommonResult.success(false);
+    }
+
+    @GetMapping("/ide/record")
+    public CommonResult loginRecord(String name, String follow) {
+        if (StringUtils.isBlank(name) || StringUtils.isBlank(follow)) {
+            return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
+        }
+        ChainUserLoginRecordDTO dto = new ChainUserLoginRecordDTO();
+        String id = UUID.randomUUID().toString();
+        dto.setId(id);
+        dto.setUsername(name);
+        dto.setFollow(follow);
+        int i = chainUserLoginRecordService.addUserLoginRecord(dto);
+        if (i < 0) {
+            return CommonResult.fail("记录失败");
+        }
+        return CommonResult.success();
     }
 
 }

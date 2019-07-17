@@ -106,14 +106,14 @@ public class IdeLoginController {
     }
 
     @GetMapping("/ide/record")
-    public CommonResult loginRecord(String name, String follow) {
-        if (StringUtils.isBlank(name) || StringUtils.isBlank(follow)) {
+    public CommonResult loginRecord(String username, String follow) {
+        if (StringUtils.isBlank(username) || StringUtils.isBlank(follow)) {
             return CommonResult.fail(HttpStatus.PARAMETER_ERROR);
         }
         ChainUserLoginRecordDTO dto = new ChainUserLoginRecordDTO();
         String id = UUID.randomUUID().toString();
         dto.setId(id);
-        dto.setUsername(name);
+        dto.setUsername(username);
         dto.setFollow(follow);
         int i = chainUserLoginRecordService.addUserLoginRecord(dto);
         if (i < 0) {
